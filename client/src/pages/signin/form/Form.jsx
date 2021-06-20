@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, Button, Fab, Card } from "@material-ui/core";
@@ -31,7 +31,9 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { UserAgent } from "react-useragent";
-
+import { useSelector, useDispatch } from "react-redux";
+import sha256 from "crypto-js/sha256";
+var CryptoJS = require("crypto-js");
 const useStyles = makeStyles((theme) => ({
   margin: {
     margin: theme.spacing(1),
@@ -45,12 +47,16 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
   },
 }));
-export function SignInForm() {
+export function SignInForm({ getUid, setOtp }) {
+  
+
   const classes = useStyles();
   const [values, setValues] = React.useState({
     password: "",
     showPassword: false,
   });
+  const [uid, setUid] = React.useState(null);
+
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
@@ -64,17 +70,43 @@ export function SignInForm() {
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
 
-  const handleClickOpen = () => {
-    var txt = "";
-    txt +=  navigator.appCodeName ;
-    txt +=  navigator.appName;
-    txt +=  navigator.appVersion;
-    txt +=  navigator.cookieEnabled ;
-    txt +=  navigator.language ;
-    txt +=  navigator.onLine ;
+  const handleClickOpen = (event) => {
+    event.preventDefault();
+    let txt = "";
+    txt += navigator.appCodeName;
+    txt += navigator.appName;
+    txt += navigator.appVersion;
+    txt += navigator.cookieEnabled;
+    txt += navigator.language;
+    txt = sha256(txt);
+    txt += navigator.onLine;
     txt += navigator.platform;
-    txt +=  navigator.userAgent;
-    console.log(txt);
+    txt += navigator.userAgent;
+    // console.log(txt);
+    txt = sha256(txt);
+
+    const data ={"agent": txt,
+    "checkAttribute": "email"
+
+    };
+    // Encrypt
+    var ciphertext = CryptoJS.AES.encrypt(
+      JSON.stringify(data),
+      "my-secret-key@123"
+    ).toString();
+    //log encrypted data
+    console.log("Encrypt Data -");
+    console.log(ciphertext);
+
+    // Decrypt
+    var bytes = CryptoJS.AES.decrypt(ciphertext, "my-secret-key@123");
+    var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+
+    //log decrypted Data
+    console.log("decrypted Data -");
+    console.log(decryptedData);
+
+    setUid(getUid);
     setOpen(true);
   };
 
@@ -90,6 +122,7 @@ export function SignInForm() {
         <FormControl className={clsx(classes.margin, classes.textField)}>
           <InputLabel htmlFor="signin_email">Email</InputLabel>
           <Input
+          onChange=""
             id="signin_email"
             type="email"
             endAdornment={
@@ -106,8 +139,10 @@ export function SignInForm() {
           <InputLabel htmlFor="standard-adornment-password">
             Password
           </InputLabel>
+          <Input type="hidden" value={uid} name="uid" id="uid" />
           <Input
             id="standard-adornment-password"
+            name="password"
             type={values.showPassword ? "text" : "password"}
             value={values.password}
             onChange={handleChange("password")}
