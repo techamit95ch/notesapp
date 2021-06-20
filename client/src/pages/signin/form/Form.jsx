@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { Avatar, Button, Fab, Card } from "@material-ui/core";
+import { Avatar, Button, Fab, Card,Hidden } from "@material-ui/core";
 import { GetAppRounded, Close } from "@material-ui/icons";
 import {
   Col,
@@ -69,7 +69,8 @@ export function SignInForm({ getUid, setOtp }) {
   };
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
-
+  const [email, setEmail] = useState("");
+  const handleEmail=(event)=>{ setEmail}
   const handleClickOpen = (event) => {
     event.preventDefault();
     let txt = "";
@@ -118,6 +119,7 @@ export function SignInForm({ getUid, setOtp }) {
       <Form action="">
         <h1>Sign Up</h1>
         <p>Please fill in this form to create an account.</p>
+        <Hidden><input type="hidden" value={uid} name="uid" id="uid" /></Hidden>
         <hr />
         <FormControl className={clsx(classes.margin, classes.textField)}>
           <InputLabel htmlFor="signin_email">Email</InputLabel>
@@ -139,7 +141,7 @@ export function SignInForm({ getUid, setOtp }) {
           <InputLabel htmlFor="standard-adornment-password">
             Password
           </InputLabel>
-          <Input type="hidden" value={uid} name="uid" id="uid" />
+          
           <Input
             id="standard-adornment-password"
             name="password"

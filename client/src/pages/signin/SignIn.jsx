@@ -19,7 +19,7 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { SignInForm, LogInForm } from "./form/Form";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import {sendMail } from "../../action/email"
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -32,12 +32,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [otp, setOtp] = useState(null);
   const [uid, setUid] = useState(null);
-  useEffect(() => {
-    dispatch(sendMail());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(sendMail());
+  // }, [dispatch]);
   return (
     <Container>
       <Row>
