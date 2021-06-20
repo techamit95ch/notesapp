@@ -1,0 +1,37 @@
+.course {
+  flex: 4;
+  padding: 20px;
+}
+.courseCards {
+  flex: 2;
+  padding: 20px;
+  -webkit-box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.11);
+  box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.11);
+}
+.courseTitleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  }
+.courseTitle, .courseUpdateTitle {
+  font-weight: 600;
+  /* font-size: 20px; */
+
+}
+.courseContainer{
+  display: flex;
+  /* align-items: center; */
+  justify-content: space-between;
+}
+.courseShow{
+  /* display: flex; */
+  flex: 1;
+  padding: 20px;
+
+}
+.courseUpdate{
+  flex: 2;
+  /* padding: 20px; */
+
+
+}
