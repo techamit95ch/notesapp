@@ -17,6 +17,7 @@ import SignIn from "./pages/signin/SignIn";
 import Login from "./pages/login/Login";
 import $ from "jquery";
 import { useDispatch } from "react-redux";
+import { getCourses } from "./actions/course";
 
 import bootstrap from "bootstrap";
 import ReactDOM, {
@@ -27,11 +28,11 @@ import ReactDOM, {
 } from "react-router-dom";
 
 function App() {
-
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch();
-  // }, [dispatch]);
+  const [getCourseData, setGetCourseData]= useState(getCourses());
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getCourses());
+  }, [dispatch]);
   return (
     <Router className="App">
       <Switch>

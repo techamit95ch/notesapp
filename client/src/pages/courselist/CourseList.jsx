@@ -85,7 +85,7 @@ export default function CourseList() {
       },
     },
   ];
-  console.log(getCourses);
+
   const rows: GridRowsProp = courseRowData;
   // const { data } = useDemoData({
   //   dataSet: "Commodity",
@@ -96,7 +96,7 @@ export default function CourseList() {
   return (
     <div style={{ width: "100%" }} className="course">
       <div className="courseTitleContainer">
-        <h3 className="courseTitle">{"Course Lists"}</h3>
+        <h3 className="courseTitle" onClick={()=>console.log(getCourses)}>{"Course Lists"}</h3>
 
         <Button
           className="courseAddButton"

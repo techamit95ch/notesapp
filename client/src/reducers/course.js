@@ -1,23 +1,24 @@
-export default (course = [], action) => {
+const Course= (courses = [], action) => {
   switch (action.type) {
     case "FETCH_ALL_COURSES":
       return action.payload;
     //break;
     case "CREATE_COURSE":
-      return [...course, action.payload];
+      return [...courses, action.payload];
     //break;
     case "DELETE":
-      return course;
+      return courses;
 
     //
     case "UPDATE":
-      return course.map((post) =>
+      return courses.map((post) =>
         post._id === action.payload._id ? action.payload : post
       );
     //break;
 
     default:
-      return course;
+      return courses;
     //  break;
   }
 };
+export default  Course;

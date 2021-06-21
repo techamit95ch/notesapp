@@ -1,16 +1,15 @@
 import * as api from "../api";
 // api.fetchPosts();
-export const getCourses = () => async () => {
+export const getCourses = () => async (dispatch) => {
   // console.log({ MESSAGE: " From getCourses" });
   try {
     const { data } = await api.fetchCourses();
 
     // console.log({ MESSAGE: data });
-    // dispatch({
-    //   type: "FETCH_ALL_COURSES",
-    //   payload: data,
-    // });
-    return data;
+    dispatch({
+      type: "FETCH_ALL_COURSES",
+      payload: data,
+    });
   } catch (error) {
     console.log(error);
   }
