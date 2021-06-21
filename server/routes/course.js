@@ -1,7 +1,7 @@
 import express from "express";
 
 import {
-  // getPosts,
+  getCourses,
 
   createCourse,
   // updatePost,
@@ -11,7 +11,7 @@ import {
 
 const courseRoute = express.Router();
 
-// courseRoute.get("/", getPosts);
+courseRoute.get("/", getCourses);
 courseRoute.post("/", createCourse);
 
 // courseRoute.patch("/:id", updatePost);

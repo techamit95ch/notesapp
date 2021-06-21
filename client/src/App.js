@@ -16,6 +16,7 @@ import "bootstrap/dist/js/bootstrap.min.js";
 import SignIn from "./pages/signin/SignIn";
 import Login from "./pages/login/Login";
 import $ from "jquery";
+import { useDispatch } from "react-redux";
 
 import bootstrap from "bootstrap";
 import ReactDOM, {
@@ -26,6 +27,11 @@ import ReactDOM, {
 } from "react-router-dom";
 
 function App() {
+
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch();
+  // }, [dispatch]);
   return (
     <Router className="App">
       <Switch>
@@ -74,7 +80,7 @@ function App() {
           </div>
         </Route>
         <Route exact path="/course">
-          <Course />
+
           <TopBar />
           <div className="container1">
             <SideBar />

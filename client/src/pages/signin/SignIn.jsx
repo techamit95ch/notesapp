@@ -20,7 +20,7 @@ import Grid from "@material-ui/core/Grid";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { SignInForm,PasswordForm } from "./form/Form";
 // import { useDispatch } from "react-redux";
-import {sendMail } from "../../action/email"
+import {sendMail } from "../../actions/email"
 import {
   useParams,
 } from "react-router-dom";

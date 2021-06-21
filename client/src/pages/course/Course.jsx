@@ -28,6 +28,7 @@ import Fab from "@material-ui/core/Fab";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import FileBase from "react-file-base64";
 import { useSelector, useDispatch } from "react-redux";
+import { createCourse } from "../../actions/course";
 
 //
 
@@ -81,13 +82,12 @@ const Course = ({ currentId, setCurrentId }) => {
     courseId: "",
     courseName: "",
     courseDetails: "",
-    creator: "",
-    courseType: "",
     courseImg: "",
+    courseType: "",
     startDate: "",
     endDate: "",
   });
-  // const dispatch = useDispatch();
+
   // useEffect(() => {
   //   if (post) {
   //     // console.log(post);
@@ -96,16 +96,16 @@ const Course = ({ currentId, setCurrentId }) => {
 
   //   // setPostData;
   // }, [post]);
+  // const dispatch = useDispatch();
   const handleSubmit = (e) => {
     // console.log(" 1:    jkdkj ksdkfs dgdgdg");
     e.preventDefault();
+    createCourse(courseData);
+    // console.log("From Course Form create:---------------");
+    // console.log(courseData);
+    // console.log("---------------");
 
-    if (currentId) {
-      // dispatch(updatePost(currentId, postData));
-    } else {
-      // dispatch(createPost(postData));
-    }
-    // clear(e);
+    // dispatch(createCourse(courseData));
   };
 
   const [expanded, setExpanded] = React.useState(false);
@@ -185,6 +185,8 @@ const Course = ({ currentId, setCurrentId }) => {
               onSubmit={handleSubmit}
               className="courseUpdateForm was-validated"
               method="POST"
+              autoComplete="off"
+              noValidate
             >
               <div class="form-row">
                 <div class={classes.root2}>

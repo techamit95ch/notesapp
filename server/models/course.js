@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { isEmail } from "validator";
+// import { isEmail } from "validator";
 
 const courseSchema = mongoose.Schema({
   courseId: {

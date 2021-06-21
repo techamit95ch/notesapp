@@ -16,6 +16,8 @@ import { useDemoData } from "@material-ui/x-grid-data-generator";
 import { MoreVert, Edit, Visibility, HighlightOff } from "@material-ui/icons";
 import { courseRowData } from "../../dummydata.js";
 import InputIcon from '@material-ui/icons/Input';
+import { getCourses } from "../../actions/course";
+
 export default function CourseList() {
   // Menu
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -83,7 +85,7 @@ export default function CourseList() {
       },
     },
   ];
-
+  console.log(getCourses);
   const rows: GridRowsProp = courseRowData;
   // const { data } = useDemoData({
   //   dataSet: "Commodity",

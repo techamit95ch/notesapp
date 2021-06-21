@@ -1,26 +1,40 @@
 import Course from "../models/course.js";
-export const getPosts = async (req, res) => {
-  const post = req.body;
-  console.log({ "Create Post Data": post });
+export const getCourses = async (req, res,next) => {
+  // const post = req.body;
+  // console.log({ "Create Post Data": post });
   try {
-    const postMessages = await PostMessage.find();
-    res.status(200).json(postMessages);
+    const newCourse = await Course.find();
+    res.status(200).json(newCourse);
   } catch (e) {
     res.status(404).json({ message: e.message });
   }
 };
-export const createCourse = async (req, res,next) => {
-  const {courseId,courseName,courseDetails,courseImg,courseType,startDate,endDate} = req.body;
+export const createCourse = async (req, res, next) => {
+  const {
+    courseId,
+    courseName,
+    courseDetails,
+    courseImg,
+    courseType,
+    startDate,
+    endDate,
+  } = req.body;
 
-  const newCourse = new Course(post);
-
+  const newCourse = new Course({
+    courseId,
+    courseName,
+    courseDetails,
+    courseImg,
+    courseType,
+    startDate,
+    endDate,
+  });
   try {
-    await newCourse.save().then(()=>{
+    await newCourse.save().then(() => {
       res.status(201).json({
-        message:"Course Saved Successfully"
+        message: "Course Saved Successfully",
       });
     });
-
   } catch (error) {
     console.log({ message: error.message });
     res.status(409).json({ message: error.message });

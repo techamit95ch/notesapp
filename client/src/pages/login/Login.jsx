@@ -21,7 +21,7 @@ import Grid from "@material-ui/core/Grid";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { LogInForm } from "./form/Form";
 // import { useDispatch } from "react-redux";
-import {sendMail } from "../../action/email"
+import {sendMail } from "../../actions/email"
 const useStyles = makeStyles((theme) => ({
   margin: {
     margin: theme.spacing(1),
