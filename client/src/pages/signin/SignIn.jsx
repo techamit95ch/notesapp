@@ -18,9 +18,12 @@ import FormControl from "@material-ui/core/FormControl";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import { SignInForm, LogInForm } from "./form/Form";
+import { SignInForm,PasswordForm } from "./form/Form";
 // import { useDispatch } from "react-redux";
 import {sendMail } from "../../action/email"
+import {
+  useParams,
+} from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   margin: {
     margin: theme.spacing(1),
@@ -38,14 +41,25 @@ export default function SignIn() {
   // useEffect(() => {
   //   dispatch(sendMail());
   // }, [dispatch]);
+  const DoesGetMail=()=>{
+    const { encryption } = useParams();
+
+    if(!encryption){
+      return <SignInForm />;
+    }else{
+      return <PasswordForm getUid={uid} setOtp={setOtp}/>;
+    }
+
+  }
   return (
     <Container>
-      <Row>
+      <Row className="d-flex justify-content-center">
+
         <Col xs={12} className={classes.header_m}></Col>
-      <Col className="form">
-          <SignInForm getUid={uid} setOtp={setOtp} />
-          <LogInForm />
-        </Col>
+      <Col xs={12} className="d-flex justify-content-center">
+          <DoesGetMail/>
+      </Col>
+
       </Row>
     </Container>
   );

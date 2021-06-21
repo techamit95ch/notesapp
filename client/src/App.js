@@ -32,7 +32,10 @@ function App() {
         <Route exact path="/login">
           <Login />
         </Route>
-        <Route exact path="/signin">
+        <Route exact path="/auth/signin">
+          <SignIn />
+        </Route>
+        <Route exact path="/auth/signin/:encryption">
           <SignIn />
         </Route>
         <Route exact path="/">

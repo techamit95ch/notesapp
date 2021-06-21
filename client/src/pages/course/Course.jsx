@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./course.css";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Box } from "@material-ui/core";
@@ -26,6 +26,8 @@ import Fade from "@material-ui/core/Fade";
 import TextField from "@material-ui/core/TextField";
 import Fab from "@material-ui/core/Fab";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
+import FileBase from "react-file-base64";
+import { useSelector, useDispatch } from "react-redux";
 
 //
 
@@ -69,9 +71,43 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Course(props) {
+const Course = ({ currentId, setCurrentId }) => {
   const classes2 = useStyles2();
   const classes = useStyles();
+  // const post = useSelector((state) =>{}
+  // currentId ? state.posts.find((message) => message._id === currentId) : null
+  // );
+  const [courseData, setCourseData] = useState({
+    courseId: "",
+    courseName: "",
+    courseDetails: "",
+    creator: "",
+    courseType: "",
+    courseImg: "",
+    startDate: "",
+    endDate: "",
+  });
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   if (post) {
+  //     // console.log(post);
+  //     setPostData(post);
+  //   }
+
+  //   // setPostData;
+  // }, [post]);
+  const handleSubmit = (e) => {
+    // console.log(" 1:    jkdkj ksdkfs dgdgdg");
+    e.preventDefault();
+
+    if (currentId) {
+      // dispatch(updatePost(currentId, postData));
+    } else {
+      // dispatch(createPost(postData));
+    }
+    // clear(e);
+  };
+
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -90,15 +126,7 @@ export default function Course(props) {
   return (
     <div className=" course">
       <div className={classes2.root}>
-        <div className="courseTitleContainer">
-          {/* <Button
-            className="courseAddButton"
-            variant="contained"
-            color="primary"
-          >
-            Create
-          </Button> */}
-        </div>
+        <div className="courseTitleContainer"></div>
         <div className="courseContainer">
           <div className="courseShow">
             <span className="courseUpdateTitle">{"Course Name"}</span>
@@ -154,7 +182,7 @@ export default function Course(props) {
           <div className="courseUpdate">
             <span className="courseUpdateTitle">{"Create/Update"} Course</span>
             <form
-              onSubmit={""}
+              onSubmit={handleSubmit}
               className="courseUpdateForm was-validated"
               method="POST"
             >
@@ -163,11 +191,14 @@ export default function Course(props) {
                   <TextField
                     label="Course Id"
                     id="outlined-margin-normal"
-                    defaultValue="#"
+                    defaultValue=""
                     className={classes.textField}
                     helperText="Course Id"
                     margin="normal"
                     variant="outlined"
+                    onChange={(e) =>
+                      setCourseData({ ...courseData, courseId: e.target.value })
+                    }
                   />
                   <TextField
                     label="Course Name"
@@ -177,6 +208,12 @@ export default function Course(props) {
                     helperText="Course Name"
                     margin="normal"
                     variant="outlined"
+                    onChange={(e) =>
+                      setCourseData({
+                        ...courseData,
+                        courseName: e.target.value,
+                      })
+                    }
                   />
                   <TextField
                     label="Starting Date"
@@ -190,6 +227,12 @@ export default function Course(props) {
                     InputLabelProps={{
                       shrink: true,
                     }}
+                    onChange={(e) =>
+                      setCourseData({
+                        ...courseData,
+                        startDate: e.target.value,
+                      })
+                    }
                   />
                   <TextField
                     label="Ending Date"
@@ -200,15 +243,23 @@ export default function Course(props) {
                     helperText="Ending Date"
                     margin="normal"
                     variant="outlined"
+                    onChange={(e) =>
+                      setCourseData({ ...courseData, endDate: e.target.value })
+                    }
                   />
-                  <TextField
-                    label="Image"
-                    id="outlined-margin-normal"
-                    type="file"
-                    className={classes.textField}
-                    helperText="Course Image"
-                    margin="normal"
-                  />
+                  <div className="">
+                    <FileBase
+                      label="Image"
+                      id="outlined-margin-normal"
+                      type="file"
+                      className={classes.textField}
+                      helperText="Course Image"
+                      margin="normal"
+                      onDone={({ base64 }) =>
+                        setCourseData({ ...courseData, courseImg: base64 })
+                      }
+                    />{" "}
+                  </div>
                   <TextField
                     label="Course Details"
                     id="outlined-margin-normal"
@@ -217,6 +268,12 @@ export default function Course(props) {
                     helperText="Course Details"
                     margin="normal"
                     variant="outlined"
+                    onChange={(e) =>
+                      setCourseData({
+                        ...courseData,
+                        courseDetails: e.target.value,
+                      })
+                    }
                     multiline
                   />
                   <TextField
@@ -226,6 +283,12 @@ export default function Course(props) {
                     className={classes.textField}
                     helperText="Course Type"
                     margin="normal"
+                    onChange={(e) =>
+                      setCourseData({
+                        ...courseData,
+                        courseType: e.target.value,
+                      })
+                    }
                     variant="outlined"
                   />
                 </div>
@@ -252,4 +315,5 @@ export default function Course(props) {
       </div>
     </div>
   );
-}
+};
+export default Course;

@@ -126,7 +126,7 @@ export default function TopBar() {
             >
               <MenuItem onClick={handleClose}>Profile</MenuItem>
             <Link to="/jx41XYm2">   <MenuItem onClick={handleClose}>My account</MenuItem></Link>
-            <Link to="/signin">  <MenuItem onClick={handleClose}>Logout</MenuItem></Link>
+          <Link to="/auth/signin">  <MenuItem onClick={handleClose}>Logout</MenuItem></Link>
             </Menu>
           </div>
         </div>

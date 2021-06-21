@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { Avatar, Button, Fab, Card, Hidden } from "@material-ui/core";
+import { Avatar, Button, Fab, Card,Hidden } from "@material-ui/core";
 import { GetAppRounded, Close } from "@material-ui/icons";
 import {
   Col,
@@ -33,9 +33,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { UserAgent } from "react-useragent";
 import { useSelector, useDispatch } from "react-redux";
 import sha256 from "crypto-js/sha256";
-import { useHistory } from 'react-router-dom';
-import validator from 'validator'
-
 var CryptoJS = require("crypto-js");
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -51,12 +48,29 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export function SignInForm({ getUid, setOtp }) {
-  const classes = useStyles();
-  const [uid, setUid] = React.useState(null);
-  const [open, setOpen] = React.useState(false);
-  const [email, setEmail] = useState("");
 
-  const [emailError, setEmailError] = useState('')
+
+  const classes = useStyles();
+  const [values, setValues] = React.useState({
+    password: "",
+    showPassword: false,
+  });
+  const [uid, setUid] = React.useState(null);
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+  const handleClickShowPassword = () => {
+    setValues({ ...values, showPassword: !values.showPassword });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+  const [open, setOpen] = React.useState(false);
+  const [fullWidth, setFullWidth] = React.useState(true);
+  const [email, setEmail] = useState("");
+  const handleEmail=(event)=>{ setEmail()}
   const handleClickOpen = (event) => {
     event.preventDefault();
     let txt = "";
@@ -72,97 +86,57 @@ export function SignInForm({ getUid, setOtp }) {
     // console.log(txt);
     txt = sha256(txt);
 
-    const data = { agent: txt, email: email };
+    const data ={"agent": txt,
+    "checkAttribute": "email"
+
+    };
     // Encrypt
     var ciphertext = CryptoJS.AES.encrypt(
       JSON.stringify(data),
       "my-secret-key@123"
     ).toString();
-      console.log(data);
+    //log encrypted data
+    console.log("Encrypt Data -");
+    console.log(ciphertext);
+
+    // Decrypt
+    var bytes = CryptoJS.AES.decrypt(ciphertext, "my-secret-key@123");
+    var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+
+    //log decrypted Data
+    console.log("decrypted Data -");
+    console.log(decryptedData);
 
     setUid(getUid);
     setOpen(true);
   };
 
   const handleClose = () => {
-    setOpen(true);
+    setOpen(false);
   };
-  const [pinData, setPinData]= useState("");
-
-  const history = useHistory();
   return (
     <Col sm={5}>
-      <Form action="#" onSubmit={handleClickOpen}>
+      <Form action="">
         <h1>Sign Up</h1>
         <p>Please fill in this form to create an account.</p>
-
+        <Hidden><input type="hidden" value={uid} name="uid" id="uid" /></Hidden>
         <hr />
         <FormControl className={clsx(classes.margin, classes.textField)}>
           <InputLabel htmlFor="signin_email">Email</InputLabel>
           <Input
-            onChange=""
+          onChange=""
             id="signin_email"
             type="email"
             endAdornment={
               <InputAdornment position="end">
-                <Button type="submit" color="primary" onClick={handleClickOpen}>
+                <Button color="primary" onClick={handleClickOpen}>
                   <EmailRoundedIcon /> Verify
                 </Button>
               </InputAdornment>
             }
-            onChange={event => setEmail(event.target.value)}
           />
         </FormControl>
-      </Form>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="max-width-dialog-title"
-      >
-        <DialogTitle id="max-width-dialog-title">Verify Key</DialogTitle>
-        <DialogContent>
-          <p>Check Mail</p>
-          <Form noValidate>
-            <FormControl>
-              <TextField name="verNum" onChange={event => setPinData(event.target.value)} />
-            </FormControl>
-          </Form>
-        </DialogContent>
-        <DialogActions>
-          <Button type="submit" onClick={()=>{
-              const path ="/auth/signin/"+pinData;
-              history.push(path);
-            }} color="primary">
-            Submit
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Col>
-  );
-}
-export function PasswordForm({ getUid, setOtp }) {
-  const classes = useStyles();
-  const [values, setValues] = React.useState({
-    password: "",
-    showPassword: false,
-  });
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
-  const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword });
-  };
 
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-const uid = React.useState(getUid);
-  return (
-    <Col sm={5}>
-      <Form action="">
-        <h1>Add Password</h1>
-        <p>Please fill in this form to continue.</p>
-        <hr />
         <FormControl className={clsx(classes.margin, classes.textField)}>
           <InputLabel htmlFor="standard-adornment-password">
             Password
@@ -200,11 +174,122 @@ const uid = React.useState(getUid);
           <Fab
             type="submit"
             variant="extended"
+            color="secondary"
+            aria-label="add"
+            className="registerbtn"
+          >
+            Cancel
+          </Fab>
+          <Fab
+            type="submit"
+            variant="extended"
             color="primary"
             aria-label="add"
             className="registerbtn"
           >
-            Sign In
+            Sign Up
+          </Fab>
+          <Col class="container signin"></Col>
+        </Col>
+      </Form>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="max-width-dialog-title"
+      >
+        <DialogTitle id="max-width-dialog-title">Verify Mail</DialogTitle>
+        <DialogContent>
+          <Form noValidate>
+            <FormControl>
+              <TextField name="verNum" />
+            </FormControl>
+          </Form>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Col>
+  );
+}
+export function LogInForm() {
+  const classes = useStyles();
+  const [values, setValues] = React.useState({
+    password: "",
+    showPassword: false,
+  });
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+  const handleClickShowPassword = () => {
+    setValues({ ...values, showPassword: !values.showPassword });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  return (
+    <Col sm={5}>
+      <Form action="">
+        <h1>Login</h1>
+        <p>Please fill in this form to Login.</p>
+        <hr />
+        <FormControl className={clsx(classes.margin, classes.textField)}>
+          <InputLabel htmlFor="signin_email">Email</InputLabel>
+          <Input
+            id="signin_email"
+            type="email"
+            endAdornment={
+              <InputAdornment position="end">
+                <EmailRoundedIcon color="primary" />
+              </InputAdornment>
+            }
+          />
+        </FormControl>
+        <FormControl className={clsx(classes.margin, classes.textField)}>
+          <InputLabel htmlFor="standard-adornment-password">
+            Password
+          </InputLabel>
+          <Input
+            id="standard-adornment-password"
+            type={values.showPassword ? "text" : "password"}
+            value={values.password}
+            onChange={handleChange("password")}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                >
+                  {values.showPassword ? (
+                    <Visibility color="primary" />
+                  ) : (
+                    <VisibilityOff color="primary" />
+                  )}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </FormControl>
+        <Checkbox
+          defaultChecked
+          color="primary"
+          inputProps={{ "aria-label": "secondary checkbox" }}
+        />{" "}
+        Save Login Details
+        <Col class="clearfix">
+          <Fab
+            type="submit"
+            variant="extended"
+            color="primary"
+            aria-label="add"
+            className="registerbtn"
+          >
+            Login
           </Fab>
           <Col class="container signin"></Col>
         </Col>

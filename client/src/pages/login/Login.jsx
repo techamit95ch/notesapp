@@ -1,51 +1,53 @@
-import React, { useState, Component } from "react";
+import React ,{ useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-
-import { Avatar, Button } from "@material-ui/core";
+import { Avatar, Button, Fab, Card } from "@material-ui/core";
 import { GetAppRounded, Close } from "@material-ui/icons";
-import { Col, Row, Container,Form } from "react-bootstrap";
+import {
+  Col,
+  Row,
+  Container,
+  Form,
+  FormCheck,
+  FloatingLabel,
+} from "react-bootstrap";
 import "./style.css";
-// import React, { useState } from "react";
-
-
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import FormControl from "@material-ui/core/FormControl";
+import TextField from "@material-ui/core/TextField";
+import Grid from "@material-ui/core/Grid";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import { LogInForm } from "./form/Form";
+// import { useDispatch } from "react-redux";
+import {sendMail } from "../../action/email"
+const useStyles = makeStyles((theme) => ({
+  margin: {
+    margin: theme.spacing(1),
+  },
+  header_m: {
+    marginTop: theme.spacing(14),
+  },
+}));
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  function validateForm() {
-    return email.length > 0 && password.length > 0;
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-  }
-
+  const classes = useStyles();
+  // const dispatch = useDispatch();
+  const [otp, setOtp] = useState(null);
+  const [uid, setUid] = useState(null);
+  // useEffect(() => {
+  //   dispatch(sendMail());
+  // }, [dispatch]);
   return (
-    <div className="Login">
-      <Form onSubmit={handleSubmit}>
-        <Form.Group size="lg" controlId="email">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            autoFocus
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group size="lg" controlId="password">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Form.Group>
-        <Button block size="lg" type="submit" disabled={!validateForm()}>
-          Login
-        </Button>
-      </Form>
-    </div>
+    <Container>
+      <Row>
+        <Col xs={12} className={classes.header_m}></Col>
+      <Col className="form">
+          {/* <SignInForm getUid={uid} setOtp={setOtp} /> */}
+          <LogInForm />
+        </Col>
+      </Row>
+    </Container>
   );
 }
