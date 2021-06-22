@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import postRoutes from "./routes/posts.js";
 import courseRoute from "./routes/course.js";
+import subjectRoute from "./routes/subject.js";
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(cors());
 
 // app.use("/posts", postRoutes);
 app.use("/course", courseRoute);
+app.use("/subject", subjectRoute);
 
 // const CONNECTION_URL =
   // "mongodb+srv://amit:amit1234@cluster0.ezjz3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";

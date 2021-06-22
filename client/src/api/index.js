@@ -8,8 +8,11 @@ const mainUrl = "http://localhost:2973/";
 
 const verifyMail = mainUrl + "verifyMail";
 const courseUrl = mainUrl + "course";
+const subjectUrl = mainUrl + "subject";
 export const createCourse = (newCousre) => axios.post(courseUrl, newCousre);
 export const fetchCourses=() => axios.get("http://localhost:2973/course");
-export const fetchCourses2 = axios.create({ baseUrl:courseUrl });
+export const createSubject = (newSubject) => axios.post(subjectUrl, newSubject);
+export const fetchSubjects = (id) => axios.get(`http://localhost:2973/subject/${id}`);
+// export const fetchSubjects = (id) => axios.get("http://localhost:2973/subject/231");
 
 export const sendMail = (newMail) => axios.post(verifyMail, newMail);

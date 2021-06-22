@@ -18,6 +18,7 @@ import Login from "./pages/login/Login";
 import $ from "jquery";
 import { useDispatch } from "react-redux";
 import { getCourses } from "./actions/course";
+import { getSubjects } from "./actions/subject";
 
 import bootstrap from "bootstrap";
 import ReactDOM, {
@@ -89,6 +90,13 @@ function App() {
           </div>
         </Route>
         <Route exact path="/subject">
+          <TopBar />
+          <div className="container1">
+            <SideBar />
+            <Subject />
+          </div>
+        </Route>
+        <Route exact path="/course-subject/:cid">
           <TopBar />
           <div className="container1">
             <SideBar />

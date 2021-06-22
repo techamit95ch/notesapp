@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { isEmail } from "validator";
 
 const subjectSchema = mongoose.Schema({
   subjectId: {
@@ -24,6 +23,6 @@ const subjectSchema = mongoose.Schema({
   },
 });
 
-const subject = mongoose.model("course", subjectSchema);
+const Subject = mongoose.model("subject", subjectSchema);
 
-export default subject;
+export default Subject;

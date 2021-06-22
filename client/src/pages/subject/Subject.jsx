@@ -1,5 +1,5 @@
 import "./subject.css";
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import ModalDialog from "react-bootstrap/ModalDialog";
 import ModalHeader from "react-bootstrap/ModalHeader";
@@ -33,9 +33,26 @@ import ListSubheader from "@material-ui/core/ListSubheader";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputIcon from '@material-ui/icons/Input';
+import { useParams } from "react-router-dom";
+import { createSubject, getSubjects } from "../../actions/subject";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 export default function Subject() {
-  // Menu
+  //
+      const { cid } = useParams();
+      
+      const dispatch = useDispatch();
+    
+       const [idx, setIdx] = React.useState(cid);
+
+useEffect(() => {
+  // console.log(cid);
+  dispatch(getSubjects(idx));
+}, [dispatch]);
+  const subjects = useSelector((state) => state.subject);
+
+  // console.log(subjects);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -71,7 +88,7 @@ export default function Subject() {
   const classes = useStyles();
   // DataGrid
   const columns: GridColDef[] = [
-    { field: "id", headerName: "Subject Id", width: 250 },
+    { field: "_id", headerName: "Subject Id", width: 250 },
 
     {
       field: "subjectName",
@@ -80,15 +97,14 @@ export default function Subject() {
       renderCell: (param) => {
         return (
           <div className={classes.root}>
-            <Avatar src={param.row.avatar}>{param.row.courseName[0]}</Avatar>
-
-            {param.row.courseName}
+            <Avatar src={param.row.avatar}>{param.row.subjectName[0]}</Avatar>
+            {param.row.subjectName}
           </div>
         );
       },
     },
 
-    { field: "courseId", headerName: "Course ", width: 250 },
+    { field: "subjectId", headerName: "Subject Id ", width: 250 },
     {
       field: "action",
       headerName: "Action",
@@ -96,22 +112,32 @@ export default function Subject() {
       renderCell: (param) => {
         return (
           <>
-
             <Edit color="disabled" />
             <HighlightOff color="secondary" title="Disband" />
-            <Link to={"/notes/"}> <InputIcon color="#1D2229"/></Link>
+            <Link to={"/notes/"}>
+              {" "}
+              <InputIcon color="#1D2229" />
+            </Link>
           </>
         );
       },
     },
   ];
+    const [subjectData, setSubjectData] = useState({
+      subjectId: "",
+      subjectName: "",
+      courseId : cid,
+    });
+  // const rows: GridRowsProp = courseRowData;
+  const rows: GridRowsProp = subjects;
+  const handleSubjectSubmit=(e)=>{
+        e.preventDefault();
 
-  const rows: GridRowsProp = courseRowData;
-  // const { data } = useDemoData({
-  //   dataSet: "Commodity",
-  //   rowLength: 10,
-  //   maxColumns: 6,
-  // });
+    createSubject(subjectData);
+    setSubjectData({ subjectId: "", subjectName: "", courseId: cid });
+    handleClose () ;
+
+  }
 
   return (
     <div style={{ width: "100%" }} className="course">
@@ -138,7 +164,7 @@ export default function Subject() {
           backdrop="static"
           keyboard={false}
         >
-          <Form method="POST">
+          <Form method="POST" onSubmit={handleSubjectSubmit}>
             <Modal.Header closeButton>
               <Modal.Title>Add Subject</Modal.Title>
             </Modal.Header>
@@ -148,47 +174,38 @@ export default function Subject() {
                   <TextField
                     label="Subject Id"
                     id="outlined-margin-normal"
-                    defaultValue="Subject"
+                    
                     className={classes.textField}
                     helperText="Subject Id"
                     margin="normal"
                     variant="outlined"
+                    onChange={(e) => {
+                      setSubjectData({
+                        ...subjectData,
+                        subjectId: e.target.value,
+                      });
+                    }}
                   />
                   <TextField
                     label="Subject Name"
                     id="outlined-margin-normal"
-                    defaultValue="Subject Name"
+                    
                     className={classes.textField}
                     helperText="Subject Name"
                     margin="normal"
                     variant="outlined"
+                    onChange={(e) => {
+                      setSubjectData({
+                        ...subjectData,
+                        subjectName: e.target.value,
+                      });
+                    }}
                   />
-                  <FormControl className={classes.formControl}>
-                     <InputLabel htmlFor="grouped-select">Course</InputLabel>
-                    <Select
-
-                      id="grouped-select"
-                      className={classes.selectField}
-
-                      margin="normal"
-                      label="Course"
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <ListSubheader>Category 1</ListSubheader>
-                      <MenuItem value={1}>Option 1</MenuItem>
-                      <MenuItem value={2}>Option 2</MenuItem>
-                      <ListSubheader>Category 2</ListSubheader>
-                      <MenuItem value={3}>Option 3</MenuItem>
-                      <MenuItem value={4}>Option 4</MenuItem>
-                    </Select>
-                  </FormControl>
                 </div>
               </div>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="contained" color="primary" onClick={handleClose}>
+              <Button variant="contained" color="primary" type="submit">
                 Add Subject
               </Button>
             </Modal.Footer>

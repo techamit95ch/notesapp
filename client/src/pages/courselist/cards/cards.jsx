@@ -39,7 +39,7 @@ const Cards = ({ course }) => {
       </div>
       <div className={classes.overlay2}>
         <Button style={{ color: "white" }} size="small">
-          <Link to={"/course/"+course._id}>
+          <Link to={"/course/" + course._id}>
             <MoreHorizIcon fontSize="default" />
           </Link>
         </Button>
@@ -64,7 +64,12 @@ const Cards = ({ course }) => {
         </Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
-        <Button size="small" color="primary"></Button>
+        <Link to={"course-subject/" + course.courseId}>
+          {" "}
+          <Button size="small" color="primary">
+            View Subjects
+          </Button>
+        </Link>
         <Button size="small" color="primary"></Button>
       </CardActions>
     </Card>
