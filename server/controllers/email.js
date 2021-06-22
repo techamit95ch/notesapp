@@ -19,10 +19,12 @@ export const getEmail = async (req, res) => {
         const ua = await bcrypt.hash(u,salt);
 
         const secret = 'HnasBzbxH9';
-        const hash = crypto.createHmac('sha256', secret)
+        const hash = crypto.createHmac('sha512', secret)
                    .update(ua)
                    .digest('hex');
-        const {error}=emailValidation()
+        const {error}=emailValidation({email,useragent,hash, fromReact});
+        consle.log({email,useragent,hash, fromReact});
+
       }else {
         res.status(409).json({message: "user exists"});
       }
