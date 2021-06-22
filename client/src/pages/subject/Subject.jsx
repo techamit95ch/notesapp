@@ -32,7 +32,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import InputIcon from '@material-ui/icons/Input';
+import InputIcon from "@material-ui/icons/Input";
 import { useParams } from "react-router-dom";
 import { createSubject, getSubjects } from "../../actions/subject";
 import { useSelector } from "react-redux";
@@ -40,16 +40,16 @@ import { useDispatch } from "react-redux";
 
 export default function Subject() {
   //
-      const { cid } = useParams();
-      
-      const dispatch = useDispatch();
-    
-       const [idx, setIdx] = React.useState(cid);
+  const { cid } = useParams();
 
-useEffect(() => {
-  // console.log(cid);
-  dispatch(getSubjects(idx));
-}, [dispatch]);
+  const dispatch = useDispatch();
+
+  const [idx, setIdx] = React.useState(cid);
+
+  useEffect(() => {
+    // console.log(cid);
+    dispatch(getSubjects(idx));
+  }, [dispatch]);
   const subjects = useSelector((state) => state.subject);
 
   // console.log(subjects);
@@ -88,7 +88,7 @@ useEffect(() => {
   const classes = useStyles();
   // DataGrid
   const columns: GridColDef[] = [
-    { field: "_id", headerName: "Subject Id", width: 250 },
+    { field: "subjectId", headerName: "Subject Id", width: 250 },
 
     {
       field: "subjectName",
@@ -103,8 +103,6 @@ useEffect(() => {
         );
       },
     },
-
-    { field: "subjectId", headerName: "Subject Id ", width: 250 },
     {
       field: "action",
       headerName: "Action",
@@ -114,7 +112,7 @@ useEffect(() => {
           <>
             <Edit color="disabled" />
             <HighlightOff color="secondary" title="Disband" />
-            <Link to={"/notes/"}>
+            <Link to={"/subject-notes/" + param.row.id}>
               {" "}
               <InputIcon color="#1D2229" />
             </Link>
@@ -123,21 +121,29 @@ useEffect(() => {
       },
     },
   ];
-    const [subjectData, setSubjectData] = useState({
-      subjectId: "",
-      subjectName: "",
-      courseId : cid,
-    });
+  const [subjectData, setSubjectData] = useState({
+    subjectId: "",
+    subjectName: "",
+    courseId: cid,
+  });
   // const rows: GridRowsProp = courseRowData;
-  const rows: GridRowsProp = subjects;
-  const handleSubjectSubmit=(e)=>{
-        e.preventDefault();
+  // console.log(subjects);
+  const sbj = subjects.map((item) => {
+    const container = {};
+    container["id"] = item._id;
+    container["subjectId"] = item.subjectId;
+    container["subjectName"] = item.subjectName;
+    return container;
+  });
+  console.log(sbj);
+  const rows: GridRowsProp = sbj;
+  const handleSubjectSubmit = (e) => {
+    e.preventDefault();
 
     createSubject(subjectData);
     setSubjectData({ subjectId: "", subjectName: "", courseId: cid });
-    handleClose () ;
-
-  }
+    handleClose();
+  };
 
   return (
     <div style={{ width: "100%" }} className="course">
@@ -174,7 +180,6 @@ useEffect(() => {
                   <TextField
                     label="Subject Id"
                     id="outlined-margin-normal"
-                    
                     className={classes.textField}
                     helperText="Subject Id"
                     margin="normal"
@@ -189,7 +194,6 @@ useEffect(() => {
                   <TextField
                     label="Subject Name"
                     id="outlined-margin-normal"
-                    
                     className={classes.textField}
                     helperText="Subject Name"
                     margin="normal"

@@ -2,7 +2,7 @@ import Subject from "../models/subject.js";
 export const getSubjects = async (req, res, next) => {
   try {
     const { courseId } = req.params;
-    const courses = await Subject.find({ courseId: courseId });    
+    const courses = await Subject.find({ courseId: courseId });
     // console.log(courses);
     res.status(200).json(courses);
   } catch (e) {

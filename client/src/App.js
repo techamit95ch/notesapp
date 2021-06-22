@@ -117,6 +117,13 @@ function App() {
             <NotesView />
           </div>
         </Route>
+        <Route exact path="/subject-notes/:subjectId">
+          <TopBar />
+          <div className="container1">
+            <SideBar />
+            <NotesView />
+          </div>
+        </Route>
         <Route exact path="/note">
           <TopBar />
           <div className="container1">
