@@ -1,17 +1,14 @@
-import * as api from "../api";
-// api.fetchPosts();
-export const getCourses = () => async (dispatch) => {
-  // console.log({ MESSAGE: " From getCourses" });
-  try {
-    const { data } = await api.fetchCourses();
+import * as api from "../api/index.js";
 
-    // console.log({ MESSAGE: data });
-    dispatch({
-      type: "FETCH_ALL_COURSES",
-      payload: data,
-    });
+// export const getCourses = () => async (dispatch) => {
+export const getCourses = () => async (dispatch) => {
+  try {    
+    console.log("-------------From Action Course (getCourses)---------");
+    const { data } = await api.fetchCourses();
+    dispatch({ type: "FETCH_ALL_COURSES", payload: data });
   } catch (error) {
-    console.log(error);
+    console.log("-------------Error From Action Course (getCourses)---------");
+    console.log(error.message);
   }
 };
 export const createCourse = async (post) =>{

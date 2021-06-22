@@ -1,9 +1,20 @@
 import Course from "../models/course.js";
 export const getCourses = async (req, res,next) => {
-  // const post = req.body;
-  // console.log({ "Create Post Data": post });
   try {
-    const newCourse = await Course.find();
+    const courses = await Course.find();
+    // console.log(" Have been called from Node Js-----------------------");
+    // console.log(courses);
+    console.log("---------- Have been called from Node Js-------------");
+    res.status(200).json(courses);
+  } catch (e) {
+    res.status(404).json({ message: e.message });
+  }
+};
+export const getCourse = async (req, res, next) => {
+  try {
+      const { id } = req.params;
+
+    const newCourse = await Course.findById(id);
     res.status(200).json(newCourse);
   } catch (e) {
     res.status(404).json({ message: e.message });

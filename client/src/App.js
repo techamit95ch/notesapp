@@ -28,11 +28,12 @@ import ReactDOM, {
 } from "react-router-dom";
 
 function App() {
-  const [getCourseData, setGetCourseData]= useState(getCourses());
-  const dispatch = useDispatch();
+   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCourses());
-  }, [dispatch]);
+  }, [ dispatch]);
+
+  // const [getCourseData, setGetCourseData]= useState(getCourses());
   return (
     <Router className="App">
       <Switch>
@@ -70,7 +71,7 @@ function App() {
           <TopBar />
           <div className="container1">
             <SideBar />
-            <CourseList />
+            <CourseList getCourseData={"getCourseData"} />
           </div>
         </Route>
         <Route exact path="/course/:courseId">
@@ -81,7 +82,6 @@ function App() {
           </div>
         </Route>
         <Route exact path="/course">
-
           <TopBar />
           <div className="container1">
             <SideBar />
@@ -89,7 +89,6 @@ function App() {
           </div>
         </Route>
         <Route exact path="/subject">
-          <Subject />
           <TopBar />
           <div className="container1">
             <SideBar />

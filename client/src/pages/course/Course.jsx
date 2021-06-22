@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./course.css";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Box } from "@material-ui/core";
-//
-// import { makeStyles } from "@material-ui/core/styles";
 import Rating from "@material-ui/lab/Rating";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
@@ -29,6 +27,7 @@ import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import FileBase from "react-file-base64";
 import { useSelector, useDispatch } from "react-redux";
 import { createCourse } from "../../actions/course";
+import { useHistory } from "react-router-dom";
 
 //
 
@@ -75,6 +74,7 @@ const useStyles = makeStyles((theme) => ({
 const Course = ({ currentId, setCurrentId }) => {
   const classes2 = useStyles2();
   const classes = useStyles();
+  const history = useHistory();
   // const post = useSelector((state) =>{}
   // currentId ? state.posts.find((message) => message._id === currentId) : null
   // );
@@ -101,6 +101,7 @@ const Course = ({ currentId, setCurrentId }) => {
     // console.log(" 1:    jkdkj ksdkfs dgdgdg");
     e.preventDefault();
     createCourse(courseData);
+    history.push("/courses");
     // console.log("From Course Form create:---------------");
     // console.log(courseData);
     // console.log("---------------");
