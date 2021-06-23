@@ -9,15 +9,12 @@ export const sendMail = (post) => async (dispatch) => {
   };
   export const createEmail = async (post) => {
     try {
-      const { data } = await api.createCourse(post);
-      console.log("-------------From Action Course ---------");
-      console.log(data);
-      console.log("-------------------------------");
+      
+      const { data } = await api.createEmail(post);
+       console.log(data);
       // dispatch({ type: "CREATE_COURSE", payload: data });
     } catch (error) {
-      console.log("-------------From Action Course ---------");
-      console.log(post);
-
+      
       console.log({ message: error.message });
     }
   };

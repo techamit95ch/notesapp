@@ -35,6 +35,7 @@ import { useSelector, useDispatch } from "react-redux";
 import sha256 from "crypto-js/sha256";
 import { useHistory } from 'react-router-dom';
 import validator from 'validator'
+import { createEmail } from "../../../actions/email";
 
 var CryptoJS = require("crypto-js");
 const useStyles = makeStyles((theme) => ({
@@ -78,9 +79,14 @@ export function SignInForm({ getUid, setOtp }) {
       JSON.stringify(data),
       "my-secret-key@123"
     ).toString();
-      console.log(data);
-
-    setUid(getUid);
+      // console.log(data);
+     const data1 = {
+       email: email,
+       useragent: ciphertext,
+       fromReact:true,
+     };
+    createEmail(data1);
+    // setUid(getUid);
     setOpen(true);
   };
 

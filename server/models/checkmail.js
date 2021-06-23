@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { isEmail } from "validator";
+// import { isEmail } from "validator";
 var validateEmail = function (email) {
   var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   return re.test(email);
@@ -10,11 +10,11 @@ const CheckMailSchema = mongoose.Schema({
     trim: true,
     lowercase: true,
     unique: true,
-    validate: [isEmail, "invalid email"],
+    validate: [validateEmail, "invalid email"],
     isAsync: false,
     required: [true, "Email required"],
   },
-  
+
   userAgent: {
     type: String,
     trim: true,

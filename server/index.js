@@ -5,6 +5,7 @@ import cors from "cors";
 import postRoutes from "./routes/posts.js";
 import courseRoute from "./routes/course.js";
 import subjectRoute from "./routes/subject.js";
+import emailRoute from "./routes/email.js";
 
 const app = express();
 
@@ -15,11 +16,13 @@ app.use(cors());
 // app.use("/posts", postRoutes);
 app.use("/course", courseRoute);
 app.use("/subject", subjectRoute);
+app.use("/email", emailRoute);
 
 // const CONNECTION_URL =
-  // "mongodb+srv://amit:amit1234@cluster0.ezjz3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-  const CONNECTION_URL="mongodb+srv://amit:amit1234@cluster0.adhxv.mongodb.net/notesapp?retryWrites=true&w=majority";
-  const PORT = process.env.PORT || 2973;
+// "mongodb+srv://amit:amit1234@cluster0.ezjz3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const CONNECTION_URL =
+  "mongodb+srv://amit:amit1234@cluster0.adhxv.mongodb.net/notesapp?retryWrites=true&w=majority";
+const PORT = process.env.PORT || 2973;
 mongoose
   .connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() =>

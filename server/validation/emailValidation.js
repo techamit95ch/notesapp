@@ -1,11 +1,12 @@
-import Joi from "@hapi/joi";
-export default emailValidation = (data) => {
+import Joi from "joi";
+ const emailValidation = (data) => {
   const schema = {
-    email: Joi.email().required(),
+    email: Joi.string().email().required(),
     userAgent: Joi.string().required(),
     uid: Joi.string().required(),
     fromReact: Joi.boolean().required(),
   };
-  return Joi.validate(data, scema);
+  return Joi.validate(data, schema);
+  console.log(data);
 };
-// emailValidation;
+export default emailValidation;

@@ -1,14 +1,14 @@
 import express from "express";
 
 import {
-  getEmail,
+  sendEmail,
   // updatePost,
 } from "../controllers/email.js";
 
 const emailRoute = express.Router();
 
 // subjectRoute.get("/:courseId", getSubjects);
-emailRoute.post("/", getEmail);
+emailRoute.post("/", sendEmail);
 
 // courseRoute.patch("/:id", updatePost);
 
