@@ -100,7 +100,7 @@ export const sendEmail = async (req, res) => {
         // userAgent += email + salt;
         console.log(userAgent + email + salt);
         const u = sha1(userAgent + email + salt).toString();
-        const uid =  sha256(u).toString();
+        const uid = sha256(u).toString();
         const uid2 = sha512.hmac("amit", uid).toString();
 
         console.log("------------------");
@@ -144,23 +144,23 @@ export const sendEmail = async (req, res) => {
   }
 };
 export const matchUID = async (req, res, next) => {
-  const {uid} = req.params;
+  const { uid } = req.params;
   console.log(req.params);
   const uid2 = sha512.hmac("amit", uid).toString();
   // console.log(uid2);
-  
-        console.log("------------------");
-        console.log({
-          uid: uid,
-          uid2: uid2,
-          uid_hash: sha512.hmac("amit", uid).toString(),
-        });
-//         {
-//   uid: 'aa5d4b77ee990940e64cfaba01f0b9ea3bf2b81293010dc973a266cdd5c5b596',
-//   uid2: '48c2da770e9ead9857022fea73a9a1cdd8b1d78cb9877e0dc629330d06984e013958b1df53d18c2518092459209e3e908de3dca0526b82a777b8eb1e7a19dd3a',     
-//   uid_hash: '48c2da770e9ead9857022fea73a9a1cdd8b1d78cb9877e0dc629330d06984e013958b1df53d18c2518092459209e3e908de3dca0526b82a777b8eb1e7a19dd3a'  
-// }
-        console.log("------------------");
+
+  console.log("------------------");
+  console.log({
+    uid: uid,
+    uid2: uid2,
+    uid_hash: sha512.hmac("amit", uid).toString(),
+  });
+  //         {
+  //   uid: 'aa5d4b77ee990940e64cfaba01f0b9ea3bf2b81293010dc973a266cdd5c5b596',
+  //   uid2: '48c2da770e9ead9857022fea73a9a1cdd8b1d78cb9877e0dc629330d06984e013958b1df53d18c2518092459209e3e908de3dca0526b82a777b8eb1e7a19dd3a',
+  //   uid_hash: '48c2da770e9ead9857022fea73a9a1cdd8b1d78cb9877e0dc629330d06984e013958b1df53d18c2518092459209e3e908de3dca0526b82a777b8eb1e7a19dd3a'
+  // }
+  console.log("------------------");
   try {
     const exists = await checkMail.exists({ uid: uid2 });
     console.log({ message: "Exists data", result: exists, uid2 });

@@ -1,15 +1,15 @@
-export const email = (posts = [], action) => {
+export default (email ="", action) => {
     switch (action.type) {
       case "FETCH_ALL":
         return action.payload;
      
       case "CREATE":
-        return [...posts, action.payload];
+        return action.payload;
       
   
       default:
-        return posts;
+        return email;
       
     }
   };
-  export default email;
+  

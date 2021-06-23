@@ -1,5 +1,5 @@
 import Course from "../models/course.js";
-export const getCourses = async (req, res,next) => {
+export const getCourses = async (req, res, next) => {
   try {
     const courses = await Course.find();
     // console.log(" Have been called from Node Js-----------------------");
@@ -12,7 +12,7 @@ export const getCourses = async (req, res,next) => {
 };
 export const getCourse = async (req, res, next) => {
   try {
-      const { id } = req.params;
+    const { id } = req.params;
 
     const newCourse = await Course.findById(id);
     res.status(200).json(newCourse);

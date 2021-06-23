@@ -1,8 +1,5 @@
 import React ,{ useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { Avatar, Button, Fab, Card } from "@material-ui/core";
-import { GetAppRounded, Close } from "@material-ui/icons";
 import {
   Col,
   Row,
@@ -12,42 +9,37 @@ import {
   FloatingLabel,
 } from "react-bootstrap";
 import "./style.css";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import FormControl from "@material-ui/core/FormControl";
-import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
-import AccountCircle from "@material-ui/icons/AccountCircle";
+
 import { LogInForm } from "./form/Form";
-// import { useDispatch } from "react-redux";
-import {sendMail } from "../../actions/email"
+
 const useStyles = makeStyles((theme) => ({
-  margin: {
-    margin: theme.spacing(1),
-  },
   header_m: {
     marginTop: theme.spacing(14),
+    
   },
 }));
 
 export default function Login() {
   const classes = useStyles();
-  // const dispatch = useDispatch();
-  const [otp, setOtp] = useState(null);
-  const [uid, setUid] = useState(null);
-  // useEffect(() => {
-  //   dispatch(sendMail());
-  // }, [dispatch]);
   return (
-    <Container>
-      <Row>
+    // <Container>
+    //   <Row>
+    <Col className="form">
+      <Col style={{ marginLeft: "80px", marginRight: "-80px" }}>
         <Col xs={12} className={classes.header_m}></Col>
-      <Col className="form">
-          {/* <SignInForm getUid={uid} setOtp={setOtp} /> */}
-          <LogInForm />
-        </Col>
-      </Row>
-    </Container>
+        <LogInForm />
+      </Col>
+
+      <Col
+        style={{
+          backgroundImage: `url("https://images.unsplash.com/photo-1517842645767-c639042777db?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8bm90ZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80")`,
+          marginBottom: "-192px",
+          marginTop: "0px",
+          marginRight: "-15px",
+        }}
+      ></Col>
+    </Col>
+    //   </Row>
+    // </Container>
   );
 }

@@ -1,7 +1,7 @@
 import * as api from "../api";
 export const matchUID = (uid) => async (dispatch) => {
   try {
-    console.log(uid);
+    // console.log(uid);
     const { data } = await api.matchUID(uid);
     // console.log(data);
     dispatch({ type: "FETCH_ALL", payload: data });

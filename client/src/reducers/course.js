@@ -1,4 +1,4 @@
-const Course= (courses = [], action) => {
+export default  (courses = [], action) => {
   switch (action.type) {
     case "FETCH_ALL_COURSES":
       return action.payload;
@@ -21,4 +21,4 @@ const Course= (courses = [], action) => {
     //  break;
   }
 };
-export default  Course;
+// export default  Course;

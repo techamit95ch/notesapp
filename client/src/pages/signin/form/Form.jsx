@@ -36,7 +36,8 @@ import sha256 from "crypto-js/sha256";
 import sha1 from "crypto-js/sha1";
 import { useHistory } from "react-router-dom";
 import validator from "validator";
-import { createEmail,matchUID } from "../../../actions/email";
+import { createEmail, matchUID } from "../../../actions/email";
+import { createAuth } from "../../../actions/authInfo";
 import CircularProgress from "@material-ui/core/CircularProgress";
 // import { useDispatch, useSelector } from "react-redux";
 
@@ -77,9 +78,6 @@ export function SignInForm({ getUid, setOtp }) {
     txt += navigator.onLine;
     txt += navigator.platform;
     txt += navigator.userAgent;
-    // 
-    // txt = sha256(txt);
-
     const data = { agent: txt, email: email }.toString();
     const data1 = {
       email: email,
@@ -167,28 +165,69 @@ export function PasswordForm({ param }) {
   const result = useSelector((state) => state.email);
 
   const classes = useStyles();
+  const re =
+    /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()+=-\?;,./{}|\":<>\[\]\\\' ~_]).{8,}/;
+  const [color, setcolor] = useState("black");
+
   const [values, setValues] = React.useState({
     password: "",
     showPassword: false,
   });
+  const isOk = (password) => {
+    if (re.test(password)) setcolor("green");
+    else if (password.length < 4) setcolor("black");
+    else setcolor("red");
+  };
   const handleChange = (prop) => (event) => {
+    isOk(values.password);
     setValues({ ...values, [prop]: event.target.value });
   };
+
   const handleClickShowPassword = () => {
+    isOk(values.password);
     setValues({ ...values, showPassword: !values.showPassword });
   };
-// console.log("---------------------------", result.result);
+  // console.log("---------------------------", result.result);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
+    isOk(values.password);
   };
-  if(result.result == false) return <CircularProgress disableShrink />;
+  // const dispatch = useDispatch();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (color == "green") {
+      let txt = "";
+      txt += navigator.appCodeName;
+      txt += navigator.appName;
+      txt += navigator.appVersion;
+      txt += navigator.cookieEnabled;
+      txt += navigator.language;
+      txt += navigator.onLine;
+      txt += navigator.platform;
+      txt += navigator.userAgent;
+      const data = {
+        userAgent: "",
+        uid: idx,
+        fromReact: true,
+        password: values.password,
+      };
+      dispatch(createAuth(data));     
+     
+    }
+  };
+
+  if (result.result == false) return <CircularProgress disableShrink />;
   // const uid = React.useState(getUid);
   return (
     <Col sm={5}>
-      <Form action="">
+      <Form action="" onSubmit={handleSubmit}>
         <h1>Add Password</h1>
-        <p>Please fill in this form to continue.</p>
+        <p style={{ color: color }}>
+          Password must be atleast 8 character long , alphanumeric with caps and
+          small and must have special Character character.
+        </p>
         <hr />
         <FormControl className={clsx(classes.margin, classes.textField)}>
           <InputLabel htmlFor="standard-adornment-password">

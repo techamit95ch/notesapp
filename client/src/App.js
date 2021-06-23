@@ -38,7 +38,7 @@ function App() {
   return (
     <Router className="App">
       <Switch>
-        <Route exact path="/login">
+        <Route exact path="/auth/login">
           <Login />
         </Route>
         <Route exact path="/auth/signin">
