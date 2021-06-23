@@ -19,7 +19,7 @@ const oAtuth2Client = new google.auth.OAuth2(
   redirectURI
 );
 oAtuth2Client.setCredentials({ refresh_token: refreshToken });
-const sendMail = async (email,hashToken) => {
+const sendMail = async (email, hashToken) => {
   try {
     // console.log("------ Inside send Mail --------");
     const accessToken = await oAtuth2Client.getAccessToken();
@@ -29,7 +29,7 @@ const sendMail = async (email,hashToken) => {
         type: "OAuth2",
         user: "30701018055.amit@gmail.com",
         clientId: clinetID,
-        clientSecret:clientSecret,
+        clientSecret: clientSecret,
         refreshToken: refreshToken,
         accessToken: accessToken,
       },
@@ -74,31 +74,62 @@ const sendMail = async (email,hashToken) => {
     };
     const result = await transport.sendMail(mailOptions);
     return result;
-  } catch (error) {console.log(error);}
+  } catch (error) {
+    console.log(error);
+  }
 };
 export const sendEmail = async (req, res) => {
-  const { email, useragent, fromReact } = req.body;
+  const { email, userAgent, fromReact } = req.body;
   // import { isEmail } from "validator";
 
   try {
     if (!fromReact || !validateEmail(email)) {
       res.status(409).json({ message: "Not From React" });
     } else {
-      // console.log(email);
+      
       const exists = await checkMail.exists({ email: email });
-      // console.log(exists);
+
       if (!exists) {
+        // console.log("jahsdash");
         //
         const date = Date.now();
         const salt = await bcrypt.genSalt(date);
-        const u = useragent + email + date + salt;
-        const hashToken = crypto
+        // userAgent += email + salt;   
+        console.log(userAgent + email + salt);     
+        const u = userAgent + email + salt;
+        const uid = crypto
           .createHash("sha256")
           .update(u, "utf8")
-          .digest("hex");
+          .digest("hex")
+          .toString();
+          const uid2 = crypto
+            .createHash("sha256")
+            .update(uid, "utf8")
+            .digest("hex")
+            .toString();
 
-        sendMail(email,hashToken)
-          .then((result) => console.log("Mail Send", result))
+        
+        const newEmailRegister = new checkMail({
+          email: email,
+          userAgent: userAgent,
+          uid: uid2,
+          fromReact: true,
+        });
+        try {
+          await newEmailRegister.save().then(() => {
+            console.log("Email Saved Successfully ");
+            res.status(201).json({
+              message: "Email Saved Successfully",
+            });
+          });
+        } catch (error) {
+          console.log({ message: error.message });
+          res.status(409).json({ message: error.message });
+        }
+        sendMail(email, uid)
+          .then((result) => {
+            console.log("Mail Send", result);
+          })
           .catch((e) => console.log(e.message));
       } else {
         res.status(409).json({ message: "user exists" });

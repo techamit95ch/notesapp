@@ -33,11 +33,12 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { UserAgent } from "react-useragent";
 import { useSelector, useDispatch } from "react-redux";
 import sha256 from "crypto-js/sha256";
-import { useHistory } from 'react-router-dom';
-import validator from 'validator'
+import sha1 from "crypto-js/sha1";
+import { useHistory } from "react-router-dom";
+import validator from "validator";
 import { createEmail } from "../../../actions/email";
 
-var CryptoJS = require("crypto-js");
+const CryptoJS = require("crypto-js");
 const useStyles = makeStyles((theme) => ({
   margin: {
     margin: theme.spacing(1),
@@ -56,49 +57,50 @@ export function SignInForm({ getUid, setOtp }) {
   const [uid, setUid] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [email, setEmail] = useState("");
-
-  const [emailError, setEmailError] = useState('')
+  const validateEmail = function (email) {
+    var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    return re.test(email);
+  };
+  const [emailError, setEmailError] = useState("");
   const handleClickOpen = (event) => {
     event.preventDefault();
+
     let txt = "";
     txt += navigator.appCodeName;
     txt += navigator.appName;
     txt += navigator.appVersion;
     txt += navigator.cookieEnabled;
     txt += navigator.language;
-    txt = sha256(txt);
+    // txt = sha256(txt);
     txt += navigator.onLine;
     txt += navigator.platform;
     txt += navigator.userAgent;
-    // console.log(txt);
-    txt = sha256(txt);
+    // 
+    // txt = sha256(txt);
 
-    const data = { agent: txt, email: email };
-    // Encrypt
-    var ciphertext = CryptoJS.AES.encrypt(
-      JSON.stringify(data),
-      "my-secret-key@123"
-    ).toString();
-      // console.log(data);
-     const data1 = {
-       email: email,
-       useragent: ciphertext,
-       fromReact:true,
-     };
-    createEmail(data1);
+    const data = { agent: txt, email: email }.toString();
+    const data1 = {
+      email: email,
+      userAgent: txt,
+      fromReact: true,
+    };
+    if (validateEmail(email)) {
+      createEmail(data1);
+      setOpen(true);
+    }
+
     // setUid(getUid);
-    setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(true);
   };
-  const [pinData, setPinData]= useState("");
+  const [pinData, setPinData] = useState("");
 
   const history = useHistory();
   return (
     <Col sm={5}>
-      <Form action="#" onSubmit={handleClickOpen}>
+      <Form action="#" method="post" onSubmit={handleClickOpen}>
         <h1>Sign Up</h1>
         <p>Please fill in this form to create an account.</p>
 
@@ -106,17 +108,16 @@ export function SignInForm({ getUid, setOtp }) {
         <FormControl className={clsx(classes.margin, classes.textField)}>
           <InputLabel htmlFor="signin_email">Email</InputLabel>
           <Input
-            onChange=""
             id="signin_email"
             type="email"
             endAdornment={
               <InputAdornment position="end">
-                <Button type="submit" color="primary" onClick={handleClickOpen}>
+                <Button type="submit" color="primary">
                   <EmailRoundedIcon /> Verify
                 </Button>
               </InputAdornment>
             }
-            onChange={event => setEmail(event.target.value)}
+            onChange={(event) => setEmail(event.target.value)}
           />
         </FormControl>
       </Form>
@@ -130,15 +131,22 @@ export function SignInForm({ getUid, setOtp }) {
           <p>Check Mail</p>
           <Form noValidate>
             <FormControl>
-              <TextField name="verNum" onChange={event => setPinData(event.target.value)} />
+              <TextField
+                name="verNum"
+                onChange={(event) => setPinData(event.target.value)}
+              />
             </FormControl>
           </Form>
         </DialogContent>
         <DialogActions>
-          <Button type="submit" onClick={()=>{
-              const path ="/auth/signin/"+pinData;
+          <Button
+            type="submit"
+            onClick={() => {
+              const path = "/auth/signin/" + pinData;
               history.push(path);
-            }} color="primary">
+            }}
+            color="primary"
+          >
             Submit
           </Button>
         </DialogActions>
@@ -162,7 +170,7 @@ export function PasswordForm({ getUid, setOtp }) {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-const uid = React.useState(getUid);
+  const uid = React.useState(getUid);
   return (
     <Col sm={5}>
       <Form action="">

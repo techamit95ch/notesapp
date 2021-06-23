@@ -21,7 +21,7 @@ const CheckMailSchema = mongoose.Schema({
     required: true,
   },
   uid: {
-    type: Number,
+    type: String,
     trim: true,
     unique: true,
     required: true,
@@ -33,5 +33,5 @@ const CheckMailSchema = mongoose.Schema({
   },
 });
 
-const checkMail = mongoose.model("checkmail", CheckMailSchema);
+const checkMail = mongoose.model("checkmails", CheckMailSchema);
 export default checkMail;
