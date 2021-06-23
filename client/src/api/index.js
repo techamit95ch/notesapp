@@ -15,6 +15,8 @@ export const fetchCourses=() => axios.get("http://localhost:2973/course");
 export const createSubject = (newSubject) => axios.post(subjectUrl, newSubject);
 export const fetchSubjects = (id) => axios.get(`http://localhost:2973/subject/${id}`);
 export const createEmail = (newEmail) => axios.post(emailUrl, newEmail);
+export const matchUID = (uid) => axios.get(emailUrl+"/"+uid);
+
 // export const fetchSubjects = (id) => axios.get("http://localhost:2973/subject/231");
 
 export const sendMail = (newMail) => axios.post(verifyMail, newMail);

@@ -19,8 +19,11 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { SignInForm,PasswordForm } from "./form/Form";
-// import { useDispatch } from "react-redux";
-import {sendMail } from "../../actions/email"
+import { useDispatch,useSelector } from "react-redux";
+import { sendMail, matchUID } from "../../actions/email";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
+
 import {
   useParams,
 } from "react-router-dom";
@@ -43,11 +46,21 @@ export default function SignIn() {
   // }, [dispatch]);
   const DoesGetMail=()=>{
     const { encryption } = useParams();
-
+    // const { cid } = useParams();
+    
+    
     if(!encryption){
       return <SignInForm />;
     }else{
-      return <PasswordForm getUid={uid} setOtp={setOtp}/>;
+      // setIdx(encryption.toString());
+    //  if( matchUID(encryption)){
+      return <PasswordForm  param={encryption.toString()} />;
+    //  }else{
+      // console.log(result);
+      // return <CircularProgress disableShrink />;
+    //  }
+      
+      // 
     }
 
   }

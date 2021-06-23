@@ -20,12 +20,7 @@ const CheckMailSchema = mongoose.Schema({
     trim: true,
     required: true,
   },
-  uid: {
-    type: String,
-    trim: true,
-    unique: true,
-    required: true,
-  },
+  uid: String,
   fromReact: Boolean,
   createdAt: {
     type: Date,
@@ -33,5 +28,5 @@ const CheckMailSchema = mongoose.Schema({
   },
 });
 
-const checkMail = mongoose.model("checkmails", CheckMailSchema);
+const checkMail = mongoose.model("emailVerification", CheckMailSchema);
 export default checkMail;

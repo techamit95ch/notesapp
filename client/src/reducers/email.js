@@ -12,3 +12,4 @@ export const email = (posts = [], action) => {
       
     }
   };
+  export default email;

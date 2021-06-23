@@ -36,7 +36,9 @@ import sha256 from "crypto-js/sha256";
 import sha1 from "crypto-js/sha1";
 import { useHistory } from "react-router-dom";
 import validator from "validator";
-import { createEmail } from "../../../actions/email";
+import { createEmail,matchUID } from "../../../actions/email";
+import CircularProgress from "@material-ui/core/CircularProgress";
+// import { useDispatch, useSelector } from "react-redux";
 
 const CryptoJS = require("crypto-js");
 const useStyles = makeStyles((theme) => ({
@@ -154,7 +156,16 @@ export function SignInForm({ getUid, setOtp }) {
     </Col>
   );
 }
-export function PasswordForm({ getUid, setOtp }) {
+export function PasswordForm({ param }) {
+  const dispatch = useDispatch();
+
+  const [idx, setIdx] = React.useState(param);
+
+  useEffect(() => {
+    dispatch(matchUID(idx));
+  }, [dispatch]);
+  const result = useSelector((state) => state.email);
+
   const classes = useStyles();
   const [values, setValues] = React.useState({
     password: "",
@@ -166,11 +177,13 @@ export function PasswordForm({ getUid, setOtp }) {
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword });
   };
+// console.log("---------------------------", result.result);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  const uid = React.useState(getUid);
+  if(result.result == false) return <CircularProgress disableShrink />;
+  // const uid = React.useState(getUid);
   return (
     <Col sm={5}>
       <Form action="">
