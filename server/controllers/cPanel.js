@@ -5,7 +5,10 @@ import sha256 from "sha256";
 import sha1 from "sha1";
 import sha512 from "js-sha512";
 import publicIp from "public-ip";
-
+const validateEmail = function (email) {
+  var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  return re.test(email);
+};
 export const createLoginInfo = async (req, res, next) => {
   //   console.log(req.body);
   const { userAgent, uid, fromReact, password } = req.body;
@@ -55,5 +58,38 @@ export const createLoginInfo = async (req, res, next) => {
   } else {
     console.log({ message: "User Exists", status: false });
     res.status(202).json({ message: "User Exists", status: false });
+  }
+};
+export const LoginInfo = async (req, res, next) => {
+  const { email, fromReact, password } = req.body;
+  //   console.log(email);
+  if (!fromReact || !validateEmail(email))
+    res.status(402).json({ message: "Mail Not Correct", status: false });
+  else {
+    const emailId = await checkMail.findOne({ email: email }, { _id: 1 });
+    const uid = emailId._id;
+    //  console.log(emailId);
+    const panelExists = await CPanel.exists({ uid: uid });
+    if (!panelExists) {
+      console.log(panelExists);
+    }
+    const panel = await CPanel.findOne({ uid: uid });
+    const salt = panel.salt;
+
+    const agent = panel.agent;
+    const cpassword =
+      salt + agent + sha512.hmac("notesApp", password).toString();
+    const match = await bcrypt.compare(cpassword, panel.password);
+    if (!match)
+      res.status(401).json({ message: "Wrong Credential", status: false });
+    else {
+      const loggedIn = await CPanel.findByIdAndUpdate(panel._id, {
+        isLoggedIn: true,
+      });
+
+      res
+        .status(202)
+        .json({ message: "Loggin Success", status: true, agent: agent });
+    }
   }
 };

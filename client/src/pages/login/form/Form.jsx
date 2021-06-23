@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { Avatar, Button, Fab, Card,Hidden } from "@material-ui/core";
+import { Avatar, Button, Fab, Card, Hidden } from "@material-ui/core";
 import { GetAppRounded, Close } from "@material-ui/icons";
 import {
   Col,
@@ -33,6 +33,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { UserAgent } from "react-useragent";
 import { useSelector, useDispatch } from "react-redux";
 import sha256 from "crypto-js/sha256";
+import { loginAuth } from "../../../actions/authInfo";
+
 var CryptoJS = require("crypto-js");
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -49,6 +51,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function LogInForm() {
+  const dispatch = useDispatch();
+
   const classes = useStyles();
   const [values, setValues] = React.useState({
     password: "",
@@ -64,10 +68,19 @@ export function LogInForm() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
+  const [email, setEmail] = React.useState("");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // const dispatch=useDispatch();
+    var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (re.test(email)) {
+      const data = { email: email, password: values.password, fromReact: true };
+      dispatch(loginAuth(data));
+    }
+  };
   return (
     <Col sm={5}>
-      <Form action="">
+      <Form action="#" onSubmit={handleSubmit}>
         <h1>Login</h1>
         <p>Please fill in this form to Login.</p>
         <hr />
@@ -76,6 +89,7 @@ export function LogInForm() {
           <Input
             id="signin_email"
             type="email"
+            onChange={(event) => setEmail(event.target.value)}
             endAdornment={
               <InputAdornment position="end">
                 <EmailRoundedIcon color="primary" />

@@ -12,15 +12,14 @@ export const matchUID = (uid) => async (dispatch) => {
   }
 };
 export const createAuth = (post) => async (dispatch) => {
-//   const history = useHistory();
+  //   const history = useHistory();
 
   try {
     const { data } = await api.authCreate(post);
     console.log(data.status);
     if (data.status) {
     } else {
-        window.location.replace("http://localhost:8521/auth/signin");
-
+      window.location.replace("http://localhost:8521/auth/signin");
     }
 
     dispatch({ type: "CREATE", payload: data });
@@ -28,7 +27,23 @@ export const createAuth = (post) => async (dispatch) => {
     // console.log(error.message);
   }
 };
+export const loginAuth = (post) => async (dispatch) => {
+  //   const history = useHistory();
+//   console.log(post);
+  try {
+    const { data } = await api.authLogin(post);
 
+    if (data.status) {
+      window.location.replace("http://localhost:8521");
+    } else {
+      console.log(data);
+    }
+
+    dispatch({ type: "CREATE", payload: data });
+  } catch (error) {
+    // console.log(error.message);
+  }
+};
 // export const createAuth = (info) => async (dispatch) => {
 // // export const createAuth =  async (info) => {
 //   try {

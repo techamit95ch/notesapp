@@ -11,6 +11,7 @@ const courseUrl = mainUrl + "course";
 const subjectUrl = mainUrl + "subject";
  const emailUrl = mainUrl + "email";
  const authCreateUrl = mainUrl + "auth/create";
+ const authLoginUrl = mainUrl + "auth/login";
 export const createCourse = (newCousre) => axios.post(courseUrl, newCousre);
 export const fetchCourses=() => axios.get("http://localhost:2973/course");
 export const createSubject = (newSubject) => axios.post(subjectUrl, newSubject);
@@ -23,3 +24,4 @@ export const matchUID = (uid) => axios.get(emailUrl+"/"+uid);
 
 export const sendMail = (newMail) => axios.post(verifyMail, newMail);
 export const authCreate = (data) => axios.post(authCreateUrl, data);
+export const authLogin = (data) => axios.post(authLoginUrl, data);
