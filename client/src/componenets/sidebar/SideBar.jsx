@@ -89,7 +89,7 @@ export default function Sidebar() {
         </div>
         {/* {" Student Menu Close"} */}
         {/* {" Quick Menu"} */}
-        <div className="sidebarMenu">
+        {/* <div className="sidebarMenu">
           <h3 className="sidebarTitle">Quick Menu</h3>
           <ul className="sidebarList">
             <Link to="#" className="sidebarListItem ">
@@ -109,7 +109,7 @@ export default function Sidebar() {
               Feed Back
             </Link>
           </ul>
-        </div>
+        </div> */}
         {/* {" Quick Menu Close"} */}
       </div>
     </div>

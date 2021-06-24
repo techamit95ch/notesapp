@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./usercreate.css";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -17,6 +17,12 @@ import {
   TextField,
   TextareaAutosize,
   Fab,
+  Select,
+  InputLabel,
+  NativeSelect,
+  FormControl,
+  FormHelperText,
+  MenuItem,
 } from "@material-ui/core";
 
 import Rating from "@material-ui/lab/Rating";
@@ -37,33 +43,153 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
     width: "35ch",
   },
+  selectField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: "31ch",
+  },
   textField2: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
     width: "72ch",
   },
 }));
+const StudentDiv = () => {
+  const classes = useStyles();
+  return (
+    <>
+      <TextField
+        label="Course"
+        id="outlined-margin-normal"
+        defaultValue=""
+        select
+        className={classes.textField}
+        helperText="Course"
+        margin="normal"
+        variant="outlined"
+      >
+        <MenuItem key="courseId" value="courseId" disabled>
+          Course Label
+        </MenuItem>
+        <MenuItem key="courseId" value="courseId" >
+          Java
+        </MenuItem>
+      </TextField>
+      <TextField
+        label="Semester"
+        id="outlined-margin-normal"
+        defaultValue=""
+        className={classes.textField}
+        helperText="Semester"
+        margin="normal"
+        variant="outlined"
+        type="link"
+      />
+    </>
+  );
+};
+const TeacherDiv = () => {
+  const classes = useStyles();
+  return (
+    <div>
+      <TextField
+        label="Current Position"
+        id="outlined-margin-normal"
+        defaultValue="Current Position"
+        className={classes.textField}
+        helperText="Current Position"
+        margin="normal"
+        variant="outlined"
+        multiline
+      />
+      <TextField
+        label="Last Education"
+        id="outlined-margin-normal"
+        defaultValue="Last Education"
+        className={classes.textField}
+        helperText="Last Education"
+        margin="normal"
+        variant="outlined"
+        multiline
+      />
+      <TextField
+        label="Github Link"
+        id="outlined-margin-normal"
+        defaultValue="Github"
+        className={classes.textField}
+        helperText="Github Link"
+        margin="normal"
+        variant="outlined"
+        type="link"
+      />
+      <TextField
+        label="LinkedIn Link"
+        id="outlined-margin-normal"
+        defaultValue="LinkedIn"
+        className={classes.textField}
+        helperText="LinkedIn Link"
+        margin="normal"
+        variant="outlined"
+        type="link"
+      />
+    </div>
+  );
+};
 
 export default function UserCreate() {
   const classes = useStyles();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+  const [user, setUser] = useState({
+    roleId: "",
+    name: "",
+    phoneNumber: "",
+    dob: "",
+    courseId: "",
+    bannerImage: "",
+    profileImage: "",
+    role: "",
+    semester: "",
+    city: "",
+    pin: "",
+    title: "",
+    github: "",
+    linkedIn: "",
+    curr_pos: "",
+    last_edu: "",
+  });
+  
+  const [role, setRole] = useState("");
+  const handleRoleChange = (event) => {
+    setRole(event.target.value);
+  };
+  const RoleDiv = () => {
+    if (role == "teacher") {
+      return <TeacherDiv />;
+    } else if (role == "student") {
+      return <StudentDiv />;
+    } else return "";
+  };
+
   return (
     <div className="usercreate">
       {/* {Update Form Div} */}
       <div className="userUpdate">
         {/* <span className="userUpdateTitle">{"Create/Update"} user</span> */}
         <form
-          onSubmit={""}
+          onSubmit={handleSubmit}
           className="userUpdateForm was-validated"
           method="POST"
         >
           <div class="form-row">
             <div class={classes.root2}>
               <TextField
-                label="user Id"
+                label="User Id"
                 id="outlined-margin-normal"
-                defaultValue="#"
+                
                 className={classes.textField}
-                helperText="user Id"
+                helperText="User Id"
                 margin="normal"
                 variant="outlined"
               />
@@ -75,26 +201,6 @@ export default function UserCreate() {
                 helperText="Full Name"
                 margin="normal"
                 variant="outlined"
-              />
-              <TextField
-                label="email"
-                id="outlined-margin-normal"
-                defaultValue="email"
-                className={classes.textField}
-                helperText="email"
-                margin="normal"
-                variant="outlined"
-                type="email"
-              />
-              <TextField
-                label="Password"
-                id="outlined-margin-normal"
-                defaultValue="Password"
-                className={classes.textField}
-                helperText="Password"
-                margin="normal"
-                variant="outlined"
-                type="password"
               />
               <TextField
                 label="Phone"
@@ -160,55 +266,40 @@ export default function UserCreate() {
                 multiline
               />
               <TextField
-                label="Current Position"
+                label="Profile Role"
                 id="outlined-margin-normal"
-                defaultValue="Current Position"
+                defaultValue=""
+                select
                 className={classes.textField}
-                helperText="Current Position"
+                helperText="Profile Role"
+                margin="normal"
+                variant="outlined"
+                onChange={handleRoleChange}
+              >
+                <MenuItem key="roleId" value="roleId" disabled>
+                  Profile Role Label
+                </MenuItem>
+                <MenuItem key="teacher" value="teacher">
+                  Teacher
+                </MenuItem>
+                <MenuItem key="student" value="student">
+                  Student
+                </MenuItem>
+              </TextField>
+              
+              <TextField
+                label="Profile Title"
+                id="outlined-margin-normal"
+                className={classes.textField}
+                helperText="Profile Title"
                 margin="normal"
                 variant="outlined"
                 multiline
               />
-              <TextField
-                label="Last Education"
-                id="outlined-margin-normal"
-                defaultValue="Last Education"
-                className={classes.textField}
-                helperText="Last Education"
-                margin="normal"
-                variant="outlined"
-                multiline
-              />
-              <TextField
-                label="Github Link"
-                id="outlined-margin-normal"
-                defaultValue="Github"
-                className={classes.textField}
-                helperText="Github Link"
-                margin="normal"
-                variant="outlined"
-                type="link"
-              />
-              <TextField
-                label="LinkedIn Link"
-                id="outlined-margin-normal"
-                defaultValue="LinkedIn"
-                className={classes.textField}
-                helperText="LinkedIn Link"
-                margin="normal"
-                variant="outlined"
-                type="link"
-              />
-              <TextField
-                label="Title"
-                id="outlined-margin-normal"
-                defaultValue="Title"
-                className={classes.textField2}
-                helperText="Title"
-                margin="normal"
-                variant="outlined"
-                multiline
-              />
+              {/*
+  element Changes
+*/}
+              <RoleDiv />
             </div>
             <Fab
               className={classes.textField}

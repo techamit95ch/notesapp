@@ -1,4 +1,4 @@
-import React, { Component ,useState, useEffect  } from "react";
+import React, { Component, useState, useEffect } from "react";
 import TopBar from "./componenets/topbar/TopBar";
 import SideBar from "./componenets/sidebar/SideBar";
 import Home from "./pages/home/Home";
@@ -29,10 +29,17 @@ import ReactDOM, {
 } from "react-router-dom";
 
 function App() {
-   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCourses());
-  }, [ dispatch]);
+  }, [dispatch]);
+  
+  // if (
+  //   localStorage["agent"] &&
+  //   localStorage["isLogin"]
+  // ) {
+  //   console.log("Logged in");
+  // }
 
   // const [getCourseData, setGetCourseData]= useState(getCourses());
   return (

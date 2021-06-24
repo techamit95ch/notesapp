@@ -1,31 +1,23 @@
 import mongoose from "mongoose";
 
 const userProfileSchema = mongoose.Schema({
-  email: {
-    type: String,
-    trim: true,
-    lowercase: true,
-    unique: true,
-    validate: [isEmail, "invalid email"],
-    isAsync: false,
-    required: [true, "Email required"],
-  },
   name: { type: String, required: true },
-  uid: { type: String, required: true },
+  roleId: { type: String },
+  uid: { type: mongoose.Schema.ObjectId, unique: true, required: true },
   bannerImage: String,
   profileImage: String,
   phoneNumber: Number,
   dob: {
     type: Date,
   },
-  stream: String,
+  courseId: { type: mongoose.Schema.ObjectId },
   role: { type: String, default: "student" },
   semester: { type: Number, required: true },
   city: { type: String },
   pin: { type: String },
   title: { type: String },
   github: { type: String },
-  linked: { type: String },
+  linkedIn: { type: String },
   curr_pos: { type: String },
   last_edu: { type: String },
   updatedAt: [

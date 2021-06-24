@@ -29,11 +29,13 @@ export const createAuth = (post) => async (dispatch) => {
 };
 export const loginAuth = (post) => async (dispatch) => {
   //   const history = useHistory();
-//   console.log(post);
+  //   console.log(post);
   try {
     const { data } = await api.authLogin(post);
 
     if (data.status) {
+      localStorage.setItem("isLogin", data.status);
+      localStorage.setItem("agent", data.agent);
       window.location.replace("http://localhost:8521");
     } else {
       console.log(data);
@@ -44,6 +46,21 @@ export const loginAuth = (post) => async (dispatch) => {
     // console.log(error.message);
   }
 };
+export const checkLoggedin = () => async (dispatch) => {
+  try {
+    if (
+      localStorage["agent"] &&
+      localStorage["isLogin"]
+    ) {
+      
+      console.log("Logged in");
+    }
+    // dispatch({ type: "FETCH_ALL", payload: data });
+  } catch (error) {
+    console.log({ message: error.message });
+  }
+};
+
 // export const createAuth = (info) => async (dispatch) => {
 // // export const createAuth =  async (info) => {
 //   try {

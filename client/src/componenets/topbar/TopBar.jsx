@@ -12,7 +12,7 @@ import {
   DialogContent,
   DialogActions,
   Dialog,
-  Button
+  Button,
 } from "@material-ui/core";
 import {
   NotificationsNone,
@@ -92,7 +92,7 @@ export default function TopBar() {
           </span>
         </div>
         <div className={classes.basic + " topRight"}>
-          <div className={"topbarIconContainer "}>
+          {/* <div className={"topbarIconContainer "}>
             <NotificationsNone fontSize="large" />
             <span className="topbarIconBag">2</span>
           </div>
@@ -106,7 +106,7 @@ export default function TopBar() {
           </div>
           <div className="topbarIconContainer">
             <Settings fontSize="large" />
-          </div>
+          </div> */}
           <div className="topbarIconContainer">
             <Avatar
               src="https://cactusthemes.com/blog/wp-content/uploads/2018/01/tt_avatar_small.jpg"
@@ -124,9 +124,18 @@ export default function TopBar() {
               onClose={handleClose}
               TransitionComponent={Fade}
             >
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <Link to="/jx41XYm2">   <MenuItem onClick={handleClose}>My account</MenuItem></Link>
-          <Link to="/auth/signin">  <MenuItem onClick={handleClose}>Logout</MenuItem></Link>
+              <Link to="/user/create">
+                <MenuItem onClick={handleClose}>Profile</MenuItem>
+              </Link>
+
+              {/* <Link to="/jx41XYm2">
+                {" "}
+                <MenuItem onClick={handleClose}>My account</MenuItem>
+              </Link> */}
+              <Link to="/auth/login">
+                {" "}
+                <MenuItem onClick={handleClose}>Logout</MenuItem>
+              </Link>
             </Menu>
           </div>
         </div>
@@ -137,7 +146,9 @@ export default function TopBar() {
           aria-labelledby="scroll-dialog-title"
           aria-describedby="scroll-dialog-description"
         >
-          <DialogTitle id="scroll-dialog-title">Notes App Description</DialogTitle>
+          <DialogTitle id="scroll-dialog-title">
+            Notes App Description
+          </DialogTitle>
           <DialogContent dividers={scroll === "paper"}>
             <DialogContentText
               id="scroll-dialog-description"
@@ -158,7 +169,6 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
             <Button onClick={handleClose2} color="primary">
               Cancel
             </Button>
-
           </DialogActions>
         </Dialog>
       </div>

@@ -5,6 +5,16 @@ import sha256 from "sha256";
 import sha1 from "sha1";
 import sha512 from "js-sha512";
 import publicIp from "public-ip";
+import crypto from "crypto";
+const AlgorithmToUse = "aes-192-cbc"; //algorithm to use
+const AlgoPassword = "xVf*82mnIOmetz89HJGsb";
+const AlgoKey = crypto.scryptSync(AlgoPassword, "salt", 24); //create key
+const IV = crypto.randomBytes(16); // generate different ciphertext everytime
+const Cipher = crypto.createCipheriv(AlgorithmToUse, AlgoKey, IV);
+// var encrypted = cipher.update(text, 'utf8', 'hex') + cipher.final('hex'); // encrypted text
+const DeCipher = crypto.createDecipheriv(AlgorithmToUse, AlgoKey, IV);
+//var decrypted = decipher.update(encrypted, 'hex', 'utf8') + decipher.final('utf8'); //deciphered text
+
 const validateEmail = function (email) {
   var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   return re.test(email);
@@ -86,10 +96,43 @@ export const LoginInfo = async (req, res, next) => {
       const loggedIn = await CPanel.findByIdAndUpdate(panel._id, {
         isLoggedIn: true,
       });
-
+      const encrypted =
+        Cipher.update(agent, "utf8", "hex") + Cipher.final("hex");
       res
         .status(202)
-        .json({ message: "Loggin Success", status: true, agent: agent });
+        .json({ message: "Loggin Success", status: true, agent: encrypted });
     }
+  }
+};
+export const CheckLoginInfo = async (req, res, next) => {
+  const { agent } = req.params;
+  const decryptedAgent =
+    DeCipher.update(agent, "hex", "utf8") + DeCipher.final("utf8"); //deciphered text
+  const panelExists = await CPanel.exists({ agent: decryptedAgent });
+  if (panelExists) {
+    const isLoggedIn = await CPanel.findOne(
+      {
+        agent: decryptedAgent,
+      },
+      {
+        isLoggedIn: 1,
+      }
+    );
+    console.log(isLoggedIn);
+  }
+};
+export const logOut = async (req, res, next) => {
+  const { agent } = req.body;
+  const decryptedAgent =
+    DeCipher.update(agent, "hex", "utf8") + DeCipher.final("utf8"); //deciphered text
+  const panelExists = await CPanel.exists({ agent: decryptedAgent });
+  if (panelExists) {
+    const logout = await CPanel.findByIdAndUpdate(panel._id, {
+      isLoggedIn: false,
+    });
+    console.log(logout);
+    res
+        .status(202)
+        .json({ message: "log out Success", status: true});
   }
 };

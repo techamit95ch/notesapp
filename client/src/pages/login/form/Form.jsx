@@ -123,12 +123,7 @@ export function LogInForm() {
             }
           />
         </FormControl>
-        <Checkbox
-          defaultChecked
-          color="primary"
-          inputProps={{ "aria-label": "secondary checkbox" }}
-        />{" "}
-        Save Login Details
+
         <Col class="clearfix">
           <Fab
             type="submit"
