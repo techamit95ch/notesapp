@@ -32,6 +32,7 @@ export const loginAuth = (post) => async (dispatch) => {
   //   console.log(post);
   try {
     const { data } = await api.authLogin(post);
+    localStorage.clear();
 
     if (data.status) {
       localStorage.setItem("isLogin", data.status);
@@ -48,11 +49,7 @@ export const loginAuth = (post) => async (dispatch) => {
 };
 export const checkLoggedin = () => async (dispatch) => {
   try {
-    if (
-      localStorage["agent"] &&
-      localStorage["isLogin"]
-    ) {
-      
+    if (localStorage["agent"] && localStorage["isLogin"]) {
       console.log("Logged in");
     }
     // dispatch({ type: "FETCH_ALL", payload: data });

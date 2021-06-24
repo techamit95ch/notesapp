@@ -134,6 +134,14 @@ export function LogInForm() {
           >
             Login
           </Fab>
+          <Button
+            variant="extended"
+            color="primary"
+            aria-label="add"
+            className="registerbtn"
+          >
+            <Link to="/auth/signin">Sign In</Link>
+          </Button>
           <Col class="container signin"></Col>
         </Col>
       </Form>

@@ -128,7 +128,7 @@ export function SignInForm({ getUid, setOtp }) {
       >
         <DialogTitle id="max-width-dialog-title">Verify Key</DialogTitle>
         <DialogContent>
-          <p>Check Mail</p>
+          <p>Check Mail A verification Data is there</p>
           <Form noValidate>
             <FormControl>
               <TextField
@@ -213,8 +213,7 @@ export function PasswordForm({ param }) {
         fromReact: true,
         password: values.password,
       };
-      dispatch(createAuth(data));     
-     
+      dispatch(createAuth(data));
     }
   };
 

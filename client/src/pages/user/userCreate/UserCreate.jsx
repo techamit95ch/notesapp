@@ -33,13 +33,15 @@ import { red } from "@material-ui/core/colors";
 
 import { Room } from "@material-ui/icons";
 import ReactDOM from "react-dom";
+import { createProfile } from "../../../actions/profile";
+import { loginAuth } from "../../../actions/authInfo";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root2: {
     display: "flex",
     flexWrap: "wrap",
   },
-
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
@@ -60,116 +62,13 @@ const StudentDiv = ({ user, setUser }) => {
   const classes = useStyles();
   // const dispatch = useDispatch();
 
-  return (
-    <>
-      <TextField
-        label="Course"
-        id="outlined-margin-normal"
-        onChange={(e) =>
-          setUser({
-            ...user,
-            courseId: e.target.value,
-          })
-        }
-        select
-        className={classes.textField}
-        helperText="Course"
-        margin="normal"
-        variant="outlined"
-      >
-        <MenuItem key="courseId" value="courseId" disabled>
-          Course Label
-        </MenuItem>
-        <MenuItem key="courseId" value="courseId">
-          Java
-        </MenuItem>
-      </TextField>
-      <TextField
-        label="Semester"
-        id="outlined-margin-normal"
-        onChange={(e) =>
-          setUser({
-            ...user,
-            semester: e.target.value,
-          })
-        }
-        className={classes.textField}
-        helperText="Semester"
-        margin="normal"
-        variant="outlined"
-        type="link"
-      />
-    </>
-  );
+  return <></>;
 };
-const TeacherDiv = ( user, setUser ) => {
+const TeacherDiv = (user, setUser) => {
   const classes = useStyles();
   // const dispatch = useDispatch();
 
-  return (
-    <div>
-      <TextField
-        label="Current Position"
-        id="outlined-margin-normal"
-        onChange={(e) =>
-          setUser({
-            ...user,
-            curr_pos: e.target.value,
-          })
-        }
-        className={classes.textField}
-        helperText="Current Position"
-        margin="normal"
-        variant="outlined"
-        multiline
-      />
-      <TextField
-        label="Last Education"
-        id="outlined-margin-normal"
-        onChange={(e) =>
-          setUser({
-            ...user,
-            last_edu: e.target.value,
-          })
-        }
-        className={classes.textField}
-        helperText="Last Education"
-        margin="normal"
-        variant="outlined"
-        multiline
-      />
-      <TextField
-        label="Github Link"
-        id="outlined-margin-normal"
-        onChange={(e) =>
-          setUser({
-            ...user,
-            github: e.target.value,
-          })
-        }
-        className={classes.textField}
-        helperText="Github Link"
-        margin="normal"
-        variant="outlined"
-        type="link"
-      />
-      <TextField
-        label="LinkedIn Link"
-        id="outlined-margin-normal"
-        onChange={(e) =>
-          setUser({
-            ...user,
-            linkedIn: e.target.value,
-          })
-        }
-        className={classes.textField}
-        helperText="LinkedIn Link"
-        margin="normal"
-        variant="outlined"
-        type="link"
-      />
-    </div>
-  );
+  return <div></div>;
 };
 
 export default function UserCreate() {
@@ -177,13 +76,14 @@ export default function UserCreate() {
   // const dispatch = useDispatch();
 
   const [user, setUser] = useState({
+    agent: localStorage.getItem("agent"),
     roleId: "",
     name: "",
     phoneNumber: "",
     dob: "",
     courseId: "",
-    bannerImage: "",
-    profileImage: "",
+    // bannerImage: "",
+    // profileImage: "",
     role: "",
     semester: "",
     city: "",
@@ -198,28 +98,24 @@ export default function UserCreate() {
   //   dispatch();
   // }, [user, dispatch]);
 
-  const RoleDiv = () => {
-    if (user.role == "teacher") {
-      return <TeacherDiv />;
-    } else if (user.role == "student") {
-      return <StudentDiv />;
-    } else return "";
+  const [profileImage, setProfileImage] = useState({
+    selectedFile: null,
+  });
+  const profileImageHandler = (e) => {
+    e.preventDefault();
+    setProfileImage({
+      selectedFile: e.target.files[0],
+      loaded: 0,
+    });
   };
-  // const [profileImage, setProfileImage] = useState({
-  //   selectedFile: null,
-  // });
-  // const profileImageHandler = (e) => {
-  //   e.preventDefault();
-  //   setProfileImage({
-  //     selectedFile: e.target.files[0],
-  //     loaded: 0,
-  //   });
-  // };
+  const courses = useSelector((state) => state.course);
+  const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
-    // const data = new FormData();
-    // user.profileImage= profileImage.selectedFile;
-    console.log(user);
+    const formData = new FormData();
+    formData.append("profileImage", profileImage.selectedFile);
+    
+    dispatch(createProfile(formData));
   };
   return (
     <div className="usercreate">
@@ -305,14 +201,9 @@ export default function UserCreate() {
                 className={classes.textField}
                 helperText="Profile Image"
                 margin="normal"
-                onChange={(e) =>
-                  setUser({
-                    ...user,
-                    profileImage: e.target.files[0],
-                  })
-                }
+                onChange={profileImageHandler}
               />
-              <TextField
+              {/* <TextField
                 label="Cover Image"
                 id="outlined-margin-normal"
                 type="file"
@@ -322,10 +213,11 @@ export default function UserCreate() {
                 onChange={(e) =>
                   setUser({
                     ...user,
-                    coverImage: e.target.files[0],
+                    bannerImage: e.target.files[0],
                   })
                 }
-              />
+               /> 
+               */}
               <TextField
                 label="City"
                 id="outlined-margin-normal"
@@ -352,7 +244,7 @@ export default function UserCreate() {
                 onChange={(e) =>
                   setUser({
                     ...user,
-                    city: e.target.value,
+                    pin: e.target.value,
                   })
                 }
               />
@@ -371,6 +263,7 @@ export default function UserCreate() {
                     role: e.target.value,
                   })
                 }
+                required
               >
                 <MenuItem key="roleId" value="roleId" disabled>
                   Profile Role Label
@@ -400,12 +293,115 @@ export default function UserCreate() {
               {/*
   element Changes
 */}
-<div id ="student">
-  Student
-</div>
-<div id ="teacher">
-  Teacher
-</div>
+              <div
+                id="student"
+                className={user.role == "student" ? "" : "hidden"}
+              >
+                <TextField
+                  label="Course"
+                  id="outlined-margin-normal"
+                  onChange={(e) =>
+                    setUser({
+                      ...user,
+                      courseId: e.target.value,
+                    })
+                  }
+                  select
+                  className={classes.textField}
+                  helperText="Course"
+                  margin="normal"
+                  variant="outlined"
+                >
+                  <MenuItem key="courseId" value="courseId" disabled>
+                    Course Label
+                  </MenuItem>
+                  {courses.map((course) => (
+                    <MenuItem key={course._id} value={course._id}>
+                      {course.courseName}
+                    </MenuItem>
+                  ))}
+                </TextField>
+                <TextField
+                  label="Semester"
+                  id="outlined-margin-normal"
+                  onChange={(e) =>
+                    setUser({
+                      ...user,
+                      semester: e.target.value,
+                    })
+                  }
+                  className={classes.textField}
+                  helperText="Semester"
+                  margin="normal"
+                  variant="outlined"
+                  type="link"
+                />
+              </div>
+              <div
+                id="teacher"
+                className={user.role == "teacher" ? "" : "hidden"}
+              >
+                <TextField
+                  label="Current Position"
+                  id="outlined-margin-normal"
+                  onChange={(e) =>
+                    setUser({
+                      ...user,
+                      curr_pos: e.target.value,
+                    })
+                  }
+                  className={classes.textField}
+                  helperText="Current Position"
+                  margin="normal"
+                  variant="outlined"
+                  multiline
+                />
+                <TextField
+                  label="Last Education"
+                  id="outlined-margin-normal"
+                  onChange={(e) =>
+                    setUser({
+                      ...user,
+                      last_edu: e.target.value,
+                    })
+                  }
+                  className={classes.textField}
+                  helperText="Last Education"
+                  margin="normal"
+                  variant="outlined"
+                  multiline
+                />
+                <TextField
+                  label="Github Link"
+                  id="outlined-margin-normal"
+                  onChange={(e) =>
+                    setUser({
+                      ...user,
+                      github: e.target.value,
+                    })
+                  }
+                  className={classes.textField}
+                  helperText="Github Link"
+                  margin="normal"
+                  variant="outlined"
+                  type="link"
+                />
+                <TextField
+                  label="LinkedIn Link"
+                  id="outlined-margin-normal"
+                  onChange={(e) =>
+                    setUser({
+                      ...user,
+                      linkedIn: e.target.value,
+                    })
+                  }
+                  className={classes.textField}
+                  helperText="LinkedIn Link"
+                  margin="normal"
+                  variant="outlined"
+                  type="link"
+                />
+              </div>
               {/* <RoleDiv setUser={setUser} user={user} /> */}
             </div>
             <Fab

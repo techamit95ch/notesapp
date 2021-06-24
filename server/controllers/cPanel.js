@@ -6,6 +6,7 @@ import sha1 from "sha1";
 import sha512 from "js-sha512";
 import publicIp from "public-ip";
 import crypto from "crypto";
+import { Agent } from "https";
 const AlgorithmToUse = "aes-192-cbc"; //algorithm to use
 const AlgoPassword = "xVf*82mnIOmetz89HJGsb";
 const AlgoKey = crypto.scryptSync(AlgoPassword, "salt", 24); //create key
@@ -95,12 +96,17 @@ export const LoginInfo = async (req, res, next) => {
     else {
       const loggedIn = await CPanel.findByIdAndUpdate(panel._id, {
         isLoggedIn: true,
+        // aget: sha1(Agent),
       });
       const encrypted =
         Cipher.update(agent, "utf8", "hex") + Cipher.final("hex");
-      res
-        .status(202)
-        .json({ message: "Loggin Success", status: true, agent: encrypted });
+      // console.log(encrypted);
+      res.status(202).json({
+        message: "Loggin Success",
+        status: true,
+        agent: agent,
+        usname: encrypted,
+      });
     }
   }
 };
@@ -131,8 +137,6 @@ export const logOut = async (req, res, next) => {
       isLoggedIn: false,
     });
     console.log(logout);
-    res
-        .status(202)
-        .json({ message: "log out Success", status: true});
+    res.status(202).json({ message: "log out Success", status: true });
   }
 };

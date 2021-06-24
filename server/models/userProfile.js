@@ -12,7 +12,7 @@ const userProfileSchema = mongoose.Schema({
   },
   courseId: { type: mongoose.Schema.ObjectId },
   role: { type: String, default: "student" },
-  semester: { type: Number, required: true },
+  semester: { type: Number },
   city: { type: String },
   pin: { type: String },
   title: { type: String },
