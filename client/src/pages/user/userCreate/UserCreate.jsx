@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./usercreate.css";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -24,6 +24,7 @@ import {
   FormHelperText,
   MenuItem,
 } from "@material-ui/core";
+import { useDispatch } from "react-redux";
 
 import Rating from "@material-ui/lab/Rating";
 import clsx from "clsx";
@@ -31,6 +32,7 @@ import clsx from "clsx";
 import { red } from "@material-ui/core/colors";
 
 import { Room } from "@material-ui/icons";
+import ReactDOM from "react-dom";
 
 const useStyles = makeStyles((theme) => ({
   root2: {
@@ -54,14 +56,21 @@ const useStyles = makeStyles((theme) => ({
     width: "72ch",
   },
 }));
-const StudentDiv = () => {
+const StudentDiv = ({ user, setUser }) => {
   const classes = useStyles();
+  // const dispatch = useDispatch();
+
   return (
     <>
       <TextField
         label="Course"
         id="outlined-margin-normal"
-        defaultValue=""
+        onChange={(e) =>
+          setUser({
+            ...user,
+            courseId: e.target.value,
+          })
+        }
         select
         className={classes.textField}
         helperText="Course"
@@ -71,14 +80,19 @@ const StudentDiv = () => {
         <MenuItem key="courseId" value="courseId" disabled>
           Course Label
         </MenuItem>
-        <MenuItem key="courseId" value="courseId" >
+        <MenuItem key="courseId" value="courseId">
           Java
         </MenuItem>
       </TextField>
       <TextField
         label="Semester"
         id="outlined-margin-normal"
-        defaultValue=""
+        onChange={(e) =>
+          setUser({
+            ...user,
+            semester: e.target.value,
+          })
+        }
         className={classes.textField}
         helperText="Semester"
         margin="normal"
@@ -88,14 +102,21 @@ const StudentDiv = () => {
     </>
   );
 };
-const TeacherDiv = () => {
+const TeacherDiv = ( user, setUser ) => {
   const classes = useStyles();
+  // const dispatch = useDispatch();
+
   return (
     <div>
       <TextField
         label="Current Position"
         id="outlined-margin-normal"
-        defaultValue="Current Position"
+        onChange={(e) =>
+          setUser({
+            ...user,
+            curr_pos: e.target.value,
+          })
+        }
         className={classes.textField}
         helperText="Current Position"
         margin="normal"
@@ -105,7 +126,12 @@ const TeacherDiv = () => {
       <TextField
         label="Last Education"
         id="outlined-margin-normal"
-        defaultValue="Last Education"
+        onChange={(e) =>
+          setUser({
+            ...user,
+            last_edu: e.target.value,
+          })
+        }
         className={classes.textField}
         helperText="Last Education"
         margin="normal"
@@ -115,7 +141,12 @@ const TeacherDiv = () => {
       <TextField
         label="Github Link"
         id="outlined-margin-normal"
-        defaultValue="Github"
+        onChange={(e) =>
+          setUser({
+            ...user,
+            github: e.target.value,
+          })
+        }
         className={classes.textField}
         helperText="Github Link"
         margin="normal"
@@ -125,7 +156,12 @@ const TeacherDiv = () => {
       <TextField
         label="LinkedIn Link"
         id="outlined-margin-normal"
-        defaultValue="LinkedIn"
+        onChange={(e) =>
+          setUser({
+            ...user,
+            linkedIn: e.target.value,
+          })
+        }
         className={classes.textField}
         helperText="LinkedIn Link"
         margin="normal"
@@ -138,9 +174,8 @@ const TeacherDiv = () => {
 
 export default function UserCreate() {
   const classes = useStyles();
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+  // const dispatch = useDispatch();
+
   const [user, setUser] = useState({
     roleId: "",
     name: "",
@@ -159,19 +194,33 @@ export default function UserCreate() {
     curr_pos: "",
     last_edu: "",
   });
-  
-  const [role, setRole] = useState("");
-  const handleRoleChange = (event) => {
-    setRole(event.target.value);
-  };
+  // useEffect(() => {
+  //   dispatch();
+  // }, [user, dispatch]);
+
   const RoleDiv = () => {
-    if (role == "teacher") {
+    if (user.role == "teacher") {
       return <TeacherDiv />;
-    } else if (role == "student") {
+    } else if (user.role == "student") {
       return <StudentDiv />;
     } else return "";
   };
-
+  // const [profileImage, setProfileImage] = useState({
+  //   selectedFile: null,
+  // });
+  // const profileImageHandler = (e) => {
+  //   e.preventDefault();
+  //   setProfileImage({
+  //     selectedFile: e.target.files[0],
+  //     loaded: 0,
+  //   });
+  // };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // const data = new FormData();
+    // user.profileImage= profileImage.selectedFile;
+    console.log(user);
+  };
   return (
     <div className="usercreate">
       {/* {Update Form Div} */}
@@ -187,26 +236,35 @@ export default function UserCreate() {
               <TextField
                 label="User Id"
                 id="outlined-margin-normal"
-                
                 className={classes.textField}
                 helperText="User Id"
                 margin="normal"
                 variant="outlined"
+                onChange={(e) =>
+                  setUser({
+                    ...user,
+                    roleId: e.target.value,
+                  })
+                }
               />
               <TextField
                 label="Full Name"
                 id="outlined-margin-normal"
-                defaultValue="Full Name"
                 className={classes.textField}
                 helperText="Full Name"
                 margin="normal"
                 variant="outlined"
+                onChange={(e) =>
+                  setUser({
+                    ...user,
+                    name: e.target.value,
+                  })
+                }
               />
               <TextField
                 label="Phone"
                 type="number"
                 id="outlined-margin-normal"
-                defaultValue="00-0000000"
                 className={classes.textField}
                 helperText="Phone"
                 margin="normal"
@@ -214,12 +272,17 @@ export default function UserCreate() {
                 InputLabelProps={{
                   shrink: true,
                 }}
+                onChange={(e) =>
+                  setUser({
+                    ...user,
+                    phoneNumber: e.target.value,
+                  })
+                }
               />
               <TextField
                 label="DOB"
                 type="date"
                 id="outlined-margin-normal"
-                defaultValue="2017-05-24"
                 className={classes.textField}
                 helperText="DOB Date"
                 margin="normal"
@@ -227,6 +290,12 @@ export default function UserCreate() {
                 InputLabelProps={{
                   shrink: true,
                 }}
+                onChange={(e) =>
+                  setUser({
+                    ...user,
+                    dob: e.target.value,
+                  })
+                }
               />
               <div class="clear"></div>{" "}
               <TextField
@@ -236,6 +305,12 @@ export default function UserCreate() {
                 className={classes.textField}
                 helperText="Profile Image"
                 margin="normal"
+                onChange={(e) =>
+                  setUser({
+                    ...user,
+                    profileImage: e.target.files[0],
+                  })
+                }
               />
               <TextField
                 label="Cover Image"
@@ -244,26 +319,42 @@ export default function UserCreate() {
                 className={classes.textField}
                 helperText="Cover Image"
                 margin="normal"
+                onChange={(e) =>
+                  setUser({
+                    ...user,
+                    coverImage: e.target.files[0],
+                  })
+                }
               />
               <TextField
                 label="City"
                 id="outlined-margin-normal"
-                defaultValue="City"
                 className={classes.textField}
                 helperText="City"
                 margin="normal"
                 variant="outlined"
                 multiline
+                onChange={(e) =>
+                  setUser({
+                    ...user,
+                    city: e.target.value,
+                  })
+                }
               />
               <TextField
                 label="Pin"
                 id="outlined-margin-normal"
-                defaultValue="Pin"
                 className={classes.textField}
                 helperText="Pin"
                 margin="normal"
                 variant="outlined"
                 multiline
+                onChange={(e) =>
+                  setUser({
+                    ...user,
+                    city: e.target.value,
+                  })
+                }
               />
               <TextField
                 label="Profile Role"
@@ -274,7 +365,12 @@ export default function UserCreate() {
                 helperText="Profile Role"
                 margin="normal"
                 variant="outlined"
-                onChange={handleRoleChange}
+                onChange={(e) =>
+                  setUser({
+                    ...user,
+                    role: e.target.value,
+                  })
+                }
               >
                 <MenuItem key="roleId" value="roleId" disabled>
                   Profile Role Label
@@ -286,7 +382,6 @@ export default function UserCreate() {
                   Student
                 </MenuItem>
               </TextField>
-              
               <TextField
                 label="Profile Title"
                 id="outlined-margin-normal"
@@ -295,11 +390,23 @@ export default function UserCreate() {
                 margin="normal"
                 variant="outlined"
                 multiline
+                onChange={(e) =>
+                  setUser({
+                    ...user,
+                    title: e.target.value,
+                  })
+                }
               />
               {/*
   element Changes
 */}
-              <RoleDiv />
+<div id ="student">
+  Student
+</div>
+<div id ="teacher">
+  Teacher
+</div>
+              {/* <RoleDiv setUser={setUser} user={user} /> */}
             </div>
             <Fab
               className={classes.textField}
