@@ -165,7 +165,7 @@ export class EditorView extends Component {
   editor = null;
   handleSubmit=(event)=>{
     event.preventDefault();
-    const data = this.formData;
+    const data = { textdata: this.formData, roomId: this.props.roomId };    
     console.log(data);
   }
   render() {

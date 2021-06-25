@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   },
   backgroundColor: "#24292e",
 }));
-export default function Note() {
+export default function Note({ roomId }) {
   const [imageopen, setImagepen] = useState(false);
   const [pdfopen, setPDFOpen] = useState(false);
   const [textOpen, setTextOpen] = useState(false);
@@ -80,7 +80,7 @@ export default function Note() {
     <Container className="note">
       <Row className="courseTitleContainer">
         <Button className="courseAddButton" variant="outlined" color="primary">
-          <Link to="/note/">Create</Link>
+          <Link to={"/note-create/" + roomId}>Create</Link>
         </Button>
       </Row>
       <Row>

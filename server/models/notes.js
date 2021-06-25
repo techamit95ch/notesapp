@@ -1,15 +1,18 @@
 import mongoose from "mongoose";
-import { isEmail } from "validator";
-import { APP_URL } from "../config";
 
 const noteSchema = mongoose.Schema({
   roomId: {
-    type: String,
+    type: mongoose.Schema.ObjectId,
     trim: true,
     required: true,
     unique: true,
   },
   path: {
+    type: String,
+    trim: true,
+    required: true,
+  },
+  data: {
     type: String,
     trim: true,
     required: true,
@@ -21,18 +24,13 @@ const noteSchema = mongoose.Schema({
     required: true,
   },
   status: { type: Boolean, default: true },
-  notepath: {
-    type: String,
-    get: (notepath) => {
-      return `${APP_URL}/${notepath}`;
-    },
-  },
+
   createdAt: {
     type: Date,
     default: new Date(),
   },
 });
 
-const note = mongoose.model("course", noteSchema);
+const note = mongoose.model("notes", noteSchema);
 
 export default note;

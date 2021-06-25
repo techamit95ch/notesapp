@@ -17,10 +17,12 @@ import { MoreVert, Edit, Visibility, HighlightOff } from "@material-ui/icons";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
+import { useParams } from "react-router-dom";
 
-export default function NoteTable(props) {
+export default function NoteTable({ data,roomId }) {
   // Avatar
   // console.log(props);
+
   const useStyles = makeStyles((theme) => ({
     root: {
       display: "flex",
@@ -68,7 +70,7 @@ export default function NoteTable(props) {
     },
   ];
 
-  const rows: GridRowsProp = props.data;
+  const rows: GridRowsProp = data;
 
   return (
     <Container style={{ width: "100%" }} className="notetable">

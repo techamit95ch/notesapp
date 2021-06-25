@@ -17,12 +17,6 @@ import {
   GridColDef,
 } from "@material-ui/data-grid";
 import Form from "react-bootstrap/Form";
-// import FormControl from "react-bootstrap/FormControl";
-// import FormCheck from "react-bootstrap/FormCheck";
-// import FormFile from "react-bootstrap/FormFile";
-// import Row from "react-bootstrap/Row";
-// import Col from "react-bootstrap/Col";
-
 import { Avatar, Button, Menu, MenuItem, Fade } from "@material-ui/core";
 import { useDemoData } from "@material-ui/x-grid-data-generator";
 import { MoreVert, Edit, Visibility, HighlightOff } from "@material-ui/icons";

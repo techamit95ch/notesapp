@@ -22,7 +22,11 @@ import {
   Tabs,
   Nav,
 } from "react-bootstrap";
+import { useParams } from "react-router-dom";
+
 export default function NotesCreate() {
+    const { roomId } = useParams();
+
   const [key, setKey] = useState("home");
   return (
     <Container className="notescreate">
@@ -42,19 +46,19 @@ export default function NotesCreate() {
               <DefaultView />
             </Tab>
             <Tab eventKey="editor" title="Editor">
-              <EditorView />
+              <EditorView roomId={roomId} />
             </Tab>
             <Tab eventKey="image" title="Image">
-              <ImgView />
+              <ImgView roomId={roomId} />
             </Tab>
             <Tab eventKey="doc" title="Doc">
-              <DocView />
+              <DocView roomId={roomId} />
             </Tab>
             <Tab eventKey="pdf" title="Pdf">
-              <PdfView />
+              <PdfView roomId={roomId} />
             </Tab>
             <Tab eventKey="media" title="Media">
-              <MediaView />
+              <MediaView roomId={roomId}/>
             </Tab>
           </Tabs>
         </Col>

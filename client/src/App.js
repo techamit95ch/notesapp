@@ -138,6 +138,13 @@ function App() {
             <NotesCreate />
           </div>
         </Route>
+        <Route exact path="/note-create/:roomId">
+          <TopBar />
+          <div className="container1">
+            <SideBar />
+            <NotesCreate />
+          </div>
+        </Route>
       </Switch>
     </Router>
   );

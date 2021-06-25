@@ -8,12 +8,14 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import { Avatar, Button, Menu, MenuItem, Fade } from "@material-ui/core";
+import { useParams } from "react-router-dom";
 
 export default function NotesView() {
+  const { roomId } = useParams();
   return (
     <Container className="notesview">
-      <NoteTable data={courseRowData} />
-      <Note />
+      <NoteTable data={courseRowData} roomId={roomId} />
+      <Note roomId={roomId} />
     </Container>
   );
 }
