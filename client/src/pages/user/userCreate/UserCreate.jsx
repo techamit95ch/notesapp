@@ -114,7 +114,22 @@ export default function UserCreate() {
     e.preventDefault();
     const formData = new FormData();
     formData.append("profileImage", profileImage.selectedFile);
-    
+    formData.append("name", user.name);
+    formData.append("phoneNumber", user.phoneNumber);
+    formData.append("dob", user.dob);
+    formData.append("courseId", user.courseId);
+    formData.append("role", user.role);
+    formData.append("city", user.city);
+    formData.append("semester", user.semester);
+    formData.append("agent", user.agent);
+    formData.append("roleId", user.roleId);
+    formData.append("last_edu", user.last_edu);
+    formData.append("curr_pos", user.curr_pos);
+    formData.append("github", user.github);
+    formData.append("linkedIn", user.linkedIn);
+    formData.append("title", user.title);
+    formData.append("pin", user.pin);
+    console.log(formData);
     dispatch(createProfile(formData));
   };
   return (

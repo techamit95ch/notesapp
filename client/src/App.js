@@ -33,15 +33,6 @@ function App() {
   useEffect(() => {
     dispatch(getCourses());
   }, [dispatch]);
-  
-  // if (
-  //   localStorage["agent"] &&
-  //   localStorage["isLogin"]
-  // ) {
-  //   console.log("Logged in");
-  // }
-
-  // const [getCourseData, setGetCourseData]= useState(getCourses());
   return (
     <Router className="App">
       <Switch>
@@ -108,6 +99,13 @@ function App() {
           <div className="container1">
             <SideBar />
             <Subject />
+          </div>
+        </Route>
+        <Route exact path="/classroom/:sid">
+          <TopBar />
+          <div className="container1">
+            <SideBar />
+            <ClassRoom />
           </div>
         </Route>
         <Route exact path="/classroom">

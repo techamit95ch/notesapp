@@ -86,6 +86,7 @@ export const LoginInfo = async (req, res, next) => {
     }
     const panel = await CPanel.findOne({ uid: uid });
     const salt = panel.salt;
+    // const role = panel.role;
 
     const agent = panel.agent;
     const cpassword =
@@ -105,6 +106,7 @@ export const LoginInfo = async (req, res, next) => {
         message: "Loggin Success",
         status: true,
         agent: agent,
+        // role: role,
         usname: encrypted,
       });
     }

@@ -8,6 +8,7 @@ import subjectRoute from "./routes/subject.js";
 import emailRoute from "./routes/email.js";
 import authRoute from "./routes/auth.js";
 import profileRoute from "./routes/profile.js";
+import classRoute from "./routes/classroom.js";
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use("/subject", subjectRoute);
 app.use("/email", emailRoute);
 app.use("/auth", authRoute);
 app.use("/profile", profileRoute);
+app.use("/class", classRoute);
 
 // const CONNECTION_URL =
 // "mongodb+srv://amit:amit1234@cluster0.ezjz3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";

@@ -20,8 +20,10 @@ import Form from "react-bootstrap/Form";
 // import FormControl from "react-bootstrap/FormControl";
 // import FormCheck from "react-bootstrap/FormCheck";
 // import FormFile from "react-bootstrap/FormFile";
-// import Row from "react-bootstrap/Row";
-// import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Card from "react-bootstrap/Card";
 
 import { Avatar, Button, Menu, MenuItem, Fade } from "@material-ui/core";
 import { useDemoData } from "@material-ui/x-grid-data-generator";
@@ -32,17 +34,43 @@ import InputLabel from "@material-ui/core/InputLabel";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { createRoom } from "../../actions/classroom";
+import { useHistory } from "react-router-dom";
+
 export default function ClassRoom() {
   // Menu
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-
+  const { sid } = useParams();
+  const history =useHistory();
   //Modal
   const [show, setShow] = React.useState(false);
+  const [roomNumber, setRoomNumber] = React.useState(0);
+  const [semester, setSemester] = React.useState(0);
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
+  const handleShow = () => {
+    setRoomNumber(
+      Date.now().toString() + sid + Math.floor(Math.random() * 100 + 1)
+    );
+    setShow(true);
+  };
+  const dispatch = useDispatch();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = {
+      roomNumber: roomNumber,
+      semester: semester,
+      subjectId: sid,
+      
+    };
+    dispatch(createRoom(data));
+    history.push("/notes");
+    // createRoom;
+  };
   // Avatar
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -67,53 +95,11 @@ export default function ClassRoom() {
     },
   }));
   const classes = useStyles();
-  // DataGrid
-  const columns: GridColDef[] = [
-    { field: "id", headerName: "Subject Id", width: 250 },
-
-    {
-      field: "subjectName",
-      headerName: "Subject",
-      width: 350,
-      renderCell: (param) => {
-        return (
-          <div className={classes.root}>
-            <Avatar src={param.row.avatar}>{param.row.courseName[0]}</Avatar>
-
-            {param.row.courseName}
-          </div>
-        );
-      },
-    },
-
-    { field: "courseId", headerName: "Course ", width: 250 },
-    {
-      field: "action",
-      headerName: "Action",
-      width: 300,
-      renderCell: (param) => {
-        return (
-          <>
-
-            <Edit color="disabled" />
-            <HighlightOff color="secondary" title="Disband" />
-          </>
-        );
-      },
-    },
-  ];
-
-  const rows: GridRowsProp = courseRowData;
-  // const { data } = useDemoData({
-  //   dataSet: "Commodity",
-  //   rowLength: 10,
-  //   maxColumns: 6,
-  // });
 
   return (
-    <div style={{ width: "100%" }} className="course">
+    <div className="room">
       <div className="courseTitleContainer">
-        <h3 className="courseTitle">{"Subject Lists"}</h3>
+        <h3 className="courseTitle">{"Class Room"}</h3>
 
         <Button
           className="courseAddButton"
@@ -135,58 +121,39 @@ export default function ClassRoom() {
           backdrop="static"
           keyboard={false}
         >
-          <Form method="POST">
+          <Form method="POST" onSubmit={handleSubmit}>
             <Modal.Header closeButton>
-              <Modal.Title>Add Subject</Modal.Title>
+              <Modal.Title>Add Room</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <div class="form-row">
                 <div class={classes.root2}>
                   <TextField
-                    label="Subject Id"
-                    id="outlined-margin-normal"
-                    defaultValue="Subject"
+                    label="Room Number"
+                    id="roomNumber"
+                    value={roomNumber}
                     className={classes.textField}
-                    helperText="Subject Id"
+                    helperText="Room Number"
                     margin="normal"
                     variant="outlined"
+                    readonly
                   />
                   <TextField
-                    label="Subject Name"
-                    id="outlined-margin-normal"
-                    defaultValue="Subject Name"
+                    label="Semester"
+                    onChange={(e) => setSemester(e.target.value)}
+                    id="roomNumber"
                     className={classes.textField}
-                    helperText="Subject Name"
+                    helperText="Semester"
+                    type="number"
                     margin="normal"
                     variant="outlined"
                   />
-                  <FormControl className={classes.formControl}>
-                     <InputLabel htmlFor="grouped-select">Course</InputLabel>
-                    <Select
-
-                      id="grouped-select"
-                      className={classes.selectField}
-
-                      margin="normal"
-                      label="Course"
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <ListSubheader>Category 1</ListSubheader>
-                      <MenuItem value={1}>Option 1</MenuItem>
-                      <MenuItem value={2}>Option 2</MenuItem>
-                      <ListSubheader>Category 2</ListSubheader>
-                      <MenuItem value={3}>Option 3</MenuItem>
-                      <MenuItem value={4}>Option 4</MenuItem>
-                    </Select>
-                  </FormControl>
                 </div>
               </div>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="contained" color="primary" onClick={handleClose}>
-                Add Subject
+              <Button variant="contained" color="primary" type="submit">
+                create
               </Button>
             </Modal.Footer>
           </Form>
@@ -195,13 +162,21 @@ export default function ClassRoom() {
           //Modal End
         }
       </div>
-
-      <DataGrid
-        rows={rows}
-        disableSelectionOnclick
-        columns={columns}
-        pageSize={10}
-      />
+      <Container>
+        <Row>
+          <Col xs={12}>
+            <Row>
+              <div>
+                <div xs={3} class=" card">
+                  <h3>Card 1</h3>
+                  <p>Some text</p>
+                  <p>Some text</p>
+                </div>
+              </div>
+            </Row>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 }

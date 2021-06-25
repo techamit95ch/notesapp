@@ -1,32 +1,28 @@
 import mongoose from "mongoose";
-import { isEmail } from "validator";
+// import { isEmail } from "validator";
 
 const ClassRoomSchema = mongoose.Schema({
-  roomId: {
+  roomNumber: {
     type: String,
     trim: true,
     required: true,
-    unique: true,
   },
-  roomLink: {
-    type: String,
+  semester: {
+    type: Number,
     trim: true,
-    required: true,
-    unique: true,
-  },
-  courseId: {
-    type: String,
-    trim: true,
-
     required: true,
   },
   subjectId: {
-    type: String,
+    type: mongoose.Schema.ObjectId,
 
     trim: true,
     required: true,
   },
   uId: {
+    type: mongoose.Schema.ObjectId,
+    required: true,
+  },
+  role: {
     type: String,
     trim: true,
     required: true,
@@ -38,6 +34,6 @@ const ClassRoomSchema = mongoose.Schema({
   },
 });
 
-const ClassRoom = mongoose.model("course", ClassRoomSchema);
+const ClassRoom = mongoose.model("classroom", ClassRoomSchema);
 
 export default ClassRoom;

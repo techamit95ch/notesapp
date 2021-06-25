@@ -112,7 +112,7 @@ export default function Subject() {
           <>
             <Edit color="disabled" />
             <HighlightOff color="secondary" title="Disband" />
-            <Link to={"/subject-notes/" + param.row.id}>
+            <Link to={"/classroom/" + param.row.id}>
               {" "}
               <InputIcon color="#1D2229" />
             </Link>

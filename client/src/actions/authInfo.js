@@ -37,6 +37,7 @@ export const loginAuth = (post) => async (dispatch) => {
     if (data.status) {
       localStorage.setItem("isLogin", data.status);
       localStorage.setItem("agent", data.agent);
+      localStorage.setItem("role", data.role);
       window.location.replace("http://localhost:8521");
     } else {
       console.log(data);

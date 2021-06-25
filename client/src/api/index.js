@@ -13,6 +13,7 @@ const emailUrl = mainUrl + "email";
 const authCreateUrl = mainUrl + "auth/create";
 const authLoginUrl = mainUrl + "auth/login";
 const profileUrl = mainUrl + "profile";
+const classUrl = mainUrl + "class";
 
 export const createCourse = (newCousre) => axios.post(courseUrl, newCousre);
 export const fetchCourses = () => axios.get("http://localhost:2973/course");
@@ -21,11 +22,9 @@ export const fetchSubjects = (id) =>
   axios.get(`http://localhost:2973/subject/${id}`);
 export const createEmail = (newEmail) => axios.post(emailUrl, newEmail);
 export const createProfile = (data) => axios.post(profileUrl, data);
-
 export const matchUID = (uid) => axios.get(emailUrl + "/" + uid);
-
 // export const fetchSubjects = (id) => axios.get("http://localhost:2973/subject/231");
-
 export const sendMail = (newMail) => axios.post(verifyMail, newMail);
 export const authCreate = (data) => axios.post(authCreateUrl, data);
 export const authLogin = (data) => axios.post(authLoginUrl, data);
+export const createClassRoom = (data) => axios.post(classUrl, data);
