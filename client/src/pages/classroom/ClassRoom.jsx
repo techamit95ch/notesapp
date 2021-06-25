@@ -1,5 +1,5 @@
 import "./classroom.css";
-import * as React from "react";
+import React, { useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import ModalDialog from "react-bootstrap/ModalDialog";
 import ModalHeader from "react-bootstrap/ModalHeader";
@@ -37,7 +37,7 @@ import Select from "@material-ui/core/Select";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { createRoom } from "../../actions/classroom";
+import { createRoom, getClassRoom } from "../../actions/classroom";
 import { useHistory } from "react-router-dom";
 
 export default function ClassRoom() {
@@ -45,7 +45,14 @@ export default function ClassRoom() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const { sid } = useParams();
-  const history =useHistory();
+  const history = useHistory();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getClassRoom());
+  }, [dispatch]);
+
+  const rooms = useSelector((state) => state.classrooms);
+  console.log(rooms);
   //Modal
   const [show, setShow] = React.useState(false);
   const [roomNumber, setRoomNumber] = React.useState(0);
@@ -58,14 +65,13 @@ export default function ClassRoom() {
     );
     setShow(true);
   };
-  const dispatch = useDispatch();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = {
       roomNumber: roomNumber,
       semester: semester,
       subjectId: sid,
-      
     };
     dispatch(createRoom(data));
     history.push("/notes");
@@ -166,13 +172,17 @@ export default function ClassRoom() {
         <Row>
           <Col xs={12}>
             <Row>
-              <div>
-                <div xs={3} class=" card">
-                  <h3>Card 1</h3>
-                  <p>Some text</p>
-                  <p>Some text</p>
+              {rooms.map((room) => (
+                <div>
+                  <div xs={3} class=" card">
+                    <h3>"Room"</h3>
+                    <p>{room.roomNumber}</p>
+                    <Link to={"/room-notes/" + room._id}>
+                      <p>{room.roomNumber}</p>
+                    </Link>
+                  </div>
                 </div>
-              </div>
+              ))}
             </Row>
           </Col>
         </Row>

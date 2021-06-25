@@ -12,3 +12,15 @@ export const createRoom = (post) => async (dispatch) => {
     console.log({ message: error.message });
   }
 };
+// getClassRoom;
+export const getClassRoom = () => async (dispatch) => {
+  try {
+    const { data } = await api.getClassRoom({
+      agent: localStorage.getItem("agent"),
+    });
+    // console.log({ type: "FETCH", payload: data });
+    dispatch({ type: "FETCHCLASS", payload: data });
+  } catch (error) {
+    console.log({ message: error.message });
+  }
+};

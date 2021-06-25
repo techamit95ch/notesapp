@@ -28,3 +28,4 @@ export const sendMail = (newMail) => axios.post(verifyMail, newMail);
 export const authCreate = (data) => axios.post(authCreateUrl, data);
 export const authLogin = (data) => axios.post(authLoginUrl, data);
 export const createClassRoom = (data) => axios.post(classUrl, data);
+export const getClassRoom = (data) => axios.post(classUrl + "/getRooms", data);

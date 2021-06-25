@@ -2,16 +2,26 @@ import classroom from "../models/classRoom.js";
 import CPanel from "../models/cPanel.js";
 import Profile from "../models/userProfile.js";
 
-// export const getSubjects = async (req, res, next) => {
-//   try {
-//     const { courseId } = req.params;
-//     const courses = await Subject.find({ courseId: courseId });
-//     // console.log(courses);
-//     res.status(200).json(courses);
-//   } catch (e) {
-//     res.status(404).json({ message: e.message });
-//   }
-// };
+export const getRooms = async (req, res, next) => {
+  try {
+    const { agent } = req.body;
+
+    const uid = await CPanel.findOne(
+      {
+        agent: agent,
+      },
+      {
+        _id: 1,
+      }
+    );
+    console.log(uid);
+    const rooms = await classroom.find({ uId: uid });
+    console.log(rooms);
+    res.status(200).json(rooms);
+  } catch (e) {
+    res.status(404).json({ message: e.message });
+  }
+};
 // export const getSubject = async (req, res, next) => {
 //   try {
 //     const { courseId } = req.params;

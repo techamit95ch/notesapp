@@ -18,6 +18,7 @@ import Login from "./pages/login/Login";
 import $ from "jquery";
 import { useDispatch } from "react-redux";
 import { getCourses } from "./actions/course";
+import { getClassRoom } from "./actions/classroom";
 import { getSubjects } from "./actions/subject";
 
 import bootstrap from "bootstrap";
@@ -32,6 +33,7 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCourses());
+    dispatch(getClassRoom());
   }, [dispatch]);
   return (
     <Router className="App">
@@ -122,7 +124,7 @@ function App() {
             <NotesView />
           </div>
         </Route>
-        <Route exact path="/subject-notes/:subjectId">
+        <Route exact path="/room-notes/:roomId">
           <TopBar />
           <div className="container1">
             <SideBar />
