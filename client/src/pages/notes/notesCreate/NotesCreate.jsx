@@ -66,9 +66,9 @@ export default function NotesCreate() {
             <Tab eventKey="pdf" title="Pdf">
               <PdfView roomId={roomId} />
             </Tab>
-            <Tab eventKey="media" title="Media">
+            {/* <Tab eventKey="media" title="Media">
               <MediaView roomId={roomId} />
-            </Tab>
+            </Tab> */}
           </Tabs>
         </Col>
       </Row>

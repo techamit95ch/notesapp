@@ -17,7 +17,11 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
 import FileBase from "react-file-base64";
 import { useSelector, useDispatch } from "react-redux";
-import { noteTextCreate,noteBase64tCreate, createFileNote } from "../../../../actions/notes.js";
+import {
+  noteTextCreate,
+  noteBase64tCreate,
+  createFileNote,
+} from "../../../../actions/notes.js";
 import { withRouter } from "react-router";
 import { useHistory } from "react-router-dom";
 import { browserHistory } from "react-router";
@@ -46,34 +50,129 @@ export const DefaultView = (props) => {
 export const ImgView = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const [image, setImage] = useState({
-    selectedFile: null,
-  });
+  // const [image, setImage] = useState({
+  //   selectedFile: null,
+  // });
   const [header, setHeader] = useState();
-  const handleChange = (e) => {
-    e.preventDefault();
-    // console.log(e.target.value);
-    const fileName = e.target.value;
-    const idxDot = fileName.lastIndexOf(".") + 1;
-    const extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
-    if (extFile == "jpg" || extFile == "jpeg") {
-      //TO DO
-      setImage({
-        selectedFile: e.target.files[0],
-        loaded: 0,
-      });
-    } else {
-      e.target.value = "";
-    }
-  };
+  // const handleChange = (e) => {
+  //   e.preventDefault();
+  //   // console.log(e.target.value);
+  //   const fileName = e.target.value;
+  //   const idxDot = fileName.lastIndexOf(".") + 1;
+  //   const extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+  //   if (extFile == "jpg" || extFile == "jpeg") {
+  //     //TO DO
+  //     setImage({
+  //       selectedFile: e.target.files[0],
+  //       loaded: 0,
+  //     });
+  //   } else {
+  //     e.target.value = "";
+  //   }
+  // };
+  const [img, setImg] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("file", image.selectedFile);
-    formData.append("roomId", props.roomId);
-    formData.append("noteType", "image");
-    formData.append("header", "header");
-    dispatch(createFileNote(formData));
+    // const formData = new FormData();
+    // formData.append("file", image.selectedFile);
+    // formData.append("roomId", props.roomId);
+    // formData.append("noteType", "image");
+    // formData.append("header", "header");
+    // dispatch(createFileNote(formData));
+    const data = {
+      textdata: img,
+      roomId: props.roomId,
+      noteType: "img",
+      header: header,
+    };
+    dispatch(noteBase64tCreate(data));
+    history.push("/room-notes/" + props.roomId);
+    // history.push("/room-notes/" + props.roomId);
+  };
+  const classes = useStyles();
+  return (
+    <Container>
+      <Row>
+        <Col>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="formGroupEmail">
+              <TextField
+                label="Note Name"
+                id="outlined-margin-normal"
+                className={classes.textField}
+                helperText="Note Name"
+                margin="normal"
+                variant="outlined"
+                onChange={(e) => setHeader(e.target.value)}
+                required
+              />
+              <br />
+              <Form.Label>Upload Jpeg Image Only: </Form.Label>
+              <br />
+              {/* <Input
+                label=" Image"
+                id="image"
+                type="file"
+                helperText="Image"
+                margin="normal"
+                accept=".jpg, .jpeg , image/jpeg"
+                onChange={handleChange}
+              /> */}
+              <div className={classes.fileInput}>
+                {/* <div className=""> */}
+                <FileBase
+                  label="Img"
+                  id="Img"
+                  type="file"
+                  helperText="Course Img"
+                  margin="normal"
+                  onDone={(e) => {
+                    // console.log(e);
+                    const type = e.type;
+
+                    console.log(type);
+                    if (type == "image/jpeg" || type == "image/jpg") {
+                      setImg(e.base64);
+                    } else {
+                      e.name = "";
+                      e.base64 = "";
+                    }
+                  }}
+                />{" "}
+              </div>
+            </Form.Group>
+            <Form.Group controlId="formGroupPassword">
+              <Fab
+                variant="extended"
+                color="success"
+                aria-label="add"
+                type="submit"
+              >
+                Submit
+              </Fab>
+            </Form.Group>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
+  );
+};
+export const DocView = (props) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const [header, setHeader] = useState();
+  const [doc, setDoc] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = {
+      textdata: doc,
+      roomId: props.roomId,
+      noteType: "doc",
+      header: header,
+    };
+    dispatch(noteBase64tCreate(data));
     history.push("/room-notes/" + props.roomId);
   };
   const classes = useStyles();
@@ -90,21 +189,39 @@ export const ImgView = (props) => {
                 helperText="Note Name"
                 margin="normal"
                 variant="outlined"
-                onChange={""}
+                onChange={(e)=>setHeader(e.target.value)}
                 required
               />
               <br />
-              <Form.Label>Upload Jpeg Image Only: </Form.Label>
+              <Form.Label>Upload Doc Only: </Form.Label>
               <br />
-              <Input
-                label=" Image"
-                id="image"
-                type="file"
-                helperText="Image"
-                margin="normal"
-                accept=".jpg, .jpeg , image/jpeg"
-                onChange={handleChange}
-              />
+              
+              <div className={classes.fileInput}>
+                {/* <div className=""> */}
+                <FileBase
+                  label="Doc"
+                  id="Doc"
+                  type="file"
+                  helperText="Course ImDocg"
+                  margin="normal"
+                  onDone={(e) => {
+                    // console.log(e);
+                    const type = e.type;
+
+                    // console.log(type);
+                    if (
+                      type ==
+                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
+                    ) {
+                      setDoc(e.base64);
+                    } else {
+                      e.name = "";
+                      e.base64 = "";
+                      window.alert("Not Valid Format");
+                    }
+                  }}
+                />{" "}
+              </div>
             </Form.Group>
             <Form.Group controlId="formGroupPassword">
               <Fab
@@ -205,41 +322,7 @@ export const PdfView = (props) => {
     </Container>
   );
 };
-export const DocView = (props) => {
-  const classes = useStyles();
-  return (
-    <Container>
-      <Row>
-        <Col>
-          <Form>
-            <Form.Group controlId="formGroupEmail">
-              <Form.Label>Upload Doc</Form.Label>
-              <div className={classes.fileInput}>
-                <TextField
-                  label=" Doc"
-                  id="outlined-margin-normal"
-                  type="file"
-                  helperText=" Doc"
-                  margin="normal"
-                />
-              </div>
-            </Form.Group>
-            <Form.Group controlId="formGroupButton">
-              <Fab
-                variant="extended"
-                color="success"
-                aria-label="add"
-                type="submit"
-              >
-                Submit
-              </Fab>
-            </Form.Group>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
-  );
-};
+
 export const MediaView = (props) => {
   const classes = useStyles();
   return (

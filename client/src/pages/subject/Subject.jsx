@@ -44,7 +44,7 @@ export default function Subject() {
     // console.log(cid);
     dispatch(getSubjects(idx));
   }, [dispatch]);
-  const subjects = useSelector((state) => state.subject);
+  const subjects = useSelector((state) => state.subjects);
 
   // console.log(subjects);
   const [anchorEl, setAnchorEl] = React.useState(null);
