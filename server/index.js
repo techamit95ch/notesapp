@@ -13,12 +13,12 @@ import noteRoute from "./routes/note.js";
 import path from "path";
 
 const app = express();
-const __dirname = path.resolve();
+// const __dirname = path.resolve();
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
-app.use(express.static(__dirname + "/public"));
+// app.use(express.static(__dirname + "/public"));
 
 // app.use("/posts", postRoutes);
 app.use("/note", noteRoute);
@@ -28,7 +28,6 @@ app.use("/email", emailRoute);
 app.use("/auth", authRoute);
 app.use("/profile", profileRoute);
 app.use("/class", classRoute);
-
 
 // const CONNECTION_URL =
 // "mongodb+srv://amit:amit1234@cluster0.ezjz3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";

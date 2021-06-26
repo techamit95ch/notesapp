@@ -17,7 +17,7 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
 import FileBase from "react-file-base64";
 import { useSelector, useDispatch } from "react-redux";
-import { noteTextCreate, createFileNote } from "../../../../actions/notes.js";
+import { noteTextCreate,noteBase64tCreate, createFileNote } from "../../../../actions/notes.js";
 import { withRouter } from "react-router";
 import { useHistory } from "react-router-dom";
 import { browserHistory } from "react-router";
@@ -123,22 +123,70 @@ export const ImgView = (props) => {
   );
 };
 export const PdfView = (props) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const [pdf, setPdf] = useState("");
+  // const [pdf2, setPdf2] = useState("");
+  const [header, setHeader] = useState();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("textdata", pdf);
+    // formData.append("file", pdf.selectedFile);
+    formData.append("roomId", props.roomId);
+    formData.append("noteType", "pdf");
+    formData.append("header", header);
+    const data = {
+      textdata: pdf,
+      roomId: props.roomId,
+      noteType: "pdf",
+      header: header,
+    };
+    dispatch(noteBase64tCreate(data));
+    history.push("/room-notes/" + props.roomId);
+  };
   const classes = useStyles();
   return (
     <Container>
       <Row>
         <Col>
-          <Form>
+          <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formGroupEmail">
+              <TextField
+                label="Note Name"
+                id="outlined-margin-normal"
+                className={classes.textField}
+                helperText="Note Name"
+                margin="normal"
+                variant="outlined"
+                onChange={(e) => setHeader(e.target.value)}
+                required
+              />
+              <br />
               <Form.Label>Upload PDF</Form.Label>
+              <br />
               <div className={classes.fileInput}>
-                <TextField
-                  label=" Pdf"
-                  id="outlined-margin-normal"
+                {/* <div className=""> */}
+                <FileBase
+                  label="Pdf"
+                  id="pdf"
                   type="file"
-                  helperText=" Pdf"
+                  helperText="Course Pdf"
                   margin="normal"
-                />
+                  onDone={
+                    ({ base64 }) => {
+                      // console.log(e.target.value);
+                      const ext = base64.split(";")[0].split("/")[1];
+                      // console.log(type);
+                      if (ext == "pdf") {
+                        setPdf(base64);
+                      }
+                    }
+                    // setCourseData({ ...courseData, courseImg: base64 })
+                  }
+                />{" "}
+                {/* </div> */}
               </div>
             </Form.Group>
             <Form.Group controlId="formGroupPassword">

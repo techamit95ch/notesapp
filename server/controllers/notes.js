@@ -32,6 +32,7 @@ export const noteTextCreate = async (req, res, next) => {
     data: req.body.textdata,
     roomId: req.body.roomId,
     noteType: req.body.noteType,
+    header: req.body.header,
   };
   const newNote = new Note(data);
   try {

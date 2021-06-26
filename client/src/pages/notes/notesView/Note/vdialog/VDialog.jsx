@@ -30,7 +30,7 @@ export const VDialogPDF = (props) => {
   return (
     <iframe
       src={props.path}
-      type="application/pdf"
+      type="application/html"
       className={classes.avatarImg}
     ></iframe>
   );
