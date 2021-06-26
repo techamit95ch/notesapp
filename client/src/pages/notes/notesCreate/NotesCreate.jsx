@@ -23,10 +23,14 @@ import {
   Nav,
 } from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+// import { browserHistory } from "react-router";
+// import { browserHistory } from "react-router";
 
 export default function NotesCreate() {
-    const { roomId } = useParams();
-
+  const { roomId } = useParams();
+  const history = useHistory();
+  // const browserHistory = browserHistory();
   const [key, setKey] = useState("home");
   return (
     <Container className="notescreate">
@@ -45,7 +49,12 @@ export default function NotesCreate() {
             >
               <DefaultView />
             </Tab>
-            <Tab eventKey="editor" title="Editor">
+            <Tab
+              eventKey="editor"
+              history={history}
+              // browserHistory={browserHistory}
+              title="Editor"
+            >
               <EditorView roomId={roomId} />
             </Tab>
             <Tab eventKey="image" title="Image">
@@ -58,7 +67,7 @@ export default function NotesCreate() {
               <PdfView roomId={roomId} />
             </Tab>
             <Tab eventKey="media" title="Media">
-              <MediaView roomId={roomId}/>
+              <MediaView roomId={roomId} />
             </Tab>
           </Tabs>
         </Col>

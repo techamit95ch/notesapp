@@ -1,4 +1,4 @@
-const subject = (courses = [], action) => {
+export default (subjects = [], action) => {
   switch (action.type) {
     case "FETCH_ALL":
       // return courses.map((post) =>
@@ -6,26 +6,26 @@ const subject = (courses = [], action) => {
       // );
       return action.payload;
     case "FETCH":
-      return courses.map((post) =>
+      return subjects.map((post) =>
         post.courseId === action.payload.courseId ? action.payload : post
       );
     //break;
     case "CREATE":
-      return [...courses, action.payload];
+      return [...subjects, action.payload];
     //break;
     case "DELETE":
-      return courses;
+      return subjects;
 
     //
     case "UPDATE":
-      return courses.map((post) =>
+      return subjects.map((post) =>
         post._id === action.payload._id ? action.payload : post
       );
     //break;
 
     default:
-      return courses;
+      return subjects;
     //  break;
   }
 };
-export default subject;
+// export default subject;

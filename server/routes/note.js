@@ -20,15 +20,40 @@ const storage = multer.diskStorage({
     cb(null, uniqueName);
   },
 });
-const upload = multer({ storage: storage });
+const multerStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public");
+  },
+  filename: (req, file, cb) => {
+    const ext = file.mimetype.split("/")[1];
+    cb(null, `files/admin-${file.fieldname}-${Date.now()}.${ext}`);
+  },
+});
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.split("/")[1] === "pdf") {
+    cb(null, true);
+  }else if (file.mimetype.split("/")[1] === "jpg") {
+    cb(null, true);
+  } else if (file.mimetype.split("/")[1] === "jpeg") {
+    cb(null, true);
+  } else if (file.mimetype.split("/")[1] === "doc") {
+    cb(null, true);
+  } else if (file.mimetype.split("/")[1] === "docx") {
+    cb(null, true);
+  } else {
+    cb(new Error("not Valid Type"), false);
+  }
+};
+// Multe;
+// const upload = multer({ storage: storage });
+const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
 
 const noteRoute = express.Router();
+noteRoute.post("/text", noteTextCreate);
+noteRoute.post("/file", upload.single("file"), noteCreate);
 
-// courseRoute.get("/", getCourses);
-noteRoute.post("/file/", upload.single("profileImage"), noteCreate);
-noteRoute.post("/text/", noteTextCreate);
-noteRoute.get("/", noteTextCreate);
-noteRoute.get("/:id", noteTextCreate);
+noteRoute.get("/", getNotes);
+// noteRoute.get("/:id", getNote);
 
 // courseRoute.patch("/:id", updatePost);
 

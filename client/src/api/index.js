@@ -14,6 +14,7 @@ const authCreateUrl = mainUrl + "auth/create";
 const authLoginUrl = mainUrl + "auth/login";
 const profileUrl = mainUrl + "profile";
 const classUrl = mainUrl + "class";
+const noteUrl = mainUrl + "note";
 
 export const createCourse = (newCousre) => axios.post(courseUrl, newCousre);
 export const fetchCourses = () => axios.get("http://localhost:2973/course");
@@ -29,3 +30,7 @@ export const authCreate = (data) => axios.post(authCreateUrl, data);
 export const authLogin = (data) => axios.post(authLoginUrl, data);
 export const createClassRoom = (data) => axios.post(classUrl, data);
 export const getClassRoom = (data) => axios.post(classUrl + "/getRooms", data);
+export const createFileNote = (data) => axios.post(noteUrl + "/file", data);
+export const noteTextCreate = (data) => axios.post(noteUrl + "/text", data);
+export const getNotes = () => axios.get(noteUrl);
+export const getNote = (id) => axios.get(noteUrl + "/" + id);

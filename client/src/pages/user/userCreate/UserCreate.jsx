@@ -157,6 +157,7 @@ export default function UserCreate() {
                     roleId: e.target.value,
                   })
                 }
+                accept=".jpg, .jpeg , image/jpeg"
               />
               <TextField
                 label="Full Name"

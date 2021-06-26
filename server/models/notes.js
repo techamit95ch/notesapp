@@ -3,19 +3,19 @@ import mongoose from "mongoose";
 const noteSchema = mongoose.Schema({
   roomId: {
     type: mongoose.Schema.ObjectId,
-    trim: true,
     required: true,
-    unique: true,
   },
   path: {
     type: String,
     trim: true,
-    required: true,
+  },
+  header: {
+    type: String,
+    trim: true,
   },
   data: {
     type: String,
     trim: true,
-    required: true,
   },
 
   noteType: {
