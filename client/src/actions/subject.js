@@ -4,7 +4,7 @@ import * as api from "../api/index.js";
 export const getSubjects = (cid) => async (dispatch) => {
   try {
     // console.log("--------------- Get Subjects ---------------");
-    console.log("---------------"+ cid+" ---------------");
+    // console.log("---------------"+ cid+" ---------------");
     const { data } = await api.fetchSubjects(cid);
     dispatch({ type: "FETCH_ALL", payload: data });
   } catch (error) {

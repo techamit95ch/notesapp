@@ -19,7 +19,7 @@ import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import { useParams } from "react-router-dom";
 
-export default function NoteTable({ data,roomId }) {
+export default function NoteTable({ data, roomId, setCurrentId }) {
   // Avatar
   // console.log(props);
 
@@ -35,26 +35,20 @@ export default function NoteTable({ data,roomId }) {
   // DataGrid
   const columns: GridColDef[] = [
     {
-      field: "courseName",
+      field: "Note",
       headerName: "Note",
-      width: 350,
+      width: 500,
       renderCell: (param) => {
         return (
           <div className={classes.root}>
-            <Avatar src={param.row.avatar}>{param.row.courseName[0]}</Avatar>
+            <Avatar>{param.row.header[0]}</Avatar>
 
-            {param.row.courseName}
+            {param.row.header}
           </div>
         );
       },
     },
 
-    {
-      field: "st_no",
-      headerName: "Reached",
-      type: "number",
-      width: 150,
-    },
     {
       field: "action",
       headerName: "Action",
@@ -62,16 +56,25 @@ export default function NoteTable({ data,roomId }) {
       renderCell: (param) => {
         return (
           <>
-            <Visibility color="primary" />
+            <Visibility
+              color="primary"
+              onClick={() => setCurrentId(param.row.id)}
+            />
             <HighlightOff color="secondary" title="Disband" />
           </>
         );
       },
     },
   ];
-
-  const rows: GridRowsProp = data;
-
+  const notes = data.map((item) => {
+    const container = {};
+    container["id"] = item._id;
+    container["header"] = item.header;
+    // container["subjectName"] = item.subjectName;
+    return container;
+  });
+  const rows: GridRowsProp = notes;
+  // console.log(data);
   return (
     <Container style={{ width: "100%" }} className="notetable">
       <Row className="courseTitleContainer">

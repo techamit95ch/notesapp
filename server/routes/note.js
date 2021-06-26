@@ -32,7 +32,7 @@ const multerStorage = multer.diskStorage({
 const multerFilter = (req, file, cb) => {
   if (file.mimetype.split("/")[1] === "pdf") {
     cb(null, true);
-  }else if (file.mimetype.split("/")[1] === "jpg") {
+  } else if (file.mimetype.split("/")[1] === "jpg") {
     cb(null, true);
   } else if (file.mimetype.split("/")[1] === "jpeg") {
     cb(null, true);
@@ -52,9 +52,17 @@ const noteRoute = express.Router();
 noteRoute.post("/text", noteTextCreate);
 noteRoute.post("/file", upload.single("file"), noteCreate);
 
-noteRoute.get("/", getNotes);
-// noteRoute.get("/:id", getNote);
-
+// noteRoute.get("/", getNotes);
+noteRoute.post("/", getNotes);
+// noteRoute.post("/single", getNote);
+// noteRoute.post("/single", (req, res) => {
+//   console.log(req.body);
+// });
+// noteRoute.get("/single", (req, res) => {
+//   console.log(req.body);
+// });
+noteRoute.get("/:_id", getNote);
+// console.log("-------- From Notes Router--------");
 // courseRoute.patch("/:id", updatePost);
 
 export default noteRoute;

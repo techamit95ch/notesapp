@@ -1,9 +1,6 @@
 export default (subjects = [], action) => {
   switch (action.type) {
     case "FETCH_ALL":
-      // return courses.map((post) =>
-      //   post.courseId === action.payload.courseId ? action.payload : post
-      // );
       return action.payload;
     case "FETCH":
       return subjects.map((post) =>

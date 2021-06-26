@@ -14,9 +14,9 @@ export const getRooms = async (req, res, next) => {
         _id: 1,
       }
     );
-    console.log(uid);
+    // console.log(uid);
     const rooms = await classroom.find({ uId: uid });
-    console.log(rooms);
+    // console.log(rooms);
     res.status(200).json(rooms);
   } catch (e) {
     res.status(404).json({ message: e.message });
@@ -50,7 +50,7 @@ export const createRoom = async (req, res, next) => {
       role: 1,
     }
   );
-  console.log(role);
+  // console.log(role);
   const classRoom = new classroom({
     subjectId: subjectId,
     roomNumber: roomNumber,

@@ -45,7 +45,7 @@ export default function Subject() {
     dispatch(getSubjects(idx));
   }, [dispatch]);
   const subjects = useSelector((state) => state.subjects);
-
+// console.log(subjects);
   // console.log(subjects);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -121,7 +121,7 @@ export default function Subject() {
     courseId: cid,
   });
   // const rows: GridRowsProp = courseRowData;
-  // console.log(subjects);
+  
   const sbj = subjects.map((item) => {
     const container = {};
     container["id"] = item._id;
@@ -129,8 +129,12 @@ export default function Subject() {
     container["subjectName"] = item.subjectName;
     return container;
   });
-  console.log(sbj);
+  
+  const sub = Object.entries(subjects);
+;
+  console.log(subjects, typeof subjects);
   const rows: GridRowsProp = sbj;
+  // const rows: GridRowsProp = subjects;
   const handleSubjectSubmit = (e) => {
     e.preventDefault();
 

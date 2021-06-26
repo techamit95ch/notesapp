@@ -5,6 +5,10 @@ const noteSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     required: true,
   },
+  uid: {
+    type: mongoose.Schema.ObjectId,
+    required: true,
+  },
   path: {
     type: String,
     trim: true,

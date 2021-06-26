@@ -189,13 +189,13 @@ export const DocView = (props) => {
                 helperText="Note Name"
                 margin="normal"
                 variant="outlined"
-                onChange={(e)=>setHeader(e.target.value)}
+                onChange={(e) => setHeader(e.target.value)}
                 required
               />
               <br />
               <Form.Label>Upload Doc Only: </Form.Label>
               <br />
-              
+
               <div className={classes.fileInput}>
                 {/* <div className=""> */}
                 <FileBase
@@ -211,7 +211,7 @@ export const DocView = (props) => {
                     // console.log(type);
                     if (
                       type ==
-                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
+                      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                     ) {
                       setDoc(e.base64);
                     } else {
@@ -420,9 +420,6 @@ export class EditorView extends Component {
                 >
                   Submit
                 </Fab>
-                <Link to={"/room-notes/" + this.props.roomId}>
-                  <Button color="primary">Back</Button>
-                </Link>
               </Col>
             </Col>
           </Row>

@@ -1,5 +1,5 @@
 import "./note.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -37,6 +37,8 @@ import TextFieldsRoundedIcon from "@material-ui/icons/TextFieldsRounded";
 import DescriptionIcon from "@material-ui/icons/Description";
 import PrintIcon from "@material-ui/icons/Print";
 import $ from "jquery";
+import { useDispatch, useSelector } from "react-redux";
+import { getNote, getSingleNote } from "../../../../actions/notes";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -51,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
   backgroundColor: "#24292e",
 }));
-export default function Note({ roomId }) {
+export default function Note({ roomId, currentId }) {
   const [imageopen, setImagepen] = useState(false);
   const [pdfopen, setPDFOpen] = useState(false);
   const [textOpen, setTextOpen] = useState(false);
@@ -76,9 +78,19 @@ export default function Note({ roomId }) {
     "https://docs.spring.io/spring-framework/docs/5.0.0.M1/spring-framework-reference/pdf/spring-framework-reference.pdf";
   const word =
     "https://view.officeapps.live.com/op/embed.aspx?src=http%3A%2F%2Fieee802%2Eorg%3A80%2Fsecmail%2FdocIZSEwEqHFr%2Edoc";
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getNote(currentId));
+  }, [dispatch]);
+  const note = useSelector((state) => state.singleNote);
+  const data = getSingleNote(currentId);
+  const [title, setTitle] = useState("Note Name");
+  const [subTitle, setSubTitle] = useState("September 14, 2016");
+  console.log(data);
   return (
     <Container className="note">
       <Row className="courseTitleContainer">
+        {/* {currentId} */}
         <Button className="courseAddButton" variant="outlined" color="primary">
           <Link to={"/note-create/" + roomId}>Create</Link>
         </Button>
@@ -86,7 +98,7 @@ export default function Note({ roomId }) {
       <Row>
         <Col sm={12}>
           <Card>
-            <CardHeader title="Note Name" subheader="September 14, 2016" />
+            <CardHeader title={title} subheader={subTitle} />
             <CardMedia
               component="img"
               alt="Contemplative Reptile"

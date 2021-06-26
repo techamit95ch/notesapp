@@ -2,8 +2,8 @@ import * as api from "../api/index.js";
 
 // export const getCourses = () => async (dispatch) => {
 export const getCourses = () => async (dispatch) => {
-  try {    
-    console.log("-------------From Action Course (getCourses)---------");
+  try {
+    // console.log("-------------From Action Course (getCourses)---------");
     const { data } = await api.fetchCourses();
     dispatch({ type: "FETCH_ALL_COURSES", payload: data });
   } catch (error) {
@@ -11,7 +11,7 @@ export const getCourses = () => async (dispatch) => {
     console.log(error.message);
   }
 };
-export const createCourse = async (post) =>{
+export const createCourse = async (post) => {
   try {
     const { data } = await api.createCourse(post);
     console.log("-------------From Action Course ---------");

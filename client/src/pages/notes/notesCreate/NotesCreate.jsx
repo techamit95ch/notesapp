@@ -36,19 +36,22 @@ export default function NotesCreate() {
     <Container className="notescreate">
       <Row>
         <Col sm={12}>
+          <Link to={"/room-notes/" + roomId}>
+            <Button color="primary" onClick={() => history.replace("/")}>
+              Back
+            </Button>
+          </Link>
           <Tabs
             id="controlled-tab-example"
             activeKey={key}
             onSelect={(k) => setKey(k)}
           >
-            <Tab
-              eventKey="chooseNote"
-              title="Choose Note"
-              disabled
-              activeKey={false}
-            >
-              <DefaultView />
+            <Tab eventKey="chooseNote" title="ChooseNote" disabled>
+              <Link to={"/room-notes/" + roomId}>
+                <DefaultView />
+              </Link>
             </Tab>
+
             <Tab
               eventKey="editor"
               history={history}

@@ -4,7 +4,7 @@ export const getCourses = async (req, res, next) => {
     const courses = await Course.find();
     // console.log(" Have been called from Node Js-----------------------");
     // console.log(courses);
-    console.log("---------- Have been called from Node Js-------------");
+    // console.log("---------- Have been called from Node Js-------------");
     res.status(200).json(courses);
   } catch (e) {
     res.status(404).json({ message: e.message });

@@ -32,5 +32,9 @@ export const createClassRoom = (data) => axios.post(classUrl, data);
 export const getClassRoom = (data) => axios.post(classUrl + "/getRooms", data);
 export const createFileNote = (data) => axios.post(noteUrl + "/file", data);
 export const noteTextCreate = (data) => axios.post(noteUrl + "/text", data);
-export const getNotes = () => axios.get(noteUrl);
-export const getNote = (id) => axios.get(noteUrl + "/" + id);
+export const getNotes = (data) => axios.post(noteUrl,data);
+// export const getNotes = () => axios.get("http://localhost:2973/note");
+// export const getNote = (data) =>
+//   axios.post("http://localhost:2973/note/single", data);
+export const getNote = (_id) => axios.get(noteUrl + "/" + _id);
+// console.log(noteUrl + "/single");

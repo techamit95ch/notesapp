@@ -7,3 +7,6 @@
   border: none;
 }
 /* mar */
+.hidden {
+  display: none;
+}

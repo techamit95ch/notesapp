@@ -19,7 +19,8 @@ import $ from "jquery";
 import { useDispatch } from "react-redux";
 import { getCourses } from "./actions/course";
 import { getClassRoom } from "./actions/classroom";
-import { getSubjects } from "./actions/subject";
+// import { getSubjects } from "./actions/subject";
+import { getNotes } from "./actions/notes";
 
 import bootstrap from "bootstrap";
 import ReactDOM, {
@@ -34,6 +35,7 @@ function App() {
   useEffect(() => {
     dispatch(getCourses());
     dispatch(getClassRoom());
+    //  dispatch(getNotes());
   }, [dispatch]);
   return (
     <Router className="App">
