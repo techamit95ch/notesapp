@@ -37,6 +37,7 @@ import { createProfile, createTextProfile } from "../../../actions/profile";
 import { loginAuth } from "../../../actions/authInfo";
 import { useSelector } from "react-redux";
 import FileBase from "react-file-base64";
+import { getCourses } from "../../../actions/course";
 
 const useStyles = makeStyles((theme) => ({
   root2: {
@@ -98,7 +99,13 @@ export default function UserCreate() {
   // useEffect(() => {
   //   dispatch();
   // }, [user, dispatch]);
+const dispatch = useDispatch();
 
+useEffect(() => {
+  dispatch(getCourses());
+  // dispatch(getClassRoom());
+  //  dispatch(getNotes());
+}, [dispatch]);
   const [profileImage, setProfileImage] = useState({
     selectedFile: null,
   });
@@ -112,7 +119,7 @@ export default function UserCreate() {
   const [img, setImg] = useState("");
 
   const courses = useSelector((state) => state.course);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
 

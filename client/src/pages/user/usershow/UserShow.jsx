@@ -28,9 +28,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function UserShow({ profile }) {
+export default function UserShow( props ) {
   const classes = useStyles();
-
+  const [profile, setProfile] = React.useState({
+    profileImage: "",
+    name: "",
+    title: "",
+    city: "",
+    pin: "",
+    phoneNumber: "",
+    github: "",
+    linkedIn: "",
+    curr_pos: "",
+    last_edu:"",
+  });
+  // const [profile, setProfile] = React.useState(profile.profile);
+  // setProfile(props.profile);
   return (
     <div className="usershow">
       <div className="row">
