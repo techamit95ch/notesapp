@@ -36,11 +36,14 @@ export default function NotesCreate() {
     <Container className="notescreate">
       <Row>
         <Col sm={12}>
-          <Link to={"/room-notes/" + roomId}>
-            <Button color="primary" onClick={() => history.replace("/")}>
-              Back
-            </Button>
-          </Link>
+          {/* <Link to={"/room-notes/" + roomId}> */}
+          <Button
+            color="primary"
+            onClick={() => history.replace("/room-notes/" + roomId)}
+          >
+            Back
+          </Button>
+          {/* </Link> */}
           <Tabs
             id="controlled-tab-example"
             activeKey={key}
@@ -63,12 +66,12 @@ export default function NotesCreate() {
             <Tab eventKey="image" title="Image">
               <ImgView roomId={roomId} />
             </Tab>
-            <Tab eventKey="doc" title="Doc">
+            {/* <Tab eventKey="doc" title="Doc">
               <DocView roomId={roomId} />
             </Tab>
             <Tab eventKey="pdf" title="Pdf">
               <PdfView roomId={roomId} />
-            </Tab>
+            </Tab> */}
             {/* <Tab eventKey="media" title="Media">
               <MediaView roomId={roomId} />
             </Tab> */}

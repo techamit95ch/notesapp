@@ -23,14 +23,21 @@ const useStyles = makeStyles((theme) => ({
 
 export const VDialogImg = (props) => {
   const classes = useStyles();
+  console.log(props.path);
   return <img className={classes.avatarImg} src={props.path} />;
 };
-export const VDialogPDF = (props) => {
+export const VDialogPDF = ({ path }) => {
   const classes = useStyles();
+  console.log(path);
   return (
+    // <iframe
+    //   src={path}
+    //   type="application/pdf"
+    //   className={classes.avatarImg}
+    // ></iframe>
     <iframe
-      src={props.path}
-      type="application/html"
+      src={path}
+     
       className={classes.avatarImg}
     ></iframe>
   );
@@ -66,7 +73,7 @@ export class VDialogText extends Component {
         }}
         onChange={(event, editor) => console.log({ event, editor })}
         editor={DecoupledEditor}
-        data="<p>Hello from CKEditor 5's decoupled editor!</p>"
+        data={this.props.data}
       />
     );
   }

@@ -1,38 +1,40 @@
 import classroom from "../models/classRoom.js";
 import CPanel from "../models/cPanel.js";
-import Profile from "../models/userProfile.js";
+import UserProfile from "../models/userProfile.js";
+import Subject from "../models/subject.js";
 
 export const getRooms = async (req, res, next) => {
   try {
     const { agent } = req.body;
 
-    const uid = await CPanel.findOne(
+    // const uid = await CPanel.findOne(
+    //   {
+    //     agent: agent,
+    //   },
+    //   {
+    //     _id: 1,
+    //   }
+    // );
+    // const user = await UserProfile.findOne({ uid: uid });
+    // console.log(user);
+    const rooms = await classroom.find({ uId: uid }).populate([
       {
-        agent: agent,
+        path: "agent",
+        model: UserProfile,
       },
       {
-        _id: 1,
-      }
-    );
-    // console.log(uid);
-    const rooms = await classroom.find({ uId: uid });
-    // console.log(rooms);
+        path: "subjectId",
+        model: Subject,
+      },
+    ]);
+    console.log(rooms);
     res.status(200).json(rooms);
   } catch (e) {
     res.status(404).json({ message: e.message });
   }
 };
-// export const getSubject = async (req, res, next) => {
-//   try {
-//     const { courseId } = req.params;
-
-//     const newCourse = await Course.findById(courseId);
-//     res.status(200).json(newCourse);
-//   } catch (e) {
-//     res.status(404).json({ message: e.message });
-//   }
-// };
 export const createRoom = async (req, res, next) => {
+  console.log(req.body);
   const { subjectId, roomNumber, agent, semester } = req.body;
   const uid = await CPanel.findOne(
     {
@@ -42,7 +44,7 @@ export const createRoom = async (req, res, next) => {
       _id: 1,
     }
   );
-  const role = await Profile.findOne(
+  const role = await UserProfile.findOne(
     {
       uid: uid,
     },
@@ -57,6 +59,8 @@ export const createRoom = async (req, res, next) => {
     role: role.role,
     semester: semester,
     uId: uid,
+    uid: uid,
+    agent: agent,
   });
   try {
     await classRoom.save().then(() => {

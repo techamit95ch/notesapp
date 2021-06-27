@@ -18,10 +18,11 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import { useParams } from "react-router-dom";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 export default function NoteTable({ data, roomId, setCurrentId }) {
   // Avatar
-  // console.log(props);
+  console.log(data);
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,11 +38,11 @@ export default function NoteTable({ data, roomId, setCurrentId }) {
     {
       field: "Note",
       headerName: "Note",
-      width: 500,
+      width: 400,
       renderCell: (param) => {
         return (
           <div className={classes.root}>
-            <Avatar>{param.row.header[0]}</Avatar>
+            <Avatar src={param.row.data}>{param.row.header}</Avatar>
 
             {param.row.header}
           </div>
@@ -80,12 +81,16 @@ export default function NoteTable({ data, roomId, setCurrentId }) {
       <Row className="courseTitleContainer">
         <h3 className="courseTitle">{"Note Lists"}</h3>
       </Row>
-      <DataGrid
-        rows={rows}
-        disableSelectionOnclick
-        columns={columns}
-        pageSize={20}
-      />
+      {!rows.length ? (
+        <CircularProgress />
+      ) : (
+        <DataGrid
+          rows={rows}
+          disableSelectionOnclick
+          columns={columns}
+          pageSize={20}
+        />
+      )}
     </Container>
   );
 }

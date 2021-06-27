@@ -57,8 +57,8 @@ export const noteTextCreate = async (req, res, next) => {
   }
 };
 export const getNote = async (req, res) => {
-  console.log("form get Note");
-  console.log(req.params);
+  // console.log("form get Note");
+  // console.log(req.params);
 
   try {
     const id = req.params._id;
@@ -82,25 +82,16 @@ export const getNotes = async (req, res) => {
   );
   try {
     // console.log("------------- from Get Notes ------------");
-    const notes = await Note.find(
-      { uid: uid, roomId: roomId },
-      { _id: 1, header: 1 }
+    var notes = await Note.find({ uid: uid, roomId: roomId });
+    const rooms = await ClassRoom.findOne(
+      { _id: roomId, role: "teacher" },
+      { uId: 1, subjectId: 1 }
     );
-    // const notes2 = await Note.find({ uid: uid }, { data: 0 }).populate([
-    //   {
-    //     path: "roomId",
-    //     model: ClassRoom,
-    //     select: "subjectId ",
-    //     populate: [
-    //       {
-    //         path: "subjectId",
-    //         select: "subjectName",
-    //         model: Subject,
-    //       },
-    //     ],
-    //   },
-    // ]);
-    // res.status(200).json({ note1: notes, note2: notes2 });
+    const subject = await Subject.findOne(
+      { _id: rooms.subjectId },
+      { subjectName: 1 }
+    );
+    const teacher = await userProfile.findOne({ uid: rooms.uId }, { name: 1 });
     res.status(200).json(notes);
     // console.log(notes2);
   } catch (e) {

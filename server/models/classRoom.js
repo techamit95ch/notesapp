@@ -22,6 +22,12 @@ const ClassRoomSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     required: true,
   },
+  uid: {
+    type: mongoose.Schema.ObjectId,
+  },
+  agent: {
+    type: String,
+  },
   role: {
     type: String,
     trim: true,

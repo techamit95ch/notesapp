@@ -24,6 +24,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { Avatar, Button, Menu, MenuItem, Fade } from "@material-ui/core";
 import { useDemoData } from "@material-ui/x-grid-data-generator";
@@ -47,13 +48,7 @@ export default function ClassRoom() {
   const { sid } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getClassRoom());
-  }, [dispatch]);
 
-  const rooms = useSelector((state) => state.classrooms);
-  console.log(rooms);
-  //Modal
   const [show, setShow] = React.useState(false);
   const [roomNumber, setRoomNumber] = React.useState(0);
   const [semester, setSemester] = React.useState(0);
@@ -74,7 +69,8 @@ export default function ClassRoom() {
       subjectId: sid,
     };
     dispatch(createRoom(data));
-    history.push("/notes");
+    setShow(false);
+    // history.push("/notes");
     // createRoom;
   };
   // Avatar
@@ -101,7 +97,13 @@ export default function ClassRoom() {
     },
   }));
   const classes = useStyles();
+  useEffect(() => {
+    dispatch(getClassRoom());
+  }, [dispatch]);
 
+  const rooms = useSelector((state) => state.classrooms);
+  console.log(rooms);
+  //Modal
   return (
     <div className="room">
       <div className="courseTitleContainer">
@@ -172,17 +174,22 @@ export default function ClassRoom() {
         <Row>
           <Col xs={12}>
             <Row>
-              {rooms.map((room) => (
-                <div>
-                  <div xs={3} class=" card">
-                    <h3>"Room"</h3>
-                    <p>{room.roomNumber}</p>
-                    <Link to={"/room-notes/" + room._id}>
-                      <p>{room.roomNumber}</p>
-                    </Link>
+              {!rooms.length ? (
+                <CircularProgress />
+              ) : (
+                rooms.map((room) => (
+                  <div>
+                    <div xs={3} class=" card">
+                      <h3>Subject: {room.subjectId.subjectName}</h3>
+                      <p>Room: {room.roomNumber}</p>
+                      <p> Sem: {room.semester}</p>
+                      <Link to={"/room-notes/" + room._id}>
+                        <p> Check Notes</p>
+                      </Link>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))
+              )}
             </Row>
           </Col>
         </Row>

@@ -39,6 +39,9 @@ import PrintIcon from "@material-ui/icons/Print";
 import $ from "jquery";
 import { useDispatch, useSelector } from "react-redux";
 import { getNote, getSingleNote } from "../../../../actions/notes";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import moment from "moment";
+import Iframe from "react-iframe";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -79,14 +82,20 @@ export default function Note({ roomId, currentId }) {
   const word =
     "https://view.officeapps.live.com/op/embed.aspx?src=http%3A%2F%2Fieee802%2Eorg%3A80%2Fsecmail%2FdocIZSEwEqHFr%2Edoc";
   const dispatch = useDispatch();
+  const [noteData, setNoteData] = useState({
+    header: "",
+    createdAt: "",
+    data: "",
+    noteType: "",
+  });
+
+  const note = useSelector((state) =>
+    currentId ? state.notes.find((message) => message._id === currentId) : null
+  );
   useEffect(() => {
-    dispatch(getNote(currentId));
-  }, [dispatch]);
-  const note = useSelector((state) => state.singleNote);
-  const data = getSingleNote(currentId);
-  const [title, setTitle] = useState("Note Name");
-  const [subTitle, setSubTitle] = useState("September 14, 2016");
-  console.log(data);
+    if (note) setNoteData(note);
+  }, [note]);
+
   return (
     <Container className="note">
       <Row className="courseTitleContainer">
@@ -97,77 +106,111 @@ export default function Note({ roomId, currentId }) {
       </Row>
       <Row>
         <Col sm={12}>
-          <Card>
-            <CardHeader title={title} subheader={subTitle} />
-            <CardMedia
-              component="img"
-              alt="Contemplative Reptile"
-              height="140"
-              image={img}
-              title="Contemplative Reptile"
-            />
-            <CardContent>
-              <Typography color="textSecondary" gutterBottom>
-                {"Teacher Name"}
-              </Typography>
-              <Typography color="textSecondary" gutterBottom>
-                {"Saubject Name"}
-              </Typography>
-              <Typography color="textSecondary" gutterBottom>
-                {"User Rating"}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <PanoramaRoundedIcon
-                onClick={() => handleClickOpen("image")}
-                color="primary"
+          {!currentId ? (
+            <CircularProgress disableShrink />
+          ) : (
+            <Card>
+              <CardHeader
+                title={noteData.header}
+                subheader={moment(noteData.createdAt).fromNow()}
               />
-              <PictureAsPdfRoundedIcon
-                onClick={() => handleClickOpen("pdf")}
-                color="primary"
-              />
-              <DescriptionIcon
-                onClick={() => handleClickOpen("word")}
-                color="primary"
-              />
-              <TextFieldsRoundedIcon
-                onClick={() => handleClickOpen("text")}
-                color="primary"
-              />
-              <Link to={pdf} target="_blank" download>
-                <GetAppRounded color="primary" />
-              </Link>
+              {/* <CardMedia
+                component="img"
+                alt={noteData.header}
+                height="140"
+                image={noteData.data}
+                title={noteData.header}
+              /> */}
+              {noteData.noteType == "img" ? (
+                <object>
+                  <Iframe
+                    src={noteData.data}
+                    width="450px"
+                    height="450px"
+                    id="myId"
+                    className="myClassname"
+                    display="initial"
+                    position="relative"
+                  />
+                </object>
+              ) : (
+                <CircularProgress disableShrink />
+              )}
+              {/* <CardContent>
+                <Typography color="textSecondary" gutterBottom>
+                  {"Teacher Name"}
+                </Typography>
+                <Typography color="textSecondary" gutterBottom>
+                  {"Subject Name"}
+                </Typography>
+              </CardContent> */}
+              <CardActions>
+                {/* {data.type=="img")}?  */}
+                {noteData.noteType == "img" ? (
+                  <PanoramaRoundedIcon
+                    onClick={() => handleClickOpen("image")}
+                    color="primary"
+                  />
+                ) : (
+                  ""
+                )}
+                {noteData.noteType == "pdf" ? (
+                  <PictureAsPdfRoundedIcon
+                    onClick={() => handleClickOpen("pdf")}
+                    color="primary"
+                  />
+                ) : (
+                  ""
+                )}
 
-              <Dialog fullScreen open={imageopen} onClose={handleClose}>
-                <DialogTitle className={classes.appBar}>
-                  <PrintIcon onClick={handlePrint} color="primary" />
-                  <Close onClick={handleClose} color="primary" />
-                </DialogTitle>
-                <VDialogImg path={img} />
-              </Dialog>
-              <Dialog fullScreen open={pdfopen} onClose={handleClose}>
-                <DialogTitle className={classes.appBar}>
-                  <PrintIcon onClick={handlePrint} color="primary" />
-                  <Close onClick={handleClose} color="inherit" />
-                </DialogTitle>
-                <VDialogPDF path={pdf} />
-              </Dialog>
-              <Dialog fullScreen open={textOpen} onClose={handleClose}>
-                <DialogTitle className={classes.appBar}>
-                  <PrintIcon onClick={handlePrint} color="primary" />
-                  <Close onClick={handleClose} color="inherit" />
-                </DialogTitle>
-                <VDialogText data="" />
-              </Dialog>
-              <Dialog fullScreen open={wordOpen} onClose={handleClose}>
-                <DialogTitle className={classes.appBar}>
-                  <PrintIcon onClick={handlePrint} color="primary" />
-                  <Close onClick={handleClose} color="inherit" />
-                </DialogTitle>
-                <VDialogWord path={word} />
-              </Dialog>
-            </CardActions>
-          </Card>
+                {noteData.noteType == "doc" ? (
+                  <DescriptionIcon
+                    onClick={() => handleClickOpen("word")}
+                    color="primary"
+                  />
+                ) : (
+                  ""
+                )}
+                {noteData.noteType == "text" ? (
+                  <TextFieldsRoundedIcon
+                    onClick={() => handleClickOpen("text")}
+                    color="primary"
+                  />
+                ) : (
+                  ""
+                )}
+
+                {/* <Link to={pdf} target="_blank" download>
+                  <GetAppRounded color="primary" />
+                </Link> */}
+
+                <Dialog fullScreen open={imageopen} onClose={handleClose}>
+                  <DialogTitle className={classes.appBar}>
+                    <Close onClick={handleClose} color="primary" />
+                  </DialogTitle>
+                  <VDialogImg path={noteData.data} />
+                </Dialog>
+                <Dialog fullScreen open={pdfopen} onClose={handleClose}>
+                  <DialogTitle className={classes.appBar}>
+                    <Close onClick={handleClose} color="inherit" />
+                  </DialogTitle>
+                  <VDialogPDF path={noteData.data.toString()} />
+                </Dialog>
+                <Dialog fullScreen open={textOpen} onClose={handleClose}>
+                  <DialogTitle className={classes.appBar}>
+                    <Close onClick={handleClose} color="inherit" />
+                  </DialogTitle>
+                  <VDialogText data={noteData.data} />
+                </Dialog>
+                <Dialog fullScreen open={wordOpen} onClose={handleClose}>
+                  <DialogTitle className={classes.appBar}>
+                    <Close onClick={handleClose} color="inherit" />
+                  </DialogTitle>
+                  <VDialogWord path={noteData.data} />
+                </Dialog>
+              </CardActions>
+            </Card>
+          )}
         </Col>
       </Row>
     </Container>

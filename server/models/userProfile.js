@@ -10,6 +10,7 @@ const userProfileSchema = mongoose.Schema({
   dob: {
     type: Date,
   },
+  uId: { type: String },
   courseId: { type: mongoose.Schema.ObjectId },
   role: { type: String, default: "student" },
   semester: { type: Number },
@@ -32,6 +33,6 @@ const userProfileSchema = mongoose.Schema({
   },
 });
 
-const userProfile = mongoose.model("userProfile", userProfileSchema);
+const UserProfile = mongoose.model("userProfile", userProfileSchema);
 
-export default userProfile;
+export default UserProfile;

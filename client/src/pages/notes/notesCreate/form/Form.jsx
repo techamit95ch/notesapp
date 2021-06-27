@@ -355,6 +355,12 @@ export const MediaView = (props) => {
 export class EditorView extends Component {
   formData = null;
   editor = null;
+  constructor(props) {
+    super(props);
+    this.roomId = this.props.roomId;
+    this.header="" ;
+  }
+
   // const [open, setOpen] = React.useState(true);
   // this.state.open=false;
   handleSubmit = (event) => {
@@ -362,14 +368,15 @@ export class EditorView extends Component {
     event.preventDefault();
     const data = {
       textdata: this.formData,
-      roomId: this.props.roomId,
+      roomId: this.roomId,
+      header: this.header,
       noteType: "text",
     };
     noteTextCreate(data);
     this.formData = null;
 
     // this.props.history.goBack(); //react-router (v4)
-    window.alert("Note Saved");
+    window.alert("Note Edtor Saved");
     // console.log(data);
   };
   render() {
@@ -384,6 +391,17 @@ export class EditorView extends Component {
             Data Saved
           </Alert> */}
           <Col sm={12}>
+            <TextField
+              label="Note Name"
+              id="outlined-margin-normal"
+             
+              helperText="Note Name"
+              margin="normal"
+              variant="outlined"
+              onChange={(e) => this.header=e.target.value}
+              required
+            />
+            <br />
             <CKEditor
               className="form-control"
               onReady={(editor) => {

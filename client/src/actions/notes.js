@@ -18,6 +18,8 @@ export const createFileNote = (post) => async (dispatch) => {
 export const noteTextCreate = async (noteData) => {
   try {
     // console.log(noteData);
+    noteData.agent = localStorage.getItem("agent");
+
     const { data } = await api.noteTextCreate(noteData);
     console.log("-------------From Action note ---------");
     console.log(data);
@@ -61,11 +63,11 @@ export const getNotes = (props) => async (dispatch) => {
 };
 export const getNote = (props) => async (dispatch) => {
   try {
-    console.log("---------from getNote -----");
-    console.log(props);
+    // console.log("---------from getNote -----");
+    // console.log(props);
     // props.agent = localStorage.getItem("agent");
     const { data } = await api.getNote(props);
-    console.log(data);
+    // console.log(data);
     dispatch({ type: "FETCH_NOTE", payload: data });
   } catch (error) {
     console.log(error.message);
@@ -73,15 +75,11 @@ export const getNote = (props) => async (dispatch) => {
 };
 export const getSingleNote = async (props) => {
   try {
-    console.log("---------from getNote -----");
-    console.log(props);
-    // props.agent = localStorage.getItem("agent");
     const { data } = await api.getNote(props);
-    console.log(data);
+    // console.log("from getSingleNote ===> ", data);
     return data;
-    // dispatch({ type: "FETCH_NOTE", payload: data });
-  } catch (error) {
-    console.log(error.message);
+  } catch (e) {
+    console.log(e.message);
   }
+  return null;
 };
-
