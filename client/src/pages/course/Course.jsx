@@ -286,6 +286,7 @@ const Course = ({ currentId, setCurrentId }) => {
                     className={classes.textField}
                     helperText="Course Type"
                     margin="normal"
+                    select
                     onChange={(e) =>
                       setCourseData({
                         ...courseData,
@@ -293,7 +294,17 @@ const Course = ({ currentId, setCurrentId }) => {
                       })
                     }
                     variant="outlined"
-                  />
+                  >
+                    <MenuItem key="roleId" value="" disabled>
+                      Course Type
+                    </MenuItem>
+                    <MenuItem key="regular" value="regular">
+                      Regular
+                    </MenuItem>
+                    <MenuItem key="other" value="other">
+                      Other Training
+                    </MenuItem>
+                  </TextField>
                 </div>
                 <Fab
                   className={classes.textField}
@@ -301,15 +312,7 @@ const Course = ({ currentId, setCurrentId }) => {
                   color="primary"
                   type="submit"
                 >
-                  Create
-                </Fab>
-                <Fab
-                  className={classes.textField}
-                  variant="contained"
-                  color="secondary"
-                  type="submit"
-                >
-                  Update
+                  Submit
                 </Fab>
               </div>
             </form>

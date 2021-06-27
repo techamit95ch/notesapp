@@ -36,13 +36,13 @@ import ReactDOM, {
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getCourses());
+    // dispatch(getCourses());
     dispatch(getProfile());
     dispatch(checkLoggedinInfo());
     // dispatch(getClassRoom());
     //  dispatch(getNotes());
   }, [dispatch]);
-
+  // const [courseId,setCourseId] =useState("");
   // const checkLoggedIn = useSelector((state) => state.authInfo);
   // const history = useHistory();
   

@@ -39,9 +39,13 @@ const Cards = ({ course }) => {
       </div>
       <div className={classes.overlay2}>
         <Button style={{ color: "white" }} size="small">
-          <Link to={"/course/" + course._id}>
-            <MoreHorizIcon fontSize="default" />
-          </Link>
+          {localStorage.getItem("role") === "admin" ? (
+            <Link to={"/course/" + course._id}>
+              <MoreHorizIcon fontSize="default" />
+            </Link>
+          ) : (
+            ""
+          )}
         </Button>
       </div>
       <div className={classes.details}>

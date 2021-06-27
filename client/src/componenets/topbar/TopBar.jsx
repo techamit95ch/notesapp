@@ -26,7 +26,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-
+import CachedIcon from "@material-ui/icons/Cached";
 const useStyles = makeStyles((theme) => ({
   logoIcon: {
     width: theme.spacing(6),
@@ -62,9 +62,7 @@ export default function TopBar() {
       history.push("/user/create");
     } else if (checkLoggedInfo.role === "student") {
       history.push("/classroom");
-    } else {
-      console.log(checkLoggedInfo);
-    }
+    } 
   }
 
   const [open1, setOpen] = React.useState(false);

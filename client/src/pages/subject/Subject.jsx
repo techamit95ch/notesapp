@@ -31,6 +31,7 @@ import { useParams } from "react-router-dom";
 import { createSubject, getSubjects } from "../../actions/subject";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { useHistory, useLocation } from "react-router-dom";
 
 export default function Subject() {
   //
@@ -39,13 +40,15 @@ export default function Subject() {
   const dispatch = useDispatch();
 
   const [idx, setIdx] = React.useState(cid);
-
+  const location = useLocation();
+  // console.log(location.pathname);
+  const history = useHistory();
   useEffect(() => {
     // console.log(cid);
     dispatch(getSubjects(idx));
   }, [dispatch]);
   const subjects = useSelector((state) => state.subjects);
-// console.log(subjects);
+  // console.log(subjects);
   // console.log(subjects);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -104,8 +107,14 @@ export default function Subject() {
       renderCell: (param) => {
         return (
           <>
-            <Edit color="disabled" />
-            <HighlightOff color="secondary" title="Disband" />
+            {localStorage.getItem("role") === "admin" ? (
+              <>
+                <Edit color="disabled" />
+                <HighlightOff color="secondary" title="Disband" />
+              </>
+            ) : (
+              ""
+            )}
             <Link to={"/classroom/" + param.row.id}>
               {" "}
               <InputIcon color="#1D2229" />
@@ -121,7 +130,7 @@ export default function Subject() {
     courseId: cid,
   });
   // const rows: GridRowsProp = courseRowData;
-  
+
   const sbj = subjects.map((item) => {
     const container = {};
     container["id"] = item._id;
@@ -129,9 +138,8 @@ export default function Subject() {
     container["subjectName"] = item.subjectName;
     return container;
   });
-  
+
   const sub = Object.entries(subjects);
-;
   console.log(subjects, typeof subjects);
   const rows: GridRowsProp = sbj;
   // const rows: GridRowsProp = subjects;
@@ -140,6 +148,7 @@ export default function Subject() {
 
     createSubject(subjectData);
     setSubjectData({ subjectId: "", subjectName: "", courseId: cid });
+    history.push(location.pathname);
     handleClose();
   };
 
@@ -188,6 +197,7 @@ export default function Subject() {
                         subjectId: e.target.value,
                       });
                     }}
+                    required
                   />
                   <TextField
                     label="Subject Name"
@@ -202,6 +212,7 @@ export default function Subject() {
                         subjectName: e.target.value,
                       });
                     }}
+                    required
                   />
                 </div>
               </div>

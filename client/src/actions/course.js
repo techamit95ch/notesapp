@@ -6,6 +6,7 @@ export const getCourses = () => async (dispatch) => {
     // console.log("-------------From Action Course (getCourses)---------");
     const { data } = await api.fetchCourses();
     dispatch({ type: "FETCH_ALL_COURSES", payload: data });
+    console.log(data);
   } catch (error) {
     console.log("-------------Error From Action Course (getCourses)---------");
     console.log(error.message);
