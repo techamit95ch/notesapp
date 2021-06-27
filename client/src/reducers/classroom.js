@@ -1,6 +1,6 @@
 export default (classrooms = [], action) => {
   switch (action.type) {
-    case "FETCH_ALL":
+    case "FETCH_ALL_CLASS":
       return action.payload;
     case "FETCHCLASS":
       return action.payload;

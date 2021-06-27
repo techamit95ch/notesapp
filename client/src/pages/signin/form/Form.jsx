@@ -40,6 +40,7 @@ import { createEmail, matchUID } from "../../../actions/email";
 import { createAuth } from "../../../actions/authInfo";
 import CircularProgress from "@material-ui/core/CircularProgress";
 // import { useDispatch, useSelector } from "react-redux";
+import FileBase from "react-file-base64";
 
 const CryptoJS = require("crypto-js");
 const useStyles = makeStyles((theme) => ({
@@ -158,10 +159,14 @@ export function PasswordForm({ param }) {
   const dispatch = useDispatch();
 
   const [idx, setIdx] = React.useState(param);
+  const [count, setCount] = React.useState(0);
 
   useEffect(() => {
+    // dispatch(matchUID(idx));
+    // setCount(count + 1);
+    // if (count === 0) 
     dispatch(matchUID(idx));
-  }, [dispatch]);
+  }, [count]);
   const result = useSelector((state) => state.email);
 
   const classes = useStyles();

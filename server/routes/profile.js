@@ -5,6 +5,8 @@ import fs from "fs";
 import {
   //   getCourses,
   createProfile,
+  createTextProfile,
+  getProfile,
   // updatePost,
 } from "../controllers/profile.js";
 const storage = multer.diskStorage({
@@ -21,6 +23,8 @@ const profileRoute = express.Router();
 
 // courseRoute.get("/", getCourses);
 profileRoute.post("/", upload.single("profileImage"), createProfile);
+profileRoute.post("/create", createTextProfile);
+profileRoute.post("/get", getProfile);
 
 // courseRoute.patch("/:id", updatePost);
 

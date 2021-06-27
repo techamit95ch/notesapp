@@ -16,11 +16,14 @@ import "bootstrap/dist/js/bootstrap.min.js";
 import SignIn from "./pages/signin/SignIn";
 import Login from "./pages/login/Login";
 import $ from "jquery";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { getCourses } from "./actions/course";
 import { getClassRoom } from "./actions/classroom";
+import { getProfile } from "./actions/profile";
 // import { getSubjects } from "./actions/subject";
 import { getNotes } from "./actions/notes";
+import { checkLoggedinInfo } from "./actions/authInfo";
+// import { useHistory } from "react-router-dom";
 
 import bootstrap from "bootstrap";
 import ReactDOM, {
@@ -34,9 +37,15 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCourses());
-    dispatch(getClassRoom());
+    dispatch(getProfile());
+    dispatch(checkLoggedinInfo());
+    // dispatch(getClassRoom());
     //  dispatch(getNotes());
   }, [dispatch]);
+
+  // const checkLoggedIn = useSelector((state) => state.authInfo);
+  // const history = useHistory();
+  
   return (
     <Router className="App">
       <Switch>

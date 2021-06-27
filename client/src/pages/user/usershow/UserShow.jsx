@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function UserShow(props) {
+export default function UserShow({ profile }) {
   const classes = useStyles();
 
   return (
@@ -39,7 +39,7 @@ export default function UserShow(props) {
             component="img"
             alt="Contemplative Reptile"
             height="140"
-            image="https://wallpaperaccess.com/full/2183146.jpg"
+            image={"https://wallpaperaccess.com/full/2183146.jpg"}
             title="Name"
           />
           <CardContent
@@ -58,44 +58,50 @@ export default function UserShow(props) {
               }}
             >
               <Avatar
-                style={{}}
+                src={profile.profileImage ? profile.profileImage : ""}
                 className={"largeAvatar2 " + classes.largeAvatar}
               >
-                {"N"}
+                {/* {"N"} */}
+                {profile.name ? profile.name[0] : "N"}
               </Avatar>
 
               <Typography style={{}} gutterBottom variant="h5" component="h3">
-                {"Name"}
+                {profile.name ? profile.name : "Name"}
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
-                {"Title, jdsfjksd , skdfkjsd, 73498543, jsdhjfsh"}
+                {profile.title ? profile.title : "Title"}
               </Typography>
             </div>
           </CardContent>
           <div className="vasudha"></div>
           <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">
-              <Room /> {"Location, jdsfjksd , skdfkjsd, 73498543, jsdhjfsh"}
+              <Room /> {profile.city ? profile.city : "city"},
+              {profile.pin ? profile.pin : "pin"}
             </Typography>
+            {/* <Typography variant="body2" color="textSecondary" component="p">
+              <AlternateEmailRounded />{" "}
+              {profile.email ? profile.email : "email"}
+            </Typography> */}
             <Typography variant="body2" color="textSecondary" component="p">
-              <AlternateEmailRounded /> {"Email"}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              <PhoneRounded /> {"Phone"}
+              <PhoneRounded />
+              {profile.phoneNumber ? profile.phoneNumber : "phoneNumber"}
             </Typography>{" "}
             <Typography variant="body2" color="textSecondary" component="p">
-              <PeopleAltOutlined /> {"Social Media Links"}
+              <PeopleAltOutlined /> {profile.github ? profile.github : "Git"}
+              <PeopleAltOutlined />{" "}
+              {profile.linkedIn ? profile.linkedIn : "LinkedIn"}
             </Typography>
           </CardContent>
           <CardContent>
             <Typography variant="body2" color="textSecondary" component="h6">
-              {"Current Positon"}
+              {profile.curr_pos ? profile.curr_pos : "Current Position"}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="h6">
-              {"Last Education"}
+              {profile.last_edu ? profile.last_edu : "Last Education"}
             </Typography>
           </CardContent>{" "}
-          <CardActions>"Rating"</CardActions>
+          {/* <CardActions>"Rating"</CardActions> */}
         </Card>
       </div>
     </div>

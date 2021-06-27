@@ -12,6 +12,7 @@ const subjectUrl = mainUrl + "subject";
 const emailUrl = mainUrl + "email";
 const authCreateUrl = mainUrl + "auth/create";
 const authLoginUrl = mainUrl + "auth/login";
+const checkLoggedInUrl = mainUrl + "auth/check-login";
 const profileUrl = mainUrl + "profile";
 const classUrl = mainUrl + "class";
 const noteUrl = mainUrl + "note";
@@ -22,12 +23,18 @@ export const createSubject = (newSubject) => axios.post(subjectUrl, newSubject);
 export const fetchSubjects = (id) =>
   axios.get(`http://localhost:2973/subject/${id}`);
 export const createEmail = (newEmail) => axios.post(emailUrl, newEmail);
+
 export const createProfile = (data) => axios.post(profileUrl, data);
+export const getProfile = (data) => axios.post(profileUrl+"/get" ,data);
+export const createTextProfile = (data) => axios.post(profileUrl + "/create", data);
+
 export const matchUID = (uid) => axios.get(emailUrl + "/" + uid);
 // export const fetchSubjects = (id) => axios.get("http://localhost:2973/subject/231");
 export const sendMail = (newMail) => axios.post(verifyMail, newMail);
 export const authCreate = (data) => axios.post(authCreateUrl, data);
 export const authLogin = (data) => axios.post(authLoginUrl, data);
+export const checkLoggedIn = (data) => axios.post(checkLoggedInUrl, data);
+
 export const createClassRoom = (data) => axios.post(classUrl, data);
 export const getClassRoom = (data) => axios.post(classUrl + "/getRooms", data);
 export const createFileNote = (data) => axios.post(noteUrl + "/file", data);

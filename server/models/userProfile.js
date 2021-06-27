@@ -15,6 +15,7 @@ const userProfileSchema = mongoose.Schema({
   role: { type: String, default: "student" },
   semester: { type: Number },
   city: { type: String },
+  agent: { type: String },
   pin: { type: String },
   title: { type: String },
   github: { type: String },

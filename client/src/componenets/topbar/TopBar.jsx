@@ -24,6 +24,8 @@ import {
 } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   logoIcon: {
@@ -45,6 +47,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export default function TopBar() {
+  // console.log(checkLoggedIn);
+  const checkLoggedInfo = useSelector((state) => state.authInfo);
+  //  console.log(checkLoggedInfo);
+  const history = useHistory();
+  if (localStorage.getItem("newSignedIn") === true) {
+    history.push("/user/create");
+  } else {
+    if (checkLoggedInfo.login === false) {
+      history.push("/auth/login");
+    } else if (checkLoggedInfo.loggedIn === false) {
+      history.push("/auth/login");
+    } else if (checkLoggedInfo.userExists === false) {
+      history.push("/user/create");
+    } else if (checkLoggedInfo.role === "student") {
+      history.push("/classroom");
+    } else {
+      console.log(checkLoggedInfo);
+    }
+  }
+
   const [open1, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState("paper");
 
@@ -74,8 +96,11 @@ export default function TopBar() {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  // const history = useHistory();
 
   const handleClose = () => {
+    localStorage.clear();
+    history.push("/auth/login");
     setAnchorEl(null);
   };
   return (
@@ -127,15 +152,13 @@ export default function TopBar() {
               <Link to="/user/create">
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
               </Link>
-
               {/* <Link to="/jx41XYm2">
                 {" "}
                 <MenuItem onClick={handleClose}>My account</MenuItem>
               </Link> */}
-              <Link to="/auth/login">
-                {" "}
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
-              </Link>
+              {/* <Link to="/auth/login"> */}{" "}
+              <MenuItem onClick={handleClose}>Logout</MenuItem>
+              {/* </Link> */}
             </Menu>
           </div>
         </div>

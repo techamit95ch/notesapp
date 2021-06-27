@@ -7,19 +7,19 @@ export const getRooms = async (req, res, next) => {
   try {
     const { agent } = req.body;
 
-    // const uid = await CPanel.findOne(
-    //   {
-    //     agent: agent,
-    //   },
-    //   {
-    //     _id: 1,
-    //   }
-    // );
-    // const user = await UserProfile.findOne({ uid: uid });
+    const uid = await CPanel.findOne(
+      {
+        agent: agent,
+      },
+      {
+        _id: 1,
+      }
+    );
+    const user = await UserProfile.findOne({ uid: uid });
     // console.log(user);
     const rooms = await classroom.find({ uId: uid }).populate([
       {
-        path: "agent",
+        path: "uId",
         model: UserProfile,
       },
       {
@@ -34,7 +34,6 @@ export const getRooms = async (req, res, next) => {
   }
 };
 export const createRoom = async (req, res, next) => {
-  console.log(req.body);
   const { subjectId, roomNumber, agent, semester } = req.body;
   const uid = await CPanel.findOne(
     {

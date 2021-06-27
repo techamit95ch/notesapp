@@ -1,6 +1,6 @@
 export default (profile = "", action) => {
   switch (action.type) {
-    case "FETCH_ALL":
+    case "FETCH_PROFILE":
       return action.payload;
 
     case "CREATE":

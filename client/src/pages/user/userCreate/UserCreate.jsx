@@ -33,9 +33,10 @@ import { red } from "@material-ui/core/colors";
 
 import { Room } from "@material-ui/icons";
 import ReactDOM from "react-dom";
-import { createProfile } from "../../../actions/profile";
+import { createProfile, createTextProfile } from "../../../actions/profile";
 import { loginAuth } from "../../../actions/authInfo";
 import { useSelector } from "react-redux";
+import FileBase from "react-file-base64";
 
 const useStyles = makeStyles((theme) => ({
   root2: {
@@ -83,7 +84,7 @@ export default function UserCreate() {
     dob: "",
     courseId: "",
     // bannerImage: "",
-    // profileImage: "",
+    profileImage: "",
     role: "",
     semester: "",
     city: "",
@@ -108,29 +109,16 @@ export default function UserCreate() {
       loaded: 0,
     });
   };
+  const [img, setImg] = useState("");
+
   const courses = useSelector((state) => state.course);
   const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("profileImage", profileImage.selectedFile);
-    formData.append("name", user.name);
-    formData.append("phoneNumber", user.phoneNumber);
-    formData.append("dob", user.dob);
-    formData.append("courseId", user.courseId);
-    formData.append("role", user.role);
-    formData.append("city", user.city);
-    formData.append("semester", user.semester);
-    formData.append("agent", user.agent);
-    formData.append("roleId", user.roleId);
-    formData.append("last_edu", user.last_edu);
-    formData.append("curr_pos", user.curr_pos);
-    formData.append("github", user.github);
-    formData.append("linkedIn", user.linkedIn);
-    formData.append("title", user.title);
-    formData.append("pin", user.pin);
-    console.log(formData);
-    dispatch(createProfile(formData));
+
+    console.log(user);
+    // dispatch(createProfile(formData));
+    dispatch(createTextProfile(user));
   };
   return (
     <div className="usercreate">
@@ -210,7 +198,7 @@ export default function UserCreate() {
                 }
               />
               <div class="clear"></div>{" "}
-              <TextField
+              {/* <TextField
                 label="Profile Image"
                 id="outlined-margin-normal"
                 type="file"
@@ -218,7 +206,33 @@ export default function UserCreate() {
                 helperText="Profile Image"
                 margin="normal"
                 onChange={profileImageHandler}
-              />
+              /> */}
+              <div className={classes.fileInput}>
+                {/* <div className=""> */}
+                <FileBase
+                  label="Img"
+                  id="Img"
+                  type="file"
+                  helperText="Profile Img"
+                  margin="normal"
+                  onDone={(e) => {
+                    // console.log(e);
+                    const type = e.type;
+
+                    // console.log(type);
+                    if (type == "image/jpeg" || type == "image/jpg") {
+                      setImg(e.base64);
+                      setUser({
+                        ...user,
+                        profileImage: e.base64,
+                      });
+                    } else {
+                      e.name = "";
+                      e.base64 = "";
+                    }
+                  }}
+                />{" "}
+              </div>
               {/* <TextField
                 label="Cover Image"
                 id="outlined-margin-normal"

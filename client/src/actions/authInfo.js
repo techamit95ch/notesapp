@@ -16,10 +16,17 @@ export const createAuth = (post) => async (dispatch) => {
 
   try {
     const { data } = await api.authCreate(post);
-    console.log(data.status);
-    if (data.status) {
+    // console.log(data.status);
+    localStorage.clear();
+    if (data.status===true ) {
+      localStorage.setItem("isLogin", data.status);
+      localStorage.setItem("agent", data.agent);
+      localStorage.setItem("newSignedIn", true);
+      // localStorage.setItem("role", data.role);
+      window.location.replace("http://localhost:8521/");
     } else {
-      window.location.replace("http://localhost:8521/auth/signin");
+      // window.location.replace("http://localhost:8521/");
+       console.log(data);
     }
 
     dispatch({ type: "CREATE", payload: data });
@@ -29,15 +36,16 @@ export const createAuth = (post) => async (dispatch) => {
 };
 export const loginAuth = (post) => async (dispatch) => {
   //   const history = useHistory();
-  //   console.log(post);
+
   try {
     const { data } = await api.authLogin(post);
     localStorage.clear();
-
-    if (data.status) {
+console.log(data);
+    if (data.isLogin === "true" && data.status === true) {
       localStorage.setItem("isLogin", data.status);
       localStorage.setItem("agent", data.agent);
       localStorage.setItem("role", data.role);
+      // console.log(data);
       window.location.replace("http://localhost:8521");
     } else {
       console.log(data);
@@ -48,10 +56,32 @@ export const loginAuth = (post) => async (dispatch) => {
     // console.log(error.message);
   }
 };
-export const checkLoggedin = () => async (dispatch) => {
+export const checkLoggedinInfo = () => async (dispatch) => {
   try {
-    if (localStorage["agent"] && localStorage["isLogin"]) {
-      console.log("Logged in");
+    if (
+      localStorage["agent"] &&
+      localStorage["isLogin"] &&
+      localStorage.getItem("newSignedIn") == null
+    ) {
+      // console.log("Logged in");
+      const { data } = await api.checkLoggedIn({
+        agent: localStorage["agent"],
+        isLogin: localStorage["isLogin"],
+      });
+      // FETCH_AUTH
+      // checkLoggedIn;
+      dispatch({ type: "FETCH_AUTH", payload: data });
+      // return data;
+    } else if (localStorage.getItem("newSignedIn") === true) {
+       const { data } = await api.checkLoggedIn({
+         agent: localStorage["agent"],
+         isLogin: localStorage["isLogin"],
+       });
+    } else {
+      localStorage.clear();
+      dispatch({ type: "FETCH_AUTH", payload: { login: false } });
+      //  window.location.replace("http://localhost:8521");
+      // return false;
     }
     // dispatch({ type: "FETCH_ALL", payload: data });
   } catch (error) {

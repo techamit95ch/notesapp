@@ -2,7 +2,8 @@ export default (authInfo={}, action) => {
   switch (action.type) {
     case "FETCH_ALL":
       return action.payload;
-
+    case "FETCH_AUTH":
+      return action.payload;
     case "CREATE":
       return action.payload;
 
