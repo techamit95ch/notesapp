@@ -10,6 +10,7 @@ import authRoute from "./routes/auth.js";
 import profileRoute from "./routes/profile.js";
 import classRoute from "./routes/classroom.js";
 import noteRoute from "./routes/note.js";
+import adminRoute from "./routes/admin_email.js";
 import path from "path";
 
 const app = express();
@@ -29,6 +30,10 @@ app.use("/auth", authRoute);
 app.use("/profile", profileRoute);
 app.use("/class", classRoute);
 
+app.use("/admin", adminRoute);
+// app.use("/admin/", (req, res, next) => {
+//   console.log("sdfsdf");
+// });
 // const CONNECTION_URL =
 // "mongodb+srv://amit:amit1234@cluster0.ezjz3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 const CONNECTION_URL =

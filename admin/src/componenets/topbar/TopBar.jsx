@@ -48,16 +48,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function TopBar() {
   // console.log(checkLoggedIn);
-  const checkLoggedInfo = useSelector((state) => state.authInfo);
+  const checkLoggedInfo = useSelector((state) => state.authAdminInfo);
   //  console.log(checkLoggedInfo);
   const history = useHistory();
-  
-    if (checkLoggedInfo.login === false) {
-      history.push("/auth/signin");
-    } else if (checkLoggedInfo.loggedIn === false) {
-      history.push("/auth/signin");
-    }
-  
+  // checkAdminLoggedInUID
+  if (checkLoggedInfo.login === false) {
+    history.push("/auth/signin");
+  } else if (checkLoggedInfo.loggedIn === false) {
+    history.push("/auth/signin");
+  }
 
   const [open1, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState("paper");
@@ -141,9 +140,6 @@ export default function TopBar() {
               onClose={handleClose}
               TransitionComponent={Fade}
             >
-              <Link to="/user/create">
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-              </Link>
               {/* <Link to="/jx41XYm2">
                 {" "}
                 <MenuItem onClick={handleClose}>My account</MenuItem>

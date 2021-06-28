@@ -53,12 +53,16 @@ export default function SignIn() {
       return <SignInForm />;
     }else{
       // setIdx(encryption.toString());
-    //  if( matchUID(encryption)){
-      return <PasswordForm  param={encryption.toString()} />;
-    //  }else{
+     if( matchUID(encryption)){     
+      return (
+        <div>
+          <CircularProgress disableShrink />
+        </div>
+      );
+     }else{
       // console.log(result);
-      // return <CircularProgress disableShrink />;
-    //  }
+      return <CircularProgress disableShrink />;
+     }
       
       // 
     }

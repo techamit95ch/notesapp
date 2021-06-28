@@ -22,7 +22,8 @@ import { getClassRoom } from "./actions/classroom";
 import { getProfile } from "./actions/profile";
 // import { getSubjects } from "./actions/subject";
 import { getNotes } from "./actions/notes";
-import { checkLoggedinInfo } from "./actions/authInfo";
+// import { checkLoggedinInfo } from "./actions/authInfo";
+import { checkAdminLoggedInUID } from "./actions/email";
 // import { useHistory } from "react-router-dom";
 
 import bootstrap from "bootstrap";
@@ -37,8 +38,8 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     // dispatch(getCourses());
-    dispatch(getProfile());
-    dispatch(checkLoggedinInfo());
+    // dispatch(getProfile());
+    dispatch(checkAdminLoggedInUID());
     // dispatch(getClassRoom());
     //  dispatch(getNotes());
   }, [dispatch]);

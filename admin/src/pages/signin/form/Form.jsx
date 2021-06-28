@@ -44,8 +44,8 @@ import sha256 from "crypto-js/sha256";
 import sha1 from "crypto-js/sha1";
 import { useHistory } from "react-router-dom";
 import validator from "validator";
-import { createEmail, matchUID } from "../../../actions/email";
-import { createAuth } from "../../../actions/authInfo";
+import { createAdminEmail, matchUID } from "../../../actions/email";
+// import { createAuth } from "../../../actions/authInfo";
 import CircularProgress from "@material-ui/core/CircularProgress";
 // import { useDispatch, useSelector } from "react-redux";
 import FileBase from "react-file-base64";
@@ -132,10 +132,10 @@ const useStyles = makeStyles((theme) => ({
 
 export function SignInForm({ getUid, setOtp }) {
   const classes = useStyles();
-  
+
   const handleClickOpen = (event) => {
     event.preventDefault();
-
+    // window.alert("sjdfbsdjbfjs");
     let txt = "";
     txt += navigator.appCodeName;
     txt += navigator.appName;
@@ -148,8 +148,9 @@ export function SignInForm({ getUid, setOtp }) {
     const data1 = {
       userAgent: txt,
       fromReact: true,
-    };  
-      createEmail(data1);
+    };
+    // console.log(data1);
+    createAdminEmail(data1);
   };
 
   const history = useHistory();
@@ -178,6 +179,7 @@ export function SignInForm({ getUid, setOtp }) {
             color="inherit"
             className={classes.imageTitle}
             type="submit"
+            onClick={handleClickOpen}
           >
             {image.title}
             <span className={classes.imageMarked} />
@@ -187,130 +189,6 @@ export function SignInForm({ getUid, setOtp }) {
     </ButtonBase>
   );
 }
-export function PasswordForm({ param }) {
-  const dispatch = useDispatch();
-
-  const [idx, setIdx] = React.useState(param);
-  const [count, setCount] = React.useState(0);
-
-  useEffect(() => {
-    // dispatch(matchUID(idx));
-    // setCount(count + 1);
-    // if (count === 0)
-    dispatch(matchUID(idx));
-  }, [count]);
-  const result = useSelector((state) => state.email);
-
-  const classes = useStyles();
-  const re =
-    /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()+=-\?;,./{}|\":<>\[\]\\\' ~_]).{8,}/;
-  const [color, setcolor] = useState("black");
-
-  const [values, setValues] = React.useState({
-    password: "",
-    showPassword: false,
-  });
-  const isOk = (password) => {
-    if (re.test(password)) setcolor("green");
-    else if (password.length < 4) setcolor("black");
-    else setcolor("red");
-  };
-  const handleChange = (prop) => (event) => {
-    isOk(values.password);
-    setValues({ ...values, [prop]: event.target.value });
-  };
-
-  const handleClickShowPassword = () => {
-    isOk(values.password);
-    setValues({ ...values, showPassword: !values.showPassword });
-  };
-  // console.log("---------------------------", result.result);
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-    isOk(values.password);
-  };
-  // const dispatch = useDispatch();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (color == "green") {
-      let txt = "";
-      txt += navigator.appCodeName;
-      txt += navigator.appName;
-      txt += navigator.appVersion;
-      txt += navigator.cookieEnabled;
-      txt += navigator.language;
-      txt += navigator.onLine;
-      txt += navigator.platform;
-      txt += navigator.userAgent;
-      const data = {
-        userAgent: "",
-        uid: idx,
-        fromReact: true,
-        password: values.password,
-      };
-      dispatch(createAuth(data));
-    }
-  };
-
-  if (result.result == false) return <CircularProgress disableShrink />;
-  // const uid = React.useState(getUid);
-  return (
-    <Col sm={5}>
-      <Form action="" onSubmit={handleSubmit}>
-        <h1>Add Password</h1>
-        <p style={{ color: color }}>
-          Password must be atleast 8 character long , alphanumeric with caps and
-          small and must have special Character character.
-        </p>
-        <hr />
-        <FormControl className={clsx(classes.margin, classes.textField)}>
-          <InputLabel htmlFor="standard-adornment-password">
-            Password
-          </InputLabel>
-
-          <Input
-            id="standard-adornment-password"
-            name="password"
-            type={values.showPassword ? "text" : "password"}
-            value={values.password}
-            onChange={handleChange("password")}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                >
-                  {values.showPassword ? (
-                    <Visibility color="primary" />
-                  ) : (
-                    <VisibilityOff color="primary" />
-                  )}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
-        <p>
-          By creating an account you agree to our{" "}
-          <Link href="#">Terms & Privacy</Link>.
-        </p>
-
-        <Col class="clearfix">
-          <Fab
-            type="submit"
-            variant="extended"
-            color="primary"
-            aria-label="add"
-            className="registerbtn"
-          >
-            Sign In
-          </Fab>
-          <Col class="container signin"></Col>
-        </Col>
-      </Form>
-    </Col>
-  );
+export function PasswordForm() {
+  return "";
 }

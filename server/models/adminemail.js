@@ -1,10 +1,6 @@
 import mongoose from "mongoose";
-// import { isEmail } from "validator";
-var validateEmail = function (email) {
-  var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  return re.test(email);
-};
-const CheckMailSchema = mongoose.Schema({
+
+const CheckAdminMailSchema = mongoose.Schema({
   userAgent: {
     type: String,
     trim: true,
@@ -18,5 +14,5 @@ const CheckMailSchema = mongoose.Schema({
   },
 });
 
-const checkMail = mongoose.model("adminVerification", CheckMailSchema);
-export default checkMail;
+const AdminMail = mongoose.model("adminVerification", CheckAdminMailSchema);
+export default AdminMail;

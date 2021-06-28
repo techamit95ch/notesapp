@@ -5,6 +5,7 @@ import {
   matchUID,
   matchAdminUID,
   createAdminEmail,
+  checkLoggedIn,
   // updatePost,
 } from "../controllers/email.js";
 
@@ -16,6 +17,7 @@ emailRoute.post("/admin", createAdminEmail);
 
 emailRoute.get("/:uid", matchUID);
 emailRoute.get("/admin/:uid", matchAdminUID);
+emailRoute.post("/checkLoggedIn/", checkLoggedIn);
 // emailRoute.get("/", getEmail);
 
 // courseRoute.patch("/:id", updatePost);
