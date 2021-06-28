@@ -39,6 +39,7 @@ export const checkAdminLoggedInUID = (uid) =>
   axios.post("http://localhost:2973/admin/checkLoggedIn", uid);
 //
 export const createProfile = (data) => axios.post(profileUrl, data);
+export const AllProfile = () => axios.get(profileUrl);
 // export const getProfile = (data) => axios.post(profileUrl+"/get" ,data);
 // export const createTextProfile = (data) =>
 //   axios.post(profileUrl + "/create/checkLoggedIn", data);

@@ -50,7 +50,7 @@ export default function Subject() {
   useEffect(() => {
     // console.log(cid);
     if (cid) dispatch(getSubjects(idx));
-    else  dispatch(getAllSubjects());
+    else dispatch(getAllSubjects());
   }, [dispatch]);
   const subjects = useSelector((state) => state.subjects);
   // console.log(subjects);
@@ -90,12 +90,12 @@ export default function Subject() {
   const classes = useStyles();
   // DataGrid
   const columns: GridColDef[] = [
-    { field: "subjectId", headerName: "Subject Id", width: 250 },
+    { field: "subjectId", headerName: "Subject Id", width: 300 },
 
     {
       field: "subjectName",
       headerName: "Subject",
-      width: 350,
+      width: 500,
       renderCell: (param) => {
         return (
           <div className={classes.root}>
@@ -105,29 +105,29 @@ export default function Subject() {
         );
       },
     },
-    {
-      field: "action",
-      headerName: "Action",
-      width: 300,
-      renderCell: (param) => {
-        return (
-          <>
-            {localStorage.getItem("role") === "admin" ? (
-              <>
-                <Edit color="disabled" />
-                <HighlightOff color="secondary" title="Disband" />
-              </>
-            ) : (
-              ""
-            )}
-            {/* <Link to={"/classroom/" + param.row.id}>
-              {" "}
-              <InputIcon color="#1D2229" />
-            </Link> */}
-          </>
-        );
-      },
-    },
+    // {
+    //   field: "action",
+    //   headerName: "Action",
+    //   width: 300,
+    //   renderCell: (param) => {
+    //     return (
+    //       <>
+    //         {localStorage.getItem("role") === "admin" ? (
+    //           <>
+    //             <Edit color="disabled" />
+    //             <HighlightOff color="secondary" title="Disband" />
+    //           </>
+    //         ) : (
+    //           ""
+    //         )}
+    //         {/* <Link to={"/classroom/" + param.row.id}>
+    //           {" "}
+    //           <InputIcon color="#1D2229" />
+    //         </Link> */}
+    //       </>
+    //     );
+    //   },
+    // },
   ];
   const [subjectData, setSubjectData] = useState({
     subjectId: "",

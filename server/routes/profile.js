@@ -7,6 +7,7 @@ import {
   createProfile,
   createTextProfile,
   getProfile,
+  AllProfile,
   // updatePost,
 } from "../controllers/profile.js";
 const storage = multer.diskStorage({
@@ -25,6 +26,7 @@ const profileRoute = express.Router();
 profileRoute.post("/", upload.single("profileImage"), createProfile);
 profileRoute.post("/create", createTextProfile);
 profileRoute.post("/get", getProfile);
+profileRoute.get("/", AllProfile);
 
 // courseRoute.patch("/:id", updatePost);
 

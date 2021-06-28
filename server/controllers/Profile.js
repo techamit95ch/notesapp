@@ -155,3 +155,11 @@ export const getProfile = async (req, res, next) => {
     res.status(404).json({ message: e.message });
   }
 };
+export const AllProfile = async (req, res, next) => {
+  try {
+    const profiles = await userProfile.find({});
+    res.status(200).json(profiles);
+  } catch (e) {
+    res.status(404).json({ message: e.message });
+  }
+};

@@ -61,7 +61,7 @@ export default function NoteTable({ data, roomId, setCurrentId }) {
               color="primary"
               onClick={() => setCurrentId(param.row.id)}
             />
-            <HighlightOff color="secondary" title="Disband" />
+            {/* <HighlightOff color="secondary" title="Disband" /> */}
           </>
         );
       },
