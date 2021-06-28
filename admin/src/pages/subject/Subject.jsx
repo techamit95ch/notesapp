@@ -36,6 +36,7 @@ import {
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
+import { Grid, CircularProgress } from "@material-ui/core";
 
 export default function Subject() {
   //
@@ -233,13 +234,16 @@ export default function Subject() {
           //Modal End
         }
       </div>
-
-      <DataGrid
-        rows={rows}
-        disableSelectionOnclick
-        columns={columns}
-        pageSize={10}
-      />
+      {rows.length === 0 ? (
+        <CircularProgress />
+      ) : (
+        <DataGrid
+          rows={rows}
+          disableSelectionOnclick
+          columns={columns}
+          pageSize={10}
+        />
+      )}
     </div>
   );
 }

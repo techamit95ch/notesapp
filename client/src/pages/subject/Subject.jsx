@@ -32,6 +32,7 @@ import { createSubject, getSubjects } from "../../actions/subject";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
+import { Grid, CircularProgress } from "@material-ui/core";
 
 export default function Subject() {
   //
@@ -156,19 +157,21 @@ export default function Subject() {
     <div style={{ width: "100%" }} className="course">
       <div className="courseTitleContainer">
         <h3 className="courseTitle">{"Subject Lists"}</h3>
-{localStorage.getItem("role") === "admin" ? (
-        <Button
-          className="courseAddButton"
-          variant="outlined"
-          color="primary"
-          data-bs-toggle="modal"
-          data-bs-target="#createSubjectModal"
-          data-bs-whatever="@cs"
-          onClick={handleShow}
-        >
-          Create
-        </Button>
-):""}
+        {localStorage.getItem("role") === "admin" ? (
+          <Button
+            className="courseAddButton"
+            variant="outlined"
+            color="primary"
+            data-bs-toggle="modal"
+            data-bs-target="#createSubjectModal"
+            data-bs-whatever="@cs"
+            onClick={handleShow}
+          >
+            Create
+          </Button>
+        ) : (
+          ""
+        )}
         {
           //Modal Start
         }
@@ -229,13 +232,16 @@ export default function Subject() {
           //Modal End
         }
       </div>
-
-      <DataGrid
-        rows={rows}
-        disableSelectionOnclick
-        columns={columns}
-        pageSize={10}
-      />
+      {rows.length === 0 ? (
+        <CircularProgress />
+      ) : (
+        <DataGrid
+          rows={rows}
+          disableSelectionOnclick
+          columns={columns}
+          pageSize={10}
+        />
+      )}
     </div>
   );
 }
