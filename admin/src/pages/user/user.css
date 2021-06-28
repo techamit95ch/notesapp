@@ -1,0 +1,15 @@
+.user {
+  flex: 4;
+  padding: 20px;
+}
+
+.userTitle,
+.userUpdateTitle {
+  font-weight: 600;
+}
+.userContainer {
+  display: flex;
+  /* align-items: center; */
+  justify-content: space-between;
+  /* flex: 4; */
+}
