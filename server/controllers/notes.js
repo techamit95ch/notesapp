@@ -106,8 +106,9 @@ export const getNotes = async (req, res) => {
 };
 export const blockNotes = async (req, res) => {
   const id = req.params._id;
-  if (!mongoose.Types.ObjectId.isValid(id))
-    return res.status(404).send(`No post with id: ${id}`);
+  console.log(id);
+  // if (!mongoose.Types.ObjectId.isValid(id))
+  //   return res.status(404).send(`No post with id: ${id}`);
 
   // const post = await Note.findById(id);
 
@@ -116,6 +117,6 @@ export const blockNotes = async (req, res) => {
     { status: false },
     { new: true }
   );
-
+  // console.log(updatedPost);
   res.json(updatedPost);
 };

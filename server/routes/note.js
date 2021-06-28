@@ -55,7 +55,7 @@ noteRoute.post("/file", upload.single("file"), noteCreate);
 
 // noteRoute.get("/", getNotes);
 noteRoute.post("/", getNotes);
-noteRoute.post("/block/:_id", blockNotes);
+noteRoute.get("/block/:_id", blockNotes);
 // noteRoute.post("/single", getNote);
 // noteRoute.post("/single", (req, res) => {
 //   console.log(req.body);

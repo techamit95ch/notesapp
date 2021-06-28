@@ -20,11 +20,12 @@ import Container from "react-bootstrap/Container";
 import { useParams } from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { blockNotes } from "../../../../actions/notes";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function NoteTable({ data, roomId, setCurrentId }) {
   // Avatar
   console.log(data);
-
+  const dispatch = useDispatch();
   const useStyles = makeStyles((theme) => ({
     root: {
       display: "flex",
@@ -58,30 +59,38 @@ export default function NoteTable({ data, roomId, setCurrentId }) {
       renderCell: (param) => {
         return (
           <>
-            <Button color="primary" ><Visibility
-              color="primary"
-              onClick={() => setCurrentId(param.row.id)}
-            /></Button>
-            {localStorage["role"] === "teacher" ? (
-              <HighlightOff
-                color="secondary"
-                title="Disband"
-                onClick={() => blockNotes(param.row.id)}
+            <Button color="primary">
+              <Visibility
+                color="primary"
+                onClick={() => setCurrentId(param.row.id)}
               />
+            </Button>
+            {localStorage["role"] === "teacher" ? (
+              <Button
+                color="secondary"
+                onClick={() => {
+                  dispatch(blockNotes(param.row.id));
+                  console.log("from notes", param.row.id);
+                }}
+              >
+                <HighlightOff title="Disband" />
+              </Button>
             ) : (
               ""
             )}
-          </Button>
+          </>
         );
       },
     },
   ];
   const notes = data.map((item) => {
-    const container = {};
-    container["id"] = item._id;
-    container["header"] = item.header;
-    // container["subjectName"] = item.subjectName;
-    return container;
+    if (item.status === true) {
+      const container = {};
+      container["id"] = item._id;
+      container["header"] = item.header;
+      // container["subjectName"] = item.subjectName;
+      return container;
+    }
   });
   const rows: GridRowsProp = notes;
   // console.log(data);

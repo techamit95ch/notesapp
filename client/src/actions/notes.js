@@ -71,7 +71,9 @@ export const getNote = (props) => async (dispatch) => {
 };
 export const blockNotes = (props) => async (dispatch) => {
   try {
-    const { data } = await api.getNote(props);
+    console.log(props);
+    const { data } = await api.blockNotes(props);
+    console.log("From Block notes", data);
     dispatch({ type: "BLOCK_NOTES", payload: data });
   } catch (error) {
     console.log(error.message);
