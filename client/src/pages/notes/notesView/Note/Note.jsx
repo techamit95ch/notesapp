@@ -130,17 +130,13 @@ export default function Note({ roomId, currentId }) {
                 title={noteData.header}
               /> */}
               {noteData.noteType == "img" ? (
-                <object>
-                  <Iframe
-                    src={noteData.data}
-                    width="450px"
-                    height="450px"
-                    id="myId"
-                    className="myClassname"
-                    display="initial"
-                    position="relative"
-                  />
-                </object>
+                <CardMedia
+                  component="img"
+                  alt={noteData.header}
+                  height="140"
+                  image={noteData.data}
+                  title={noteData.header}
+                />
               ) : (
                 <CircularProgress disableShrink />
               )}
