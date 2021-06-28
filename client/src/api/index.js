@@ -36,7 +36,12 @@ export const authLogin = (data) => axios.post(authLoginUrl, data);
 export const checkLoggedIn = (data) => axios.post(checkLoggedInUrl, data);
 
 export const createClassRoom = (data) => axios.post(classUrl, data);
+export const joinRoom = (data) => axios.post(classUrl+"/join ", data);
+
 export const getClassRoom = (data) => axios.post(classUrl + "/getRooms", data);
+export const getSubjectRooms = (data) =>
+  axios.post(classUrl + "/getSubjectRooms", data);
+export const getUnjoinedRoom = (data) => axios.post(classUrl + "/unjoinedRooms", data);
 export const createFileNote = (data) => axios.post(noteUrl + "/file", data);
 export const noteTextCreate = (data) => axios.post(noteUrl + "/text", data);
 export const getNotes = (data) => axios.post(noteUrl,data);

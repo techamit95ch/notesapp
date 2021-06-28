@@ -7,6 +7,7 @@ import profile from "./profile.js";
 import classrooms from "./classroom.js";
 import notes from "./notes.js";
 import sigleNote from "./single_note.js";
+import nonclassrooms from "./unjoined_classroom.js";
 
 export default combineReducers({
   email,
@@ -17,4 +18,5 @@ export default combineReducers({
   classrooms,
   notes,
   sigleNote,
+  nonclassrooms,
 });

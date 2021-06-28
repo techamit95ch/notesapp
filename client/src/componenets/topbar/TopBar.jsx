@@ -61,7 +61,11 @@ export default function TopBar() {
     } else if (checkLoggedInfo.userExists === false) {
       history.push("/user/create");
     } else if (checkLoggedInfo.role === "student") {
-      history.push("/classroom");
+      localStorage.setItem("role", "student");
+      // history.push("/classroom");
+    } else if (checkLoggedInfo.role === "teacher") {
+      localStorage.setItem("role", checkLoggedInfo.role);
+      // history.push("/classroom");
     } 
   }
 

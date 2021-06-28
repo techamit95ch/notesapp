@@ -72,26 +72,26 @@ export const getNote = async (req, res) => {
 };
 export const getNotes = async (req, res) => {
   const { agent, roomId } = req.body;
-  const uid = await CPanel.findOne(
-    {
-      agent: agent,
-    },
-    {
-      _id: 1,
-    }
-  );
+  // const uid = await CPanel.findOne(
+  //   {
+  //     agent: agent,
+  //   },
+  //   {
+  //     _id: 1,
+  //   }
+  // );
   try {
     // console.log("------------- from Get Notes ------------");
-    var notes = await Note.find({ uid: uid, roomId: roomId });
-    const rooms = await ClassRoom.findOne(
-      { _id: roomId, role: "teacher" },
-      { uId: 1, subjectId: 1 }
-    );
-    const subject = await Subject.findOne(
-      { _id: rooms.subjectId },
-      { subjectName: 1 }
-    );
-    const teacher = await userProfile.findOne({ uid: rooms.uId }, { name: 1 });
+    const notes = await Note.find({ roomId: roomId });
+    // const rooms = await ClassRoom.findOne(
+    //   { _id: roomId, role: "teacher" },
+    //   { uId: 1, subjectId: 1 }
+    // );
+    // const subject = await Subject.findOne(
+    //   { _id: rooms.subjectId },
+    //   { subjectName: 1 }
+    // );
+    // const teacher = await userProfile.findOne({ uid: rooms.uId }, { name: 1 });
     res.status(200).json(notes);
     // console.log(notes2);
   } catch (e) {

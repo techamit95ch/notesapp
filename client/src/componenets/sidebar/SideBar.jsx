@@ -60,7 +60,7 @@ export default function Sidebar() {
             <Link
               to="/"
               className={
-                "sidebarListItem " + location.pathname === "/" ? "active" : ""
+                "sidebarListItem " + location.pathname != "/" ? "" : "active"
               }
             >
               <LineStyle className="sidebarIcon" />
@@ -87,27 +87,29 @@ export default function Sidebar() {
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Course Menu</h3>
           <ul className="sidebarList">
-            <Link
-              to="/courses"
-              className={
-                "sidebarListItem " + location.pathname === "/courses" ||
-                location.pathname === "/course/"
-                  ? "active"
-                  : ""
-              }
-            >
-              <School className="sidebarIcon" />
-              Courses
-            </Link>
+            {localStorage.getItem("role") != "student" ? (
+              <>
+                <Link
+                  to="/courses"
+                  className={
+                    "sidebarListItem " + location.pathname === "/courses" ||
+                    location.pathname === "/course/"
+                      ? "active"
+                      : ""
+                  }
+                >
+                  <School className="sidebarIcon" />
+                  Courses
+                </Link>
+              </>
+            ) : (
+              ""
+            )}
             {localStorage.getItem("role") === "admin" ? (
               <>
                 <Link to="/subject" className="sidebarListItem ">
                   <MenuBook className="sidebarIcon" />
                   Subject
-                </Link>
-                <Link to="/classroom" className="sidebarListItem ">
-                  <Class className="sidebarIcon" />
-                  Class Room
                 </Link>
 
                 <Link to="/notes" className="sidebarListItem ">
@@ -115,6 +117,14 @@ export default function Sidebar() {
                   Notes
                 </Link>
               </>
+            ) : (
+              ""
+            )}
+            {localStorage.getItem("role") === "student" ? (
+              <Link to="/classroom" className="sidebarListItem ">
+                <Class className="sidebarIcon" />
+                Class Room
+              </Link>
             ) : (
               ""
             )}

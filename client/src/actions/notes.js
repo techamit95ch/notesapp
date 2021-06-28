@@ -52,7 +52,7 @@ export const noteBase64tCreate = (post) => async (dispatch) => {
 };
 export const getNotes = (props) => async (dispatch) => {
   try {
-    // console.log("---------from Notes getNotes -----");
+    console.log("---------from Notes getNotes -----");
     props.agent = localStorage.getItem("agent");
     const { data } = await api.getNotes(props);
     // console.log(data);

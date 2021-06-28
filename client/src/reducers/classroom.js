@@ -4,6 +4,8 @@ export default (classrooms = [], action) => {
       return action.payload;
     case "FETCHCLASS":
       return action.payload;
+    // case "FETCH_UNJ":
+    //   return action.payload;
     case "CREATE":
       return action.payload;
 

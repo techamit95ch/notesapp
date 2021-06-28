@@ -38,7 +38,13 @@ import Select from "@material-ui/core/Select";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { createRoom, getClassRoom } from "../../actions/classroom";
+import {
+  createRoom,
+  getClassRoom,
+  getUnjoinedRoom,
+  joinRoom,
+  getSubjectRooms,
+} from "../../actions/classroom";
 import { useHistory } from "react-router-dom";
 
 export default function ClassRoom() {
@@ -50,14 +56,17 @@ export default function ClassRoom() {
   const dispatch = useDispatch();
 
   const [show, setShow] = React.useState(false);
-  const [roomNumber, setRoomNumber] = React.useState(0);
+  const [roomNumber, setRoomNumber] = React.useState("");
   const [semester, setSemester] = React.useState(0);
-
+  // window.alert(localStorage["role"]);
   const handleClose = () => setShow(false);
   const handleShow = () => {
-    setRoomNumber(
-      Date.now().toString() + sid + Math.floor(Math.random() * 100 + 1)
-    );
+    if (localStorage["role"] === "teacher") {
+      setRoomNumber(
+        Date.now().toString() + sid + Math.floor(Math.random() * 100 + 1)
+      );
+    }
+
     setShow(true);
   };
 
@@ -68,7 +77,17 @@ export default function ClassRoom() {
       semester: semester,
       subjectId: sid,
     };
-    dispatch(createRoom(data));
+    if (localStorage["role"] === "student") {
+      dispatch(
+        joinRoom({
+          roomNumber: roomNumber,
+        })
+      );
+      // window.alert(roomNumber);
+    }
+    if (localStorage["role"] === "teacher") {
+      dispatch(createRoom(data));
+    }
     setShow(false);
     // history.push("/notes");
     // createRoom;
@@ -97,29 +116,44 @@ export default function ClassRoom() {
     },
   }));
   const classes = useStyles();
+  // getSubjectRooms
+
   useEffect(() => {
-    dispatch(getClassRoom());
+    if (sid ) {
+      dispatch(getSubjectRooms({ subjectId: sid }));
+    } else {
+      dispatch(getClassRoom());
+    }
+
+    dispatch(getUnjoinedRoom());
   }, [dispatch]);
 
   const rooms = useSelector((state) => state.classrooms);
-  console.log(rooms);
+  // const rooms = useSelector((state) => state.classrooms);
+  const nonrooms = useSelector((state) => state.nonclassrooms);
+  console.log(nonrooms);
   //Modal
   return (
     <div className="room">
       <div className="courseTitleContainer">
         <h3 className="courseTitle">{"Class Room"}</h3>
 
-        <Button
-          className="courseAddButton"
-          variant="outlined"
-          color="primary"
-          data-bs-toggle="modal"
-          data-bs-target="#createSubjectModal"
-          data-bs-whatever="@cs"
-          onClick={handleShow}
-        >
-          Create
-        </Button>
+        {localStorage["role"] != "admin" ? (
+          <Button
+            className="courseAddButton"
+            variant="outlined"
+            color="primary"
+            data-bs-toggle="modal"
+            data-bs-target="#createSubjectModal"
+            data-bs-whatever="@cs"
+            onClick={handleShow}
+          >
+            {localStorage["role"] === "teacher" ? "Create" : "Join"}
+          </Button>
+        ) : (
+          ""
+        )}
+
         {
           //Modal Start
         }
@@ -131,37 +165,62 @@ export default function ClassRoom() {
         >
           <Form method="POST" onSubmit={handleSubmit}>
             <Modal.Header closeButton>
-              <Modal.Title>Add Room</Modal.Title>
+              <Modal.Title> Room</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <div class="form-row">
-                <div class={classes.root2}>
-                  <TextField
-                    label="Room Number"
-                    id="roomNumber"
-                    value={roomNumber}
-                    className={classes.textField}
-                    helperText="Room Number"
-                    margin="normal"
-                    variant="outlined"
-                    readonly
-                  />
-                  <TextField
-                    label="Semester"
-                    onChange={(e) => setSemester(e.target.value)}
-                    id="roomNumber"
-                    className={classes.textField}
-                    helperText="Semester"
-                    type="number"
-                    margin="normal"
-                    variant="outlined"
-                  />
-                </div>
+                {localStorage["role"] === "teacher" ? (
+                  <div class={classes.root2}>
+                    <TextField
+                      label="Room Number"
+                      id="roomNumber"
+                      value={roomNumber}
+                      className={classes.textField}
+                      helperText="Room Number"
+                      margin="normal"
+                      variant="outlined"
+                      readonly
+                    />
+                    <TextField
+                      label="Semester"
+                      onChange={(e) => setSemester(e.target.value)}
+                      id="roomNumber"
+                      className={classes.textField}
+                      helperText="Semester"
+                      type="number"
+                      margin="normal"
+                      variant="outlined"
+                    />
+                  </div>
+                ) : (
+                  <div class={classes.root2}>
+                    <TextField
+                      label="Room Number"
+                      id="roomNumber"
+                      value={roomNumber}
+                      className={classes.textField}
+                      helperText="Room Number"
+                      onChange={(e) => setRoomNumber(e.target.value)}
+                      margin="normal"
+                      variant="outlined"
+                      select
+                    >
+                      <MenuItem key="courseId" value="courseId" disabled>
+                        Select Room Number{" "}
+                      </MenuItem>
+                      {nonrooms.map((item) => (
+                        <MenuItem key={item.roomNumber} value={item.roomNumber}>
+                          {item.roomNumber}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </div>
+                )}
               </div>
             </Modal.Body>
             <Modal.Footer>
               <Button variant="contained" color="primary" type="submit">
-                create
+                {localStorage["role"] === "teacher" ? "Create" : "Join"}
               </Button>
             </Modal.Footer>
           </Form>
