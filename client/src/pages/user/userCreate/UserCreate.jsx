@@ -73,7 +73,7 @@ const TeacherDiv = (user, setUser) => {
   return <div></div>;
 };
 
-export default function UserCreate() {
+export default function UserCreate({ profile }) {
   const classes = useStyles();
   // const dispatch = useDispatch();
 
@@ -96,16 +96,18 @@ export default function UserCreate() {
     curr_pos: "",
     last_edu: "",
   });
+  const dispatch = useDispatch();
   // useEffect(() => {
-  //   dispatch();
-  // }, [user, dispatch]);
-const dispatch = useDispatch();
+  //  if (profile) setUser(profile);
+  // }, [user]);
 
-useEffect(() => {
-  dispatch(getCourses());
-  // dispatch(getClassRoom());
-  //  dispatch(getNotes());
-}, [dispatch]);
+  useEffect(() => {
+    dispatch(getCourses());
+    if (profile) setUser(profile);
+
+    // dispatch(getClassRoom());
+    //  dispatch(getNotes());
+  }, [dispatch, user]);
   const [profileImage, setProfileImage] = useState({
     selectedFile: null,
   });
@@ -140,6 +142,7 @@ useEffect(() => {
           <div class="form-row">
             <div class={classes.root2}>
               <TextField
+                defaultValue={profile.roleId}
                 label="User Id"
                 id="outlined-margin-normal"
                 className={classes.textField}
@@ -152,10 +155,10 @@ useEffect(() => {
                     roleId: e.target.value,
                   })
                 }
-                accept=".jpg, .jpeg , image/jpeg"
               />
               <TextField
                 label="Full Name"
+                defaultValue={profile.name}
                 id="outlined-margin-normal"
                 className={classes.textField}
                 helperText="Full Name"
@@ -185,6 +188,7 @@ useEffect(() => {
                     phoneNumber: e.target.value,
                   })
                 }
+                defaultValue={profile.phoneNumber}
               />
               <TextField
                 label="DOB"
@@ -203,6 +207,7 @@ useEffect(() => {
                     dob: e.target.value,
                   })
                 }
+                defaultValue={profile.dob}
               />
               <div class="clear"></div>{" "}
               {/* <TextField
@@ -269,6 +274,7 @@ useEffect(() => {
                     city: e.target.value,
                   })
                 }
+                defaultValue={profile.city}
               />
               <TextField
                 label="Pin"
@@ -277,7 +283,7 @@ useEffect(() => {
                 helperText="Pin"
                 margin="normal"
                 variant="outlined"
-                multiline
+                defaultValue={profile.pin}
                 onChange={(e) =>
                   setUser({
                     ...user,
@@ -288,7 +294,7 @@ useEffect(() => {
               <TextField
                 label="Profile Role"
                 id="outlined-margin-normal"
-                defaultValue=""
+                defaultValue={profile.role}
                 select
                 className={classes.textField}
                 helperText="Profile Role"
@@ -305,12 +311,42 @@ useEffect(() => {
                 <MenuItem key="roleId" value="roleId" disabled>
                   Profile Role Label
                 </MenuItem>
-                <MenuItem key="teacher" value="teacher">
-                  Teacher
-                </MenuItem>
-                <MenuItem key="student" value="student">
-                  Student
-                </MenuItem>
+                {profile.role === "teacher" ? (
+                  <>
+                    <MenuItem key="teacher" value="teacher" selected>
+                      Teacher
+                    </MenuItem>
+                    <MenuItem key="student" value="student">
+                      Student
+                    </MenuItem>
+                  </>
+                ) : (
+                  <></>
+                )}
+                {profile.role === "student" ? (
+                  <>
+                    <MenuItem key="teacher" value="teacher">
+                      Teacher
+                    </MenuItem>
+                    <MenuItem key="student" value="student" selected>
+                      Student
+                    </MenuItem>
+                  </>
+                ) : (
+                  <></>
+                )}
+                {profile.role === "" ? (
+                  <>
+                    <MenuItem key="teacher" value="teacher">
+                      Teacher
+                    </MenuItem>
+                    <MenuItem key="student" value="student">
+                      Student
+                    </MenuItem>
+                  </>
+                ) : (
+                  <></>
+                )}
               </TextField>
               <TextField
                 label="Profile Title"
@@ -326,6 +362,7 @@ useEffect(() => {
                     title: e.target.value,
                   })
                 }
+                defaultValue={profile.title}
               />
               {/*
   element Changes
@@ -372,6 +409,7 @@ useEffect(() => {
                   margin="normal"
                   variant="outlined"
                   type="link"
+                  defaultValue={profile.semester}
                 />
               </div>
               <div
@@ -392,6 +430,7 @@ useEffect(() => {
                   margin="normal"
                   variant="outlined"
                   multiline
+                  defaultValue={profile.curr_pos}
                 />
                 <TextField
                   label="Last Education"
@@ -407,6 +446,7 @@ useEffect(() => {
                   margin="normal"
                   variant="outlined"
                   multiline
+                  defaultValue={profile.last_edu}
                 />
                 <TextField
                   label="Github Link"
@@ -422,6 +462,7 @@ useEffect(() => {
                   margin="normal"
                   variant="outlined"
                   type="link"
+                  defaultValue={profile.github}
                 />
                 <TextField
                   label="LinkedIn Link"
@@ -437,26 +478,30 @@ useEffect(() => {
                   margin="normal"
                   variant="outlined"
                   type="link"
+                  defaultValue={profile.linkedIn}
                 />
               </div>
               {/* <RoleDiv setUser={setUser} user={user} /> */}
             </div>
-            <Fab
-              className={classes.textField}
-              variant="contained"
-              color="primary"
-              type="submit"
-            >
-              Create
-            </Fab>
-            <Fab
-              className={classes.textField}
-              variant="contained"
-              color="secondary"
-              type="submit"
-            >
-              Update
-            </Fab>
+            {profile.role === "" ? (
+              <Fab
+                className={classes.textField}
+                variant="contained"
+                color="primary"
+                type="submit"
+              >
+                Create
+              </Fab>
+            ) : (
+              <Fab
+                className={classes.textField}
+                variant="contained"
+                color="secondary"
+                type="button"
+              >
+                Update
+              </Fab>
+            )}
           </div>
         </form>
       </div>

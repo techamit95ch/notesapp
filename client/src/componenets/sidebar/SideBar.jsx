@@ -55,7 +55,7 @@ export default function Sidebar() {
           </ul>
         </div>
         <div className="sidebarMenu">
-          <h3 className="sidebarTitle">Dashboard</h3>
+          <h3 className="sidebarTitle active">Dashboard</h3>
           <ul className="sidebarList">
             <Link
               to="/"
@@ -89,15 +89,7 @@ export default function Sidebar() {
           <ul className="sidebarList">
             {localStorage.getItem("role") != "student" ? (
               <>
-                <Link
-                  to="/courses"
-                  className={
-                    "sidebarListItem " + location.pathname === "/courses" ||
-                    location.pathname === "/course/"
-                      ? ""
-                      : ""
-                  }
-                >
+                <Link to="/courses" className={"sidebarListItem "}>
                   <School className="sidebarIcon" />
                   Courses
                 </Link>

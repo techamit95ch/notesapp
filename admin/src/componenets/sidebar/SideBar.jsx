@@ -46,7 +46,12 @@ export default function Sidebar() {
             <Button color="primary" onClick={() => history.goBack()}>
               <ArrowBack />
             </Button>
-            <Button onClick={() => history.push(location.pathname)}>
+            <Button
+              onClick={() =>
+                // history.push(location.pathname)
+                history.go(0)
+              }
+            >
               <CachedIcon />
             </Button>
             <Button color="secondary" onClick={() => history.goForward()}>
@@ -57,12 +62,7 @@ export default function Sidebar() {
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Dashboard</h3>
           <ul className="sidebarList">
-            <Link
-              to="/"
-              className={
-                "sidebarListItem " + location.pathname != "/" ? "" : "active"
-              }
-            >
+            <Link to="/" className={"sidebarListItem active"}>
               <LineStyle className="sidebarIcon" />
               Home
             </Link>
@@ -89,15 +89,7 @@ export default function Sidebar() {
           <ul className="sidebarList">
             {localStorage.getItem("role") != "student" ? (
               <>
-                <Link
-                  to="/courses"
-                  className={
-                    "sidebarListItem " + location.pathname === "/courses" ||
-                    location.pathname === "/course/"
-                      ? ""
-                      : ""
-                  }
-                >
+                <Link to="/courses" className={"sidebarListItem "}>
                   <School className="sidebarIcon" />
                   Courses
                 </Link>
