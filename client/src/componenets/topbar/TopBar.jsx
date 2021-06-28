@@ -66,7 +66,7 @@ export default function TopBar() {
     } else if (checkLoggedInfo.role === "teacher") {
       localStorage.setItem("role", checkLoggedInfo.role);
       // history.push("/classroom");
-    } 
+    }
   }
 
   const [open1, setOpen] = React.useState(false);
@@ -130,10 +130,13 @@ export default function TopBar() {
           <div className={"topbarIconContainer "}>
             <QuestionAnswer fontSize="large" />
             <span className="topbarIconBag">2</span>
-          </div>
-          <div className="topbarIconContainer">
             <Settings fontSize="large" />
-          </div> */}
+          </div>*/}
+          <div className="topbarIconContainer">
+            <span className="logo">
+              {localStorage["role"] ? localStorage["role"].toUpperCase() : ""}
+            </span>
+          </div>
           <div className="topbarIconContainer">
             <Avatar
               src="https://cactusthemes.com/blog/wp-content/uploads/2018/01/tt_avatar_small.jpg"
