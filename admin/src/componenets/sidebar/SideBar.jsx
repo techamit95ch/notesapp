@@ -112,10 +112,10 @@ export default function Sidebar() {
                   Subject
                 </Link>
 
-                <Link to="/notes" className="sidebarListItem ">
+                {/* <Link to="/notes" className="sidebarListItem ">
                   <Note className="sidebarIcon" />
                   Notes
-                </Link>
+                </Link> */}
               </>
             ) : (
               ""

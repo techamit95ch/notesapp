@@ -53,22 +53,23 @@ export const getSubjectRooms = async (req, res, next) => {
       }
     );
 
-    const rooms = await classroom.find({ uId: uid, subjectId: subjectId })
-    .populate([
-      {
-        path: "subjectId",
-        model: Subject,
-      },
-      // {
-      //   path: "uid",
-      //   model: CPanel,
-      //   select: "_id uid",
-      //   // populate: {
-      //   //   path: "_id",
-      //   //   model: UserProfile,
-      //   // },
-      // },
-    ]);
+    const rooms = await classroom
+      .find({ uId: uid, subjectId: subjectId })
+      .populate([
+        {
+          path: "subjectId",
+          model: Subject,
+        },
+        // {
+        //   path: "uid",
+        //   model: CPanel,
+        //   select: "_id uid",
+        //   // populate: {
+        //   //   path: "_id",
+        //   //   model: UserProfile,
+        //   // },
+        // },
+      ]);
     console.log("rrooooommmssss========>", rooms);
     res.status(200).json(rooms);
   } catch (e) {
@@ -189,20 +190,7 @@ export const joinRoom = async (req, res, next) => {
     res.status(409).json({ message: error.message });
   }
 };
-// export const updatePost = async (req, res) => {
-//   const { id: _id } = req.params;
-//   const post = req.body;
-//   // const newPostMessage = new PostMessage(post);
-
-//   try {
-//     if (!mongoose.Type.ObjectID.isValid(id))
-//       return res.status(404).send("Not Valid Id");
-//     const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, {
-//       new: true,
-//     });
-//     res.json(updatedPost);
-//   } catch (error) {
-//     console.log({ message: error.message });
-//     res.status(407).json({ message: error.message });
-//   }
-// };
+export const allRooms = async (req, res, next) => {
+  const rooms = await classroom.find({});
+  res.status(200).json(rooms);
+};

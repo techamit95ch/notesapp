@@ -28,7 +28,11 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputIcon from "@material-ui/icons/Input";
 import { useParams } from "react-router-dom";
-import { createSubject, getSubjects } from "../../actions/subject";
+import {
+  createSubject,
+  getSubjects,
+  getAllSubjects,
+} from "../../actions/subject";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
@@ -45,7 +49,8 @@ export default function Subject() {
   const history = useHistory();
   useEffect(() => {
     // console.log(cid);
-    dispatch(getSubjects(idx));
+    if (cid) dispatch(getSubjects(idx));
+    else  dispatch(getAllSubjects());
   }, [dispatch]);
   const subjects = useSelector((state) => state.subjects);
   // console.log(subjects);
@@ -115,10 +120,10 @@ export default function Subject() {
             ) : (
               ""
             )}
-            <Link to={"/classroom/" + param.row.id}>
+            {/* <Link to={"/classroom/" + param.row.id}>
               {" "}
               <InputIcon color="#1D2229" />
-            </Link>
+            </Link> */}
           </>
         );
       },

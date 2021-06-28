@@ -55,6 +55,7 @@ export const createClassRoom = (data) => axios.post(classUrl, data);
 export const joinRoom = (data) => axios.post(classUrl + "/join ", data);
 
 export const getClassRoom = (data) => axios.post(classUrl + "/getRooms", data);
+export const allRooms = () => axios.get(classUrl);
 export const getSubjectRooms = (data) =>
   axios.post(classUrl + "/getSubjectRooms", data);
 export const getUnjoinedRoom = (data) =>

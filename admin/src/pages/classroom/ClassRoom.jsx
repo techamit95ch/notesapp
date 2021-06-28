@@ -44,6 +44,7 @@ import {
   getUnjoinedRoom,
   joinRoom,
   getSubjectRooms,
+  allRooms,
 } from "../../actions/classroom";
 import { getAllSubjects } from "../../actions/subject";
 import { useHistory } from "react-router-dom";
@@ -122,11 +123,12 @@ export default function ClassRoom() {
   // getSubjectRooms
 
   useEffect(() => {
-    if (sid) {
-      dispatch(getSubjectRooms({ subjectId: sid }));
-    } else {
-      dispatch(getClassRoom());
-    }
+    // if (sid) {
+    //   dispatch(getSubjectRooms({ subjectId: sid }));
+    // } else {
+    //   dispatch(getClassRoom());
+    // }
+    dispatch(allRooms());
     dispatch(getAllSubjects());
     if (localStorage["role"] === "student") dispatch(getUnjoinedRoom());
   }, [dispatch]);

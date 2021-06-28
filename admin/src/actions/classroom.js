@@ -37,6 +37,15 @@ export const getClassRoom = () => async (dispatch) => {
     console.log({ message: error.message });
   }
 };
+export const allRooms = () => async (dispatch) => {
+  try {
+    const { data } = await api.allRooms();
+    // console.log({ type: "FETCH", payload: data });
+    dispatch({ type: "FETCHCLASS", payload: data });
+  } catch (error) {
+    console.log({ message: error.message });
+  }
+};
 export const getSubjectRooms = (post) => async (dispatch) => {
   try {
     post.agent= localStorage.getItem("agent");

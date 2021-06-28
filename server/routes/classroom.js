@@ -7,6 +7,7 @@ import {
   getJoinRooms,
   joinRoom,
   getSubjectRooms,
+  allRooms,
   // updatePost,
 } from "../controllers/classroom.js";
 
@@ -18,6 +19,7 @@ classRoute.post("/getSubjectRooms", getSubjectRooms);
 classRoute.post("/unjoinedRooms", getJoinRooms);
 classRoute.post("/", createRoom);
 classRoute.post("/join", joinRoom);
+classRoute.get("/", allRooms);
 
 // courseRoute.patch("/:id", updatePost);
 
