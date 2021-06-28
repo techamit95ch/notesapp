@@ -9,8 +9,10 @@ export const matchUID = async (uid) => {
       localStorage.setItem("isLogin", true);
       localStorage.setItem("uid", data.uid);
       localStorage.setItem("role", "admin");
+      window.location.replace("http://localhost:9361/");
+
       return true;
-      window.location.replace("/");
+      // window.location.replace("http://localhost:8521/");
     } else {
       localStorage.clear();
       return false;
@@ -24,7 +26,7 @@ export const matchUID = async (uid) => {
 export const checkAdminLoggedInUID = () => async (dispatch) => {
   try {
     // console.log(uid);
-    if (localStorage.getItem("uid") || localStorage.getItem("uid")!=null) {
+    if (localStorage.getItem("uid") || localStorage.getItem("uid") != null) {
       const { data } = await api.checkAdminLoggedInUID({
         uid: localStorage.getItem("uid"),
       });
@@ -43,8 +45,7 @@ export const checkAdminLoggedInUID = () => async (dispatch) => {
           payload: { loggedIn: false, login: false },
         });
       }
-      
-    }else{
+    } else {
       localStorage.clear();
       dispatch({
         type: "FETCH_ADMIN_AUTH",
@@ -54,7 +55,6 @@ export const checkAdminLoggedInUID = () => async (dispatch) => {
 
     // console.log(data);
     // localStorage.clear();
-    
   } catch (error) {
     console.log({ message: error.message });
   }

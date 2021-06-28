@@ -101,8 +101,9 @@ export const createAdminEmail = async (req, res) => {
       // userAgent += email + salt;
       console.log(userAgent + email + salt);
       const u = sha1(userAgent + email + salt).toString();
-      const uid = sha256(u).toString();
-      const uid2 = sha512.hmac("amit", uid).toString();
+      //   const uid = sha256(u).toString();
+      const uid = sha512.hmac("amit", u).toString();
+      const uid2 = sha256(uid).toString();
 
       // const uid2 = sha256(uid).toString();
 
@@ -137,10 +138,14 @@ export const createAdminEmail = async (req, res) => {
 };
 export const matchAdminUID = async (req, res, next) => {
   const { uid } = req.params;
-//   console.log(req.params);
-  
+  console.log(req.params);
+
   try {
-      const uid2 = sha512.hmac("amit", uid).toString();
+    //   const uid2 = sha512.hmac("amit", uid).toString();
+    const uid2 = sha256(uid).toString();
+
+    // const exists = await checkAdminMail.exists({ uid: uid2 });
+
     const exists = await checkAdminMail.exists({ uid: uid2 });
     console.log({ message: "Exists data", result: exists, uid2 });
     res.status(200).json({ message: "Exists data", result: exists, uid: uid });
@@ -152,7 +157,9 @@ export const checkLoggedIn = async (req, res, next) => {
   const { uid } = req.body;
   if (uid) {
     try {
-      const uid2 = sha512.hmac("amit", uid).toString();
+      //   const uid2 = sha512.hmac("amit", uid).toString();
+      const uid2 = sha256(uid).toString();
+
       const exists = await checkAdminMail.exists({ uid: uid2 });
       // console.log({ message: "Exists data", result: exists, uid2 });
       res

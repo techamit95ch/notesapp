@@ -34,7 +34,7 @@ export const fetchSubjects = (id) =>
 export const createAdminEmail = (newEmail) =>
   axios.post("http://localhost:2973/admin", newEmail);
 export const matchAdminUID = (uid) =>
-  axios.get("http://localhost:2973/admin/${uid}");
+  axios.get(`http://localhost:2973/admin/${uid}`);
 export const checkAdminLoggedInUID = (uid) =>
   axios.post("http://localhost:2973/admin/checkLoggedIn", uid);
 //
