@@ -11,8 +11,8 @@ export const matchUID = (uid) => async (dispatch) => {
 };
 export const createEmail = async (post) => {
   try {
-    const { data } = await api.createEmail(post);
-    console.log(data);
+    const { data } = await api.createAdminEmail(post);
+    // console.log(data);
     // dispatch({ type: "CREATE_COURSE", payload: data });
   } catch (error) {
     console.log({ message: error.message });

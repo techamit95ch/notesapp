@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { Avatar, Button, Fab, Card, Hidden } from "@material-ui/core";
+import {
+  Avatar,
+  Button,
+  Fab,
+  Card,
+  Hidden,
+  ButtonBase,
+  Typography,
+} from "@material-ui/core";
 import { GetAppRounded, Close } from "@material-ui/icons";
 import {
   Col,
@@ -41,31 +49,90 @@ import { createAuth } from "../../../actions/authInfo";
 import CircularProgress from "@material-ui/core/CircularProgress";
 // import { useDispatch, useSelector } from "react-redux";
 import FileBase from "react-file-base64";
-
+const image = {
+  url: "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fdigitallearning.eletsonline.com%2Fwp-content%2Fuploads%2F2018%2F04%2FSchool-Education-Transformation-Paving-Way-for-Better-Higher-Education.jpg&f=1&nofb=1",
+  title: "Verify",
+  width: "100%",
+};
 const CryptoJS = require("crypto-js");
 const useStyles = makeStyles((theme) => ({
-  margin: {
-    margin: theme.spacing(1),
-    width: "50ch",
-  },
-  header_m: {
-    marginTop: theme.spacing(14),
-  },
   root: {
     display: "flex",
     flexWrap: "wrap",
+    minWidth: 300,
+    width: "100%",
+  },
+  image: {
+    position: "relative",
+    height: 400,
+    [theme.breakpoints.down("xs")]: {
+      width: "100% !important", // Overrides inline-style
+      height: 100,
+    },
+    "&:hover, &$focusVisible": {
+      zIndex: 1,
+      "& $imageBackdrop": {
+        opacity: 0.15,
+      },
+      "& $imageMarked": {
+        opacity: 0,
+      },
+      "& $imageTitle": {
+        border: "4px solid currentColor",
+      },
+    },
+  },
+  focusVisible: {},
+  imageButton: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: theme.palette.common.white,
+  },
+  imageSrc: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    backgroundSize: "cover",
+    backgroundPosition: "center 100%",
+  },
+  imageBackdrop: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    backgroundColor: theme.palette.common.black,
+    opacity: 0.4,
+    transition: theme.transitions.create("opacity"),
+  },
+  imageTitle: {
+    position: "relative",
+    padding: `${theme.spacing(2)}px ${theme.spacing(4)}px ${
+      theme.spacing(1) + 6
+    }px`,
+  },
+  imageMarked: {
+    height: 3,
+    width: 18,
+    backgroundColor: theme.palette.common.white,
+    position: "absolute",
+    bottom: -2,
+    left: "calc(50% - 9px)",
+    transition: theme.transitions.create("opacity"),
   },
 }));
+
 export function SignInForm({ getUid, setOtp }) {
   const classes = useStyles();
-  const [uid, setUid] = React.useState(null);
-  const [open, setOpen] = React.useState(false);
-  const [email, setEmail] = useState("");
-  const validateEmail = function (email) {
-    var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    return re.test(email);
-  };
-  const [emailError, setEmailError] = useState("");
+  
   const handleClickOpen = (event) => {
     event.preventDefault();
 
@@ -75,84 +142,49 @@ export function SignInForm({ getUid, setOtp }) {
     txt += navigator.appVersion;
     txt += navigator.cookieEnabled;
     txt += navigator.language;
-    // txt = sha256(txt);
     txt += navigator.onLine;
     txt += navigator.platform;
     txt += navigator.userAgent;
-    const data = { agent: txt, email: email }.toString();
     const data1 = {
-      email: email,
       userAgent: txt,
       fromReact: true,
-    };
-    if (validateEmail(email)) {
+    };  
       createEmail(data1);
-      setOpen(true);
-    }
-
-    // setUid(getUid);
   };
-
-  const handleClose = () => {
-    setOpen(true);
-  };
-  const [pinData, setPinData] = useState("");
 
   const history = useHistory();
   return (
-    <Col sm={5}>
+    <ButtonBase
+      focusRipple
+      key={image.title}
+      className={classes.image}
+      focusVisibleClassName={classes.focusVisible}
+      style={{
+        width: image.width,
+      }}
+    >
       <Form action="#" method="post" onSubmit={handleClickOpen}>
-        <h1>Sign Up</h1>
-        <p>Please fill in this form to create an account.</p>
-
-        <hr />
-        <FormControl className={clsx(classes.margin, classes.textField)}>
-          <InputLabel htmlFor="signin_email">Email</InputLabel>
-          <Input
-            id="signin_email"
-            type="email"
-            endAdornment={
-              <InputAdornment position="end">
-                <Button type="submit" color="primary">
-                  <EmailRoundedIcon /> Verify
-                </Button>
-              </InputAdornment>
-            }
-            onChange={(event) => setEmail(event.target.value)}
-          />
-        </FormControl>
-      </Form>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="max-width-dialog-title"
-      >
-        <DialogTitle id="max-width-dialog-title">Verify Key</DialogTitle>
-        <DialogContent>
-          <p>Check Mail A verification Data is there</p>
-          <Form noValidate>
-            <FormControl>
-              <TextField
-                name="verNum"
-                onChange={(event) => setPinData(event.target.value)}
-              />
-            </FormControl>
-          </Form>
-        </DialogContent>
-        <DialogActions>
+        <span
+          className={classes.imageSrc}
+          style={{
+            backgroundImage: `url(${image.url})`,
+          }}
+        />
+        <span className={classes.imageBackdrop} />
+        <span className={classes.imageButton}>
           <Button
+            component="span"
+            variant="subtitle1"
+            color="inherit"
+            className={classes.imageTitle}
             type="submit"
-            onClick={() => {
-              const path = "/auth/signin/" + pinData;
-              history.push(path);
-            }}
-            color="primary"
           >
-            Submit
+            {image.title}
+            <span className={classes.imageMarked} />
           </Button>
-        </DialogActions>
-      </Dialog>
-    </Col>
+        </span>
+      </Form>
+    </ButtonBase>
   );
 }
 export function PasswordForm({ param }) {
@@ -164,7 +196,7 @@ export function PasswordForm({ param }) {
   useEffect(() => {
     // dispatch(matchUID(idx));
     // setCount(count + 1);
-    // if (count === 0) 
+    // if (count === 0)
     dispatch(matchUID(idx));
   }, [count]);
   const result = useSelector((state) => state.email);

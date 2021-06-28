@@ -63,15 +63,11 @@ export const checkLoggedinInfo = () => async (dispatch) => {
       localStorage["isLogin"] &&
       localStorage.getItem("newSignedIn") == null
     ) {
-      // console.log("Logged in");
       const { data } = await api.checkLoggedIn({
         agent: localStorage["agent"],
         isLogin: localStorage["isLogin"],
       });
-      // FETCH_AUTH
-      // checkLoggedIn;
       dispatch({ type: "FETCH_AUTH", payload: data });
-      // return data;
     } else if (localStorage.getItem("newSignedIn") === true) {
        const { data } = await api.checkLoggedIn({
          agent: localStorage["agent"],

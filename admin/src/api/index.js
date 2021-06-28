@@ -10,6 +10,7 @@ const verifyMail = mainUrl + "verifyMail";
 const courseUrl = mainUrl + "course";
 const subjectUrl = mainUrl + "subject";
 const emailUrl = mainUrl + "email";
+const adminEmailUrl = mainUrl + "admin_email";
 const authCreateUrl = mainUrl + "auth/create";
 const authLoginUrl = mainUrl + "auth/login";
 const checkLoggedInUrl = mainUrl + "auth/check-login";
@@ -24,6 +25,8 @@ export const getAllSubjects = () => axios.get(subjectUrl);
 export const fetchSubjects = (id) =>
   axios.get(`http://localhost:2973/subject/${id}`);
 export const createEmail = (newEmail) => axios.post(emailUrl, newEmail);
+// Admin Mail
+export const createAdminEmail = (newEmail) => axios.post(adminEmailUrl, newEmail);
 
 export const createProfile = (data) => axios.post(profileUrl, data);
 export const getProfile = (data) => axios.post(profileUrl+"/get" ,data);

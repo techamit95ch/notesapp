@@ -1,4 +1,5 @@
 import checkMail from "../models/checkmail.js";
+import checkAdminMail from "../models/adminemail.js";
 import bcrypt from "bcrypt";
 // import crypto from "crypto";
 import nodemailer from "nodemailer";
@@ -23,7 +24,7 @@ const oAtuth2Client = new google.auth.OAuth2(
   redirectURI
 );
 oAtuth2Client.setCredentials({ refresh_token: refreshToken });
-const sendMail = async (email, hashToken) => {
+const sendMail = async (email, hashToken,url) => {
   try {
     // console.log("------ Inside send Mail --------");
     const accessToken = await oAtuth2Client.getAccessToken();
@@ -38,7 +39,8 @@ const sendMail = async (email, hashToken) => {
         accessToken: accessToken,
       },
     });
-    const sendUrl = "http://localhost:8521/auth/signin/";
+    const sendUrl = url;
+    // const sendUrl = "http://localhost:8521/auth/signin/";
     const mailOptions = {
       from: "Notes App 📧 <30701018055.amit@gmail.com>",
       to: email,
@@ -85,7 +87,7 @@ const sendMail = async (email, hashToken) => {
 export const sendEmail = async (req, res) => {
   const { email, userAgent, fromReact } = req.body;
   // import { isEmail } from "validator";
-
+ const sendUrl = "http://localhost:8521/auth/signin/";
   try {
     if (!fromReact || !validateEmail(email)) {
       res.status(409).json({ message: "Not From React" });
@@ -130,7 +132,7 @@ export const sendEmail = async (req, res) => {
           console.log({ message: error.message });
           res.status(409).json({ message: error.message });
         }
-        sendMail(email, uid)
+        sendMail(email, uid, sendUrl)
           .then((result) => {
             console.log("Mail Send", result);
           })
@@ -143,27 +145,79 @@ export const sendEmail = async (req, res) => {
     res.status(404).json({ message: e.message });
   }
 };
+export const createAdminEmail = async (req, res) => {
+  const {  userAgent, fromReact } = req.body;
+  // import { isEmail } from "validator";
+ const sendUrl = "http://localhost:9361/auth/signin";
+
+  try {
+    if (!fromReact || !validateEmail(email)) {
+      res.status(409).json({ message: "Not From React" });
+    } else {
+      const email = "30701018055.amit@gmail.com";
+        const date = Date.now();
+        const salt = await bcrypt.genSalt(date);
+        // userAgent += email + salt;
+        console.log(userAgent + email + salt);
+        const u = sha1(userAgent + email + salt).toString();
+        const uid = sha256(u).toString();
+        const uid2 = sha512.hmac("amit", uid).toString();
+
+        console.log("------------------");
+        console.log({
+          uid: uid,
+          uid2: uid2,
+          uid_hash: sha512.hmac("amit", uid).toString(),
+        });
+        console.log("------------------");
+
+        // const uid2 = sha256(uid).toString();
+
+        const newEmailRegister = new checAdminkMail({
+          // email: email,
+          userAgent: sha1(userAgent).toString(),
+          uid: uid2,
+          fromReact: true,
+        });
+        try {
+          await newEmailRegister.save().then(() => {
+            console.log("Data Saved Successfully ");
+            res.status(201).json({
+              message: "Close Window Saved Successfully",
+            });
+          });
+        } catch (error) {
+          console.log({ message: error.message });
+          res.status(409).json({ message: error.message });
+        }
+        sendMail(email, uid, sendUrl)
+          .then((result) => {
+            console.log("Mail Send", result);
+          })
+          .catch((e) => console.log(e.message));
+      
+    }
+  } catch (e) {
+    res.status(404).json({ message: e.message });
+  }
+};
 export const matchUID = async (req, res, next) => {
   const { uid } = req.params;
-  console.log(req.params);
   const uid2 = sha512.hmac("amit", uid).toString();
-  // console.log(uid2);
-
-  console.log("------------------");
-  console.log({
-    uid: uid,
-    uid2: uid2,
-    uid_hash: sha512.hmac("amit", uid).toString(),
-  });
-  //         {
-  //   uid: 'aa5d4b77ee990940e64cfaba01f0b9ea3bf2b81293010dc973a266cdd5c5b596',
-  //   uid2: '48c2da770e9ead9857022fea73a9a1cdd8b1d78cb9877e0dc629330d06984e013958b1df53d18c2518092459209e3e908de3dca0526b82a777b8eb1e7a19dd3a',
-  //   uid_hash: '48c2da770e9ead9857022fea73a9a1cdd8b1d78cb9877e0dc629330d06984e013958b1df53d18c2518092459209e3e908de3dca0526b82a777b8eb1e7a19dd3a'
-  // }
-  console.log("------------------");
   try {
     const exists = await checkMail.exists({ uid: uid2 });
-    console.log({ message: "Exists data", result: exists, uid2 });
+    // console.log({ message: "Exists data", result: exists, uid2 });
+    res.status(200).json({ message: "Exists data", result: exists });
+  } catch (e) {
+    res.status(404).json({ message: e.message });
+  }
+};
+export const matchAdminUID = async (req, res, next) => {
+  const { uid } = req.params;
+  const uid2 = sha512.hmac("amit", uid).toString();
+  try {
+    const exists = await checkAdminMail.exists({ uid: uid2 });
+    // console.log({ message: "Exists data", result: exists, uid2 });
     res.status(200).json({ message: "Exists data", result: exists });
   } catch (e) {
     res.status(404).json({ message: e.message });

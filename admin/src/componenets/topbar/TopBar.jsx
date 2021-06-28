@@ -51,23 +51,13 @@ export default function TopBar() {
   const checkLoggedInfo = useSelector((state) => state.authInfo);
   //  console.log(checkLoggedInfo);
   const history = useHistory();
-  if (localStorage.getItem("newSignedIn") === true) {
-    history.push("/user/create");
-  } else {
+  
     if (checkLoggedInfo.login === false) {
-      history.push("/auth/login");
+      history.push("/auth/signin");
     } else if (checkLoggedInfo.loggedIn === false) {
-      history.push("/auth/login");
-    } else if (checkLoggedInfo.userExists === false) {
-      history.push("/user/create");
-    } else if (checkLoggedInfo.role === "student") {
-      localStorage.setItem("role", "student");
-      // history.push("/classroom");
-    } else if (checkLoggedInfo.role === "teacher") {
-      localStorage.setItem("role", checkLoggedInfo.role);
-      // history.push("/classroom");
-    } 
-  }
+      history.push("/auth/signin");
+    }
+  
 
   const [open1, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState("paper");
