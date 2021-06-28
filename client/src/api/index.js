@@ -26,8 +26,9 @@ export const fetchSubjects = (id) =>
 export const createEmail = (newEmail) => axios.post(emailUrl, newEmail);
 
 export const createProfile = (data) => axios.post(profileUrl, data);
-export const getProfile = (data) => axios.post(profileUrl+"/get" ,data);
-export const createTextProfile = (data) => axios.post(profileUrl + "/create", data);
+export const getProfile = (data) => axios.post(profileUrl + "/get", data);
+export const createTextProfile = (data) =>
+  axios.post(profileUrl + "/create", data);
 
 export const matchUID = (uid) => axios.get(emailUrl + "/" + uid);
 // export const fetchSubjects = (id) => axios.get("http://localhost:2973/subject/231");
@@ -37,15 +38,17 @@ export const authLogin = (data) => axios.post(authLoginUrl, data);
 export const checkLoggedIn = (data) => axios.post(checkLoggedInUrl, data);
 
 export const createClassRoom = (data) => axios.post(classUrl, data);
-export const joinRoom = (data) => axios.post(classUrl+"/join ", data);
+export const joinRoom = (data) => axios.post(classUrl + "/join ", data);
 
 export const getClassRoom = (data) => axios.post(classUrl + "/getRooms", data);
 export const getSubjectRooms = (data) =>
   axios.post(classUrl + "/getSubjectRooms", data);
-export const getUnjoinedRoom = (data) => axios.post(classUrl + "/unjoinedRooms", data);
+export const getUnjoinedRoom = (data) =>
+  axios.post(classUrl + "/unjoinedRooms", data);
 export const createFileNote = (data) => axios.post(noteUrl + "/file", data);
 export const noteTextCreate = (data) => axios.post(noteUrl + "/text", data);
-export const getNotes = (data) => axios.post(noteUrl,data);
+export const getNotes = (data) => axios.post(noteUrl, data);
+export const blockNotes = (_id) => axios.get(noteUrl + "/block/" + _id);
 // export const getNotes = () => axios.get("http://localhost:2973/note");
 // export const getNote = (data) =>
 //   axios.post("http://localhost:2973/note/single", data);

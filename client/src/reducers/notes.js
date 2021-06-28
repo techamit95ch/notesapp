@@ -13,6 +13,8 @@ export default (notes = [], action) => {
     case "DELETE":
       return notes;
 
+    case "BLOCK_NOTES":
+      return notes;
     //
     case "UPDATE":
       return notes.map((post) =>

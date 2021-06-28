@@ -91,7 +91,7 @@ export const getNotes = async (req, res) => {
       { _id: 1 }
     );
 
-    const notes = await Note.find({ roomId: rooms2._id });
+    const notes = await Note.find({ roomId: rooms2._id, status: true });
     // const subject = await Subject.findOne(
     //   { _id: rooms.subjectId },
     //   { subjectName: 1 }
@@ -103,4 +103,19 @@ export const getNotes = async (req, res) => {
     console.log(e.message);
     res.status(404).json({ message: e.message });
   }
+};
+export const blockNotes = async (req, res) => {
+  const id = req.params._id;
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send(`No post with id: ${id}`);
+
+  // const post = await Note.findById(id);
+
+  const updatedPost = await Note.findByIdAndUpdate(
+    id,
+    { status: false },
+    { new: true }
+  );
+
+  res.json(updatedPost);
 };

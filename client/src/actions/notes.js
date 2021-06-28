@@ -63,12 +63,16 @@ export const getNotes = (props) => async (dispatch) => {
 };
 export const getNote = (props) => async (dispatch) => {
   try {
-    // console.log("---------from getNote -----");
-    // console.log(props);
-    // props.agent = localStorage.getItem("agent");
     const { data } = await api.getNote(props);
-    // console.log(data);
     dispatch({ type: "FETCH_NOTE", payload: data });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+export const blockNotes = (props) => async (dispatch) => {
+  try {
+    const { data } = await api.getNote(props);
+    dispatch({ type: "BLOCK_NOTES", payload: data });
   } catch (error) {
     console.log(error.message);
   }

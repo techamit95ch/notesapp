@@ -19,6 +19,7 @@ import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import { useParams } from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { blockNotes } from "../../../../actions/notes";
 
 export default function NoteTable({ data, roomId, setCurrentId }) {
   // Avatar
@@ -57,12 +58,20 @@ export default function NoteTable({ data, roomId, setCurrentId }) {
       renderCell: (param) => {
         return (
           <>
-            <Visibility
+            <Button color="primary" ><Visibility
               color="primary"
               onClick={() => setCurrentId(param.row.id)}
-            />
-            <HighlightOff color="secondary" title="Disband" />
-          </>
+            /></Button>
+            {localStorage["role"] === "teacher" ? (
+              <HighlightOff
+                color="secondary"
+                title="Disband"
+                onClick={() => blockNotes(param.row.id)}
+              />
+            ) : (
+              ""
+            )}
+          </Button>
         );
       },
     },
