@@ -1,5 +1,5 @@
 import "./usershow.css";
-import React from "react";
+import React,{useEffect}  from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Card,
@@ -17,6 +17,7 @@ import {
   PhoneRounded,
   PeopleAltOutlined,
 } from "@material-ui/icons";
+import { useDispatch, useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,6 +43,9 @@ export default function UserShow( props ) {
     curr_pos: "",
     last_edu:"",
   });
+  useEffect(() => {
+    if (props.profile) setProfile(props.profile);
+  }, [profile]);
   // const [profile, setProfile] = React.useState(profile.profile);
   // setProfile(props.profile);
   return (
