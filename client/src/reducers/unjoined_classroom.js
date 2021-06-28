@@ -4,7 +4,7 @@ export default (nonclassrooms = [], action) => {
     //   return action.payload;
     // case "FETCHCLASS":
     //   return action.payload;
-    case "FETCH_UNJ":
+    case "FETCH_UNJ_ALL":
       return action.payload;
     case "JOIN":
       return action.payload;

@@ -78,7 +78,7 @@ export const getSubjectRooms = async (req, res, next) => {
   }
 };
 export const getJoinRooms = async (req, res, next) => {
-  // console.log("from getJoinRooms");
+  console.log("from getJoinRooms");
   try {
     const { agent } = req.body;
 
@@ -96,12 +96,13 @@ export const getJoinRooms = async (req, res, next) => {
       $and: [
         { semester: user.semester },
         { role: "teacher" },
-        { uid: { $not: uid } },
+        { uid: { $ne: uid } },
       ],
     });
-    // console.log(rooms);
+    console.log(rooms);
     res.status(200).json(rooms);
   } catch (e) {
+    console.log({ message: e.message });
     res.status(404).json({ message: e.message });
   }
 };

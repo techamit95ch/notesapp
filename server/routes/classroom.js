@@ -17,6 +17,9 @@ const classRoute = express.Router();
 classRoute.post("/getRooms", getRooms);
 classRoute.post("/getSubjectRooms", getSubjectRooms);
 classRoute.post("/unjoinedRooms", getJoinRooms);
+// classRoute.post("/unjoinedRooms", (req, res) => {
+//   console.log(req.body);
+// });
 classRoute.post("/", createRoom);
 classRoute.post("/join", joinRoom);
 classRoute.get("/", allRooms);

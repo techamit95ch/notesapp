@@ -137,7 +137,7 @@ export default function ClassRoom() {
 
   let nonrooms;
   nonrooms = useSelector((state) => state.nonclassrooms);
-  console.log("subjects=>>>>>", subjects);
+  console.log("nonrooms=>>>>>", nonrooms);
   //Modal
   return (
     <div className="room">

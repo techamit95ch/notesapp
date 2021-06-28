@@ -39,7 +39,7 @@ export const getClassRoom = () => async (dispatch) => {
 };
 export const getSubjectRooms = (post) => async (dispatch) => {
   try {
-    post.agent= localStorage.getItem("agent");
+    post.agent = localStorage.getItem("agent");
     console.log(post);
     const { data } = await api.getSubjectRooms(post);
     // console.log({ type: "FETCH", payload: data });
@@ -54,9 +54,9 @@ export const getUnjoinedRoom = () => async (dispatch) => {
     const { data } = await api.getUnjoinedRoom({
       agent: localStorage.getItem("agent"),
     });
-    console.log(data);
-    dispatch({ type: "FETCH_UNJ", payload: data });
+    console.log({ type: "FETCH_UNJ_ALL", payload: data });
+    dispatch({ type: "FETCH_UNJ_ALL", payload: data });
   } catch (error) {
     console.log({ message: error.message });
   }
-}
+};

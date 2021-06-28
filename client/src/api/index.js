@@ -45,6 +45,7 @@ export const getSubjectRooms = (data) =>
   axios.post(classUrl + "/getSubjectRooms", data);
 export const getUnjoinedRoom = (data) =>
   axios.post(classUrl + "/unjoinedRooms", data);
+
 export const createFileNote = (data) => axios.post(noteUrl + "/file", data);
 export const noteTextCreate = (data) => axios.post(noteUrl + "/text", data);
 export const getNotes = (data) => axios.post(noteUrl, data);

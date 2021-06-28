@@ -142,7 +142,7 @@ export default function UserCreate({ profile }) {
           <div class="form-row">
             <div class={classes.root2}>
               <TextField
-                defaultValue={!profile ? "" : profile.roleId}
+                defaultValue={!profile ? "" : user.roleId}
                 label="User Id"
                 id="outlined-margin-normal"
                 className={classes.textField}
@@ -158,7 +158,7 @@ export default function UserCreate({ profile }) {
               />
               <TextField
                 label="Full Name"
-                defaultValue={!profile ? "" : profile.name}
+                defaultValue={!user ? "" : user.name}
                 id="outlined-margin-normal"
                 className={classes.textField}
                 helperText="Full Name"
@@ -188,7 +188,7 @@ export default function UserCreate({ profile }) {
                     phoneNumber: e.target.value,
                   })
                 }
-                defaultValue={!profile ? "" : profile.phoneNumber}
+                defaultValue={!user ? "" : user.phoneNumber}
               />
               <TextField
                 label="DOB"
@@ -207,17 +207,17 @@ export default function UserCreate({ profile }) {
                     dob: e.target.value,
                   })
                 }
-                defaultValue={!profile ? "" : profile.dob}
+                defaultValue={!user ? "" : user.dob}
               />
               <div class="clear"></div>{" "}
               {/* <TextField
-                label="Profile Image"
+                label="user Image"
                 id="outlined-margin-normal"
                 type="file"
                 className={classes.textField}
-                helperText="Profile Image"
+                helperText="user Image"
                 margin="normal"
-                onChange={profileImageHandler}
+                onChange={userImageHandler}
               /> */}
               <div className={classes.fileInput}>
                 {/* <div className=""> */}
@@ -274,7 +274,7 @@ export default function UserCreate({ profile }) {
                     city: e.target.value,
                   })
                 }
-                defaultValue={!profile ? "" : profile.city}
+                defaultValue={!user ? "" : user.city}
               />
               <TextField
                 label="Pin"
@@ -283,7 +283,7 @@ export default function UserCreate({ profile }) {
                 helperText="Pin"
                 margin="normal"
                 variant="outlined"
-                defaultValue={!profile.pin ? "" : profile.pin}
+                defaultValue={!user ? "" : user.pin}
                 onChange={(e) =>
                   setUser({
                     ...user,
@@ -292,9 +292,8 @@ export default function UserCreate({ profile }) {
                 }
               />
               <TextField
-                label="Profile Role"
+                label="user Role"
                 id="outlined-margin-normal"
-                defaultValue={!profile ? "" : profile.role}
                 select
                 className={classes.textField}
                 helperText="Profile Role"
@@ -312,41 +311,12 @@ export default function UserCreate({ profile }) {
                   Profile Role Label
                 </MenuItem>
 
-                {!profile ? (
-                  <>
-                    <MenuItem key="teacher" value="teacher">
-                      Teacher
-                    </MenuItem>
-                    <MenuItem key="student" value="student">
-                      Student
-                    </MenuItem>
-                  </>
-                ) : (
-                  <>
-                    {" "}
-                    {profile.role === "teacher" ? (
-                      <>
-                        <MenuItem key="teacher" value="teacher" selected>
-                          Teacher
-                        </MenuItem>
-                        <MenuItem key="student" value="student">
-                          Student
-                        </MenuItem>
-                      </>
-                    ) : (
-                      <>
-                        <>
-                          <MenuItem key="teacher" value="teacher">
-                            Teacher
-                          </MenuItem>
-                          <MenuItem key="student" value="student" selected>
-                            Student
-                          </MenuItem>
-                        </>
-                      </>
-                    )}
-                  </>
-                )}
+                <MenuItem key="teacher" value="teacher">
+                  Teacher
+                </MenuItem>
+                <MenuItem key="student" value="student">
+                  Student
+                </MenuItem>
               </TextField>
               <TextField
                 label="Profile Title"
@@ -362,7 +332,7 @@ export default function UserCreate({ profile }) {
                     title: e.target.value,
                   })
                 }
-                defaultValue={!profile ? "" : profile.title}
+                defaultValue={!user ? "" : user.title}
               />
               {/*
   element Changes
@@ -409,7 +379,7 @@ export default function UserCreate({ profile }) {
                   margin="normal"
                   variant="outlined"
                   type="link"
-                  defaultValue={!profile ? "" : profile.semester}
+                  defaultValue={!user ? "" : user.semester}
                 />
               </div>
               <div
@@ -430,7 +400,7 @@ export default function UserCreate({ profile }) {
                   margin="normal"
                   variant="outlined"
                   multiline
-                  defaultValue={!profile ? "" : profile.curr_pos}
+                  defaultValue={!user ? "" : user.curr_pos}
                 />
                 <TextField
                   label="Last Education"
@@ -446,7 +416,7 @@ export default function UserCreate({ profile }) {
                   margin="normal"
                   variant="outlined"
                   multiline
-                  defaultValue={!profile ? "" : profile.last_edu}
+                  defaultValue={!user ? "" : user.last_edu}
                 />
                 <TextField
                   label="Github Link"
@@ -462,7 +432,7 @@ export default function UserCreate({ profile }) {
                   margin="normal"
                   variant="outlined"
                   type="link"
-                  defaultValue={!profile ? "" : profile.github}
+                  defaultValue={!user ? "" : user.github}
                 />
                 <TextField
                   label="LinkedIn Link"
@@ -478,21 +448,21 @@ export default function UserCreate({ profile }) {
                   margin="normal"
                   variant="outlined"
                   type="link"
-                  defaultValue={!profile ? "" : profile.linkedIn}
+                  defaultValue={!user ? "" : user.linkedIn}
                 />
               </div>
               {/* <RoleDiv setUser={setUser} user={user} /> */}
             </div>
-            {profile.role === "" ? (
-              <Fab
-                className={classes.textField}
-                variant="contained"
-                color="primary"
-                type="submit"
-              >
-                Create
-              </Fab>
-            ) : (
+            {/* {localStorage["newSignedIn"] ? ( */}
+            <Fab
+              className={classes.textField}
+              variant="contained"
+              color="primary"
+              type="submit"
+            >
+              Submit
+            </Fab>
+            {/* ) : (
               <Fab
                 className={classes.textField}
                 variant="contained"
@@ -501,7 +471,7 @@ export default function UserCreate({ profile }) {
               >
                 Update
               </Fab>
-            )}
+            )} */}
           </div>
         </form>
       </div>
