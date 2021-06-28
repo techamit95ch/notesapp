@@ -71,7 +71,8 @@ export const getNote = async (req, res) => {
   }
 };
 export const getNotes = async (req, res) => {
-  const { agent, roomId } = req.body;
+  const { roomId } = req.body;
+  console.log(req.body);
   // const uid = await CPanel.findOne(
   //   {
   //     agent: agent,
@@ -82,18 +83,22 @@ export const getNotes = async (req, res) => {
   // );
   try {
     // console.log("------------- from Get Notes ------------");
-    const notes = await Note.find({ roomId: roomId });
-    // const rooms = await ClassRoom.findOne(
-    //   { _id: roomId, role: "teacher" },
-    //   { uId: 1, subjectId: 1 }
-    // );
+
+    const exists = await Note.exists({ roomId: roomId });
+    const rooms = await ClassRoom.findOne({ _id: roomId }, { roomNumber: 1 });
+    const rooms2 = await ClassRoom.findOne(
+      { roomNumber: rooms.roomNumber },
+      { _id: 1 }
+    );
+
+    const notes = await Note.find({ roomId: rooms2._id });
     // const subject = await Subject.findOne(
     //   { _id: rooms.subjectId },
     //   { subjectName: 1 }
     // );
     // const teacher = await userProfile.findOne({ uid: rooms.uId }, { name: 1 });
     res.status(200).json(notes);
-    // console.log(notes2);
+    console.log("exists", exists);
   } catch (e) {
     console.log(e.message);
     res.status(404).json({ message: e.message });
