@@ -37,9 +37,17 @@ const CourseList = (props) => {
     <div className="course">
       <div className="courseTitleContainer">
         <h3 className="courseTitle">{"Course Lists"}</h3>
-        <Button className="courseAddButton" variant="outlined" color="primary">
-          <Link to="/course/">Create</Link>
-        </Button>
+        {localStorage.getItem("role") === "admin" ? (
+          <Button
+            className="courseAddButton"
+            variant="outlined"
+            color="primary"
+          >
+            <Link to="/course/">Create</Link>
+          </Button>
+        ) : (
+          ""
+        )}
       </div>
       <hr />
       <div className="">

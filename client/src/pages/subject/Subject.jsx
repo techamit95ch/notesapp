@@ -156,7 +156,7 @@ export default function Subject() {
     <div style={{ width: "100%" }} className="course">
       <div className="courseTitleContainer">
         <h3 className="courseTitle">{"Subject Lists"}</h3>
-
+{localStorage.getItem("role") === "admin" ? (
         <Button
           className="courseAddButton"
           variant="outlined"
@@ -168,6 +168,7 @@ export default function Subject() {
         >
           Create
         </Button>
+):""}
         {
           //Modal Start
         }
