@@ -94,7 +94,7 @@ export default function Sidebar() {
                   className={
                     "sidebarListItem " + location.pathname === "/courses" ||
                     location.pathname === "/course/"
-                      ? "active"
+                      ? ""
                       : ""
                   }
                 >
@@ -120,14 +120,14 @@ export default function Sidebar() {
             ) : (
               ""
             )}
-            {localStorage.getItem("role") === "student" ? (
-              <Link to="/classroom" className="sidebarListItem ">
-                <Class className="sidebarIcon" />
-                Class Room
-              </Link>
-            ) : (
+            {/* {localStorage.getItem("role") == "student" ? ( */}
+            <Link to="/classroom" className={"sidebarListItem "}>
+              <Class className="sidebarIcon" />
+              Class Room
+            </Link>
+            {/* ) : (
               ""
-            )}
+            )} */}
           </ul>
         </div>
         {/* {" Course Menu Close"} */}

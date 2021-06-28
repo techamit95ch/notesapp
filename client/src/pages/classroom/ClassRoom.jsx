@@ -45,6 +45,7 @@ import {
   joinRoom,
   getSubjectRooms,
 } from "../../actions/classroom";
+import { getAllSubjects } from "../../actions/subject";
 import { useHistory } from "react-router-dom";
 
 export default function ClassRoom() {
@@ -70,12 +71,14 @@ export default function ClassRoom() {
     setShow(true);
   };
 
+  const [sub, setSub] = React.useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (sid) setSub(sid);
     const data = {
       roomNumber: roomNumber,
       semester: semester,
-      subjectId: sid,
+      subjectId: sub,
     };
     if (localStorage["role"] === "student") {
       dispatch(
@@ -119,19 +122,22 @@ export default function ClassRoom() {
   // getSubjectRooms
 
   useEffect(() => {
-    if (sid ) {
+    if (sid) {
       dispatch(getSubjectRooms({ subjectId: sid }));
     } else {
       dispatch(getClassRoom());
     }
-
-    dispatch(getUnjoinedRoom());
+    dispatch(getAllSubjects());
+    if (localStorage["role"] === "student") dispatch(getUnjoinedRoom());
   }, [dispatch]);
 
   const rooms = useSelector((state) => state.classrooms);
+  const subjects = useSelector((state) => state.subjects);
   // const rooms = useSelector((state) => state.classrooms);
-  const nonrooms = useSelector((state) => state.nonclassrooms);
-  console.log(nonrooms);
+
+  let nonrooms;
+  nonrooms = useSelector((state) => state.nonclassrooms);
+  console.log("subjects=>>>>>", subjects);
   //Modal
   return (
     <div className="room">
@@ -191,6 +197,30 @@ export default function ClassRoom() {
                       margin="normal"
                       variant="outlined"
                     />
+                    {!sid ? (
+                      <TextField
+                        label="Subject"
+                        id="Subjects"
+                        value={sub}
+                        className={classes.textField}
+                        helperText="Room Number"
+                        onChange={(e) => setSub(e.target.value)}
+                        margin="normal"
+                        variant="outlined"
+                        select
+                      >
+                        <MenuItem key="courseId" value="courseId" disabled>
+                          Select Subject{" "}
+                        </MenuItem>
+                        {subjects.map((item) => (
+                          <MenuItem key={item._id} value={item._id}>
+                            {item.subjectId}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 ) : (
                   <div class={classes.root2}>

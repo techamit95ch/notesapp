@@ -20,6 +20,7 @@ const noteUrl = mainUrl + "note";
 export const createCourse = (newCousre) => axios.post(courseUrl, newCousre);
 export const fetchCourses = () => axios.get("http://localhost:2973/course");
 export const createSubject = (newSubject) => axios.post(subjectUrl, newSubject);
+export const getAllSubjects = () => axios.get(subjectUrl);
 export const fetchSubjects = (id) =>
   axios.get(`http://localhost:2973/subject/${id}`);
 export const createEmail = (newEmail) => axios.post(emailUrl, newEmail);

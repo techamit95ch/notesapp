@@ -9,6 +9,17 @@ export const getSubjects = async (req, res, next) => {
     res.status(404).json({ message: e.message });
   }
 };
+export const getAllSubjects = async (req, res, next) => {
+  try {
+    // const { courseId } = req.params;
+    const subjects = await Subject.find();
+    console.log(subjects);
+    res.status(200).json(subjects);
+  } catch (e) {
+    console.log(e.message);
+    res.status(404).json({ message: e.message });
+  }
+};
 export const getSubject = async (req, res, next) => {
   try {
     const { courseId } = req.params;
@@ -21,13 +32,13 @@ export const getSubject = async (req, res, next) => {
 };
 export const createSubject = async (req, res, next) => {
   const { subjectId, subjectName, courseId } = req.body;
-    
-    console.log(req.body);
-//   const newCourse = new Subject({
-//     subjectId,
-//     subjectName,
-//     courseId
-//   });
+
+  console.log(req.body);
+  //   const newCourse = new Subject({
+  //     subjectId,
+  //     subjectName,
+  //     courseId
+  //   });
   const newCourse = new Subject(req.body);
   try {
     await newCourse.save().then(() => {
@@ -36,7 +47,6 @@ export const createSubject = async (req, res, next) => {
       });
     });
   } catch (error) {
-      
     console.log({ message: error.message });
     res.status(409).json({ message: error.message });
   }

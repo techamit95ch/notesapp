@@ -100,9 +100,17 @@ export default function Note({ roomId, currentId }) {
     <Container className="note">
       <Row className="courseTitleContainer">
         {/* {currentId} */}
-        <Button className="courseAddButton" variant="outlined" color="primary">
-          <Link to={"/note-create/" + roomId}>Create</Link>
-        </Button>
+        {localStorage["role"] === "teacher" ? (
+          <Button
+            className="courseAddButton"
+            variant="outlined"
+            color="primary"
+          >
+            <Link to={"/note-create/" + roomId}>Create</Link>
+          </Button>
+        ) : (
+          ""
+        )}
       </Row>
       <Row>
         <Col sm={12}>
