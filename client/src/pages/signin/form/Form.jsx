@@ -30,7 +30,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { UserAgent } from "react-useragent";
+// import { UserAgent } from "react-useragent";
 import { useSelector, useDispatch } from "react-redux";
 import sha256 from "crypto-js/sha256";
 import sha1 from "crypto-js/sha1";
